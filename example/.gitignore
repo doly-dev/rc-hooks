@@ -1,0 +1,10 @@
+.idea
+.DS_Store
+.include
+.cache
+.browserify
+dist
+build
+_build
+node_modules
+package-lock.json

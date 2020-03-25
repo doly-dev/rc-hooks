@@ -1,0 +1,68 @@
+{
+  "name": "rc-hooks",
+  "version": "0.1.0",
+  "description": "React Hooks Library.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doly-dev/rc-hooks.git"
+  },
+  "keywords": [
+    "react",
+    "hook"
+  ],
+  "author": "caijf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doly-dev/hooks/issues"
+  },
+  "homepage": "https://github.com/doly-dev/hooks#readme",
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.1",
+    "@babel/plugin-transform-modules-umd": "^7.9.0",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/env",
+        {
+          "targets": [
+            "> 1%",
+            "last 4 versions",
+            "Firefox ESR",
+            "not ie < 9"
+          ]
+        }
+      ],
+      "@babel/react"
+    ],
+    "plugins": [
+      [
+        "@babel/transform-modules-umd",
+        {
+          "globals": {
+            "react": "React",
+            "index": "rcHooks"
+          },
+          "exactGlobals": true
+        }
+      ]
+    ]
+  }
+}
