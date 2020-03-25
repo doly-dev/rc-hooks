@@ -31,7 +31,7 @@ module.exports = {
   env: {
     // 生产环境
     production: {
-      publicPath: "/", // 静态资源基础域名路径，如 https://img.99bill.com/
+      publicPath: "https://doly-dev.github.io/rc-hooks/demo/", // 静态资源基础域名路径，如 https://img.99bill.com/
       html: {
         template: "src/document.ejs",
         filename: "index.html", // 构建后的html路径，如 seashell/webapp/x-project/agent/index.html
