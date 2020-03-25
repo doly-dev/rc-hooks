@@ -57,14 +57,14 @@ const {
   refresh,
   mutate
 } = useAsync(asyncFn, {
-  auto,
+  autoRun,
   initialData,
+  defaultParams,
   onSuccess,
   onError,
   cacheKey,
   cacheTime,
   loadingDelay,
-  defaultParams,
   pollingInterval,
   pollingWhenHidden,
   refreshOnWindowFocus,
@@ -93,14 +93,14 @@ mutate  | 直接修改data | `(newData) => void` / `((oldData)=>newData)=>void`
 
 参数 | 说明 | 类型 | 默认值
 ------------- | ------------- | ------------- | -------------
-auto  | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | true
+autoRun  | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | true
 initialData  | 默认的 `data`。 | `any` | -
+defaultParams  | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 |  `any[]`  | -
 onSuccess  | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data: any, params: any[]) => void` | -
 onError  | 异步函数报错时触发，参数为 `error` 和 `params` | `(error: any, parmams: any[]) => void` | -
 cacheKey  | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | -
 cacheTime  | 缓存时间，单位为毫秒。 | `number` | `5 * 60 * 1000`
 loadingDelay  | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。| `number` | -
-defaultParams  | 如果 `auto=true` 自动执行 `run` 的默认参数。 |     `any[]`  | -
 pollingInterval | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run` | `number`  | -
 refreshOnWindowFocus  | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 false，即不会重新发起请求。如果设置为 true，在屏幕重新聚焦或重新显示时，会重新发起请求。
  | `boolean` | `false`

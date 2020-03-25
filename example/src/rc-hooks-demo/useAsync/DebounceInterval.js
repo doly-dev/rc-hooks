@@ -17,7 +17,7 @@ async function getEmail(search) {
 export default () => {
   const { data, loading, run, cancel } = useAsync(getEmail, {
     debounceInterval: 500,
-    auto: false
+    autoRun: false
   });
 
   return (

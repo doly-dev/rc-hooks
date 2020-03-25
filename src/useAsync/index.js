@@ -18,8 +18,9 @@ const noop = () => { };
 
 // 异步方法hooks
 function useAsync(asyncFn, {
-  auto = true,
+  autoRun = true,
   defaultParams = [],
+  defaultLoading = false,
   initialData,
   cacheKey = '',
   cacheTime = 5 * 60 * 1000,
@@ -35,7 +36,7 @@ function useAsync(asyncFn, {
 } = {}) {
   const [state, set] = useState({
     params: [],
-    loading: !!auto,
+    loading: !!autoRun || defaultLoading,
     error: null,
     data: cacheKey ? getCache(cacheKey) : initialData
   });
@@ -175,7 +176,7 @@ function useAsync(asyncFn, {
 
   useEffect(() => {
     // 默认自动执行
-    if (auto) {
+    if (autoRun) {
       run(...defaultParams);
     }
 

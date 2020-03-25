@@ -19,7 +19,7 @@ export default () => {
   const [visible, setVisible] = useState(false);
   const { run } = useAsync(getArticle, {
     cacheKey: 'article',
-    auto: false
+    autoRun: false
   });
   return (
     <div>

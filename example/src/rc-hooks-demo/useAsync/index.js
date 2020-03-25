@@ -1,7 +1,7 @@
 import React from "react";
 
 import Default from "./Default";
-import Auto from "./Auto";
+import AutoRun from "./AutoRun";
 import PollingInterval from "./PollingInterval";
 import Mutate from "./Mutate";
 import LoadingDelay from "./LoadingDelay";
@@ -18,7 +18,7 @@ export default () => {
       <hr />
       <h3>手动触发请求</h3>
       <p>手动调用 run 时才会触发执行异步函数。</p>
-      <Auto />
+      <AutoRun />
       <hr />
       <h3>轮询</h3>
       <p>定时触发函数执行</p>

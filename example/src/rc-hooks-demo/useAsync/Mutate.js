@@ -28,7 +28,7 @@ export default () => {
     }
   });
   const { loading, run } = useAsync(changeUsername, {
-    auto: false,
+    autoRun: false,
     onSuccess: (result, params) => {
       if (result.success) {
         mutate(params[0]);

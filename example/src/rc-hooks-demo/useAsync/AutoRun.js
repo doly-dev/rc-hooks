@@ -14,7 +14,7 @@ function changeUsername(username){
 export default () => {
   const [state, setState] = useState('');
   const { loading, run } = useAsync(changeUsername, {
-    auto: false,
+    autoRun: false,
     onSuccess: (result, params) => {
       if (result.success) {
         setState('');
