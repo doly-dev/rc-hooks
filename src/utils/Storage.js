@@ -1,46 +1,49 @@
+const memoryData = {};
+const memoryStorage = {
+  // eslint-disable-next-line
+  getItem: function(key) {
+    return memoryData[key];
+  },
+  // eslint-disable-next-line
+  setItem: function(key, data) {
+    memoryData[key] = data;
+  },
+  // eslint-disable-next-line
+  removeItem: function(key) {
+    const ret = memoryData[key];
+    delete memoryData[key];
+    return ret;
+  }
+};
+
+const setStorage = storage => {
+  try {
+    if (storage.getItem && storage.setItem && storage.removeItem) {
+      return storage;
+    }
+    return window.localStorage;
+  } catch (err) {
+    // eslint-disable-next-line
+    console.warn(err);
+    if (typeof window !== "undefined") {
+      return window.localStorage;
+    }
+  }
+  return memoryStorage;
+};
+
 class Storage {
   constructor(key, storage) {
     this.key = key;
-    this.storage = storage || window.localStorage || window.sessionStorage;
-    this.dataType = "";
-  }
-
-  parse(data) {
-    let ret;
-    switch (this.dataType) {
-      case "string":
-      case "":
-        ret = data;
-        break;
-      case "number":
-        ret = Number(data);
-        break;
-      case "undefined":
-        ret = undefined;
-        break;
-      case "null":
-        ret = null;
-        break;
-      case "boolean":
-        ret = data === 'false' ? false : true;
-        break;
-      default:
-        ret = JSON.parse(data);
-    }
-    return ret;
-  }
-
-  stringify(data) {
-    this.dataType = typeof data;
-    return JSON.stringify(data);
+    this.storage = setStorage(storage);
   }
 
   set(data) {
-    this.storage.setItem(this.key, this.stringify(data));
+    this.storage.setItem(this.key, JSON.stringify(data));
   }
 
   get() {
-    return this.parse(this.storage.getItem(this.key));
+    return JSON.parse(this.storage.getItem(this.key));
   }
 
   remove() {

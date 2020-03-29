@@ -16,7 +16,7 @@ async function getEmail(search) {
 
 export default () => {
   const { data, loading, run, cancel } = useAsync(getEmail, {
-    throttleInterval: 500,
+    throttleInterval: 1000,
     manual: true
   });
 

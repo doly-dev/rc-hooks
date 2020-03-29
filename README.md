@@ -1,7 +1,8 @@
 # rc-hooks
 
-React Function Component Hooks Library.
+React Hooks Library. 
 
+[查看示例](https://doly-dev.github.io/rc-hooks/demo/)
 
 ## 安装
 
@@ -41,6 +42,12 @@ import useAsync from 'rc-hooks/lib/useAsync'
 - [usePrevious](#usePrevious) - 获取上一轮的 props 或 state。
 - [usePersistFn](#usePersistFn) - 持久化 function 的 Hook。
 - [useUpdateEffect](#useUpdateEffect) - 一个只在依赖更新时执行的 useEffect hook。
+- [useUnmount](#useUnmount) - 只在组件 unmount 时执行的 hook
+- [useMount](#useMount) - 只在组件 mount 时执行的 hook
+- [useDebounceFn](#useDebounceFn) - 用来处理防抖函数的 Hook。
+- [useDebounce](#useDebounce) - 用来处理防抖值的 Hook。
+- [useThrottleFn](#useThrottleFn) - 用来处理节流函数的 Hook。
+- [useThrottle](#useThrottle) - 用来处理节流值的 Hook。
 
 ### useAsync
 
@@ -218,8 +225,164 @@ export default () => {
     </div>
   );
 };
+```
+
+### useUnmount
+
+只在组件 unmount 时执行的 hook
 
 ```
+import React, { useState } from 'react';
+import { Button, message } from 'antd';
+import { useUnmount } from 'rc-hooks';
+
+const MyComponent = () => {
+  useUnmount(
+    () => {
+      message.info('unmount');
+    }
+  );
+
+  return (<div>Hello World</div>)
+}
+
+export default () => {
+  const [state, toggle] = useState(true);
+
+  return (<>
+    <Button onClick={() => toggle(s => !s)}>{state ? 'unmount' : 'mount'}</Button>
+    {state && <MyComponent />}
+  </>);
+};
+```
+
+### useMount
+
+只在组件 mount 时执行的 hook
+
+```
+import React, { useState } from 'react';
+import { Button, message } from 'antd';
+import { useMount } from 'rc-hooks';
+
+const MyComponent = () => {
+  useMount(
+    () => {
+      message.info('mount');
+    }
+  );
+
+  return (<div>Hello World</div>)
+}
+
+export default () => {
+  const [state, toggle] = useState(false);
+
+  return (<>
+    <Button onClick={() => toggle(s => !s)}>{state ? 'unmount' : 'mount'}</Button>
+    {state && <MyComponent />}
+  </>);
+};
+```
+
+### useDebounceFn
+
+用来处理防抖函数的 Hook。
+
+```
+import React, { useState } from 'react';
+import { Button } from 'antd';
+import { useDebounceFn } from 'rc-hooks';
+
+export default () => {
+  const [value, setValue] = useState(0);
+  const { run } = useDebounceFn(setValue, 500);
+
+  return (
+    <div>
+      <p style={{ marginTop: 16 }}> Clicked count: {value} </p>
+      <Button onClick={() => run(value + 1)}>Click fast!</Button>
+    </div>
+  );
+};
+```
+
+### useDebounce
+
+用来处理防抖值的 Hook。
+
+```
+import { Input } from 'antd';
+import React, { useState } from 'react';
+import { useDebounce } from 'rc-hooks';
+
+export default () => {
+  const [value, setValue] = useState();
+  const debouncedValue = useDebounce(value, 500);
+
+  return (
+    <div>
+      <Input
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        placeholder="Typed value"
+        style={{ width: 280 }}
+      />
+      <p style={{ marginTop: 16 }}>DebouncedValue: {debouncedValue}</p>
+    </div>
+  );
+};
+```
+
+### useThrottleFn
+
+用来处理节流函数的 Hook。
+
+```
+import React, { useState } from 'react';
+import { Button } from 'antd';
+import { useThrottleFn } from 'rc-hooks';
+
+export default () => {
+  const [value, setValue] = useState(0);
+  const { run } = useThrottleFn(setValue, 500);
+
+  return (
+    <div>
+      <p style={{ marginTop: 16 }}> Clicked count: {value} </p>
+      <Button onClick={() => { run(value + 1) }}>Click fast!</Button>
+    </div>
+  );
+};
+```
+
+### useThrottle
+
+用来处理节流值的 Hook。
+
+```
+import { Input } from 'antd';
+import React, { useState } from 'react';
+import { useThrottle } from 'rc-hooks';
+
+export default () => {
+  const [value, setValue] = useState();
+  const throttledValue = useThrottle(value, 500);
+
+  return (
+    <div>
+      <Input
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        placeholder="Typed value"
+        style={{ width: 280 }}
+      />
+      <p style={{ marginTop: 16 }}>throttledValue: {throttledValue}</p>
+    </div>
+  );
+};
+```
+
 
 
 
