@@ -85,6 +85,8 @@ function useAsync(asyncFn, {
           setCache(cacheKey, data, cacheTime);
         }
         onSuccess(data, args);
+
+        return data;
       }
     }).catch(error => {
       if (!unmountFlagRef.current && currentCount === counterRef.current) {
@@ -94,6 +96,8 @@ function useAsync(asyncFn, {
 
         set(s => ({ ...s, error, loading: false }));
         onError(error, args);
+
+        return error;
       }
       throw error;
     }).finally(() => {
