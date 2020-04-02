@@ -8,7 +8,7 @@ import subscribeFocus from '../utils/windowFocus';
 import subscribeVisible from '../utils/windowVisible';
 
 // TODO：
-// 1.有缓存时，不重新请求，获取缓存时判断params是否相同，长缓存
+// 1.有缓存时，不重新请求，获取缓存时判断params是否相同，长缓存?
 // 2.refreshDeps？
 // 3.考虑分页、的情况？
 // 4.并行请求？
@@ -183,7 +183,9 @@ function useAsync(asyncFn, {
   useEffect(() => {
     // 默认自动执行
     if (autoRun) {
-      run(...defaultParams);
+      // 参数兼容非array的情况
+      const _params = Array.isArray(defaultParams) ? defaultParams : [defaultParams];
+      run(..._params);
     }
 
     // 订阅页面显示时轮询
