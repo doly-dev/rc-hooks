@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useUpdateEffect = (effect, deps) => {
+const useUpdateEffect = (effect, deps = []) => {
   const isMounted = useRef(false);
 
   useEffect(() => {

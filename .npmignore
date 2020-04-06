@@ -15,3 +15,5 @@ src/
 docs/
 example/
 demo/
+site/
+.umirc.js

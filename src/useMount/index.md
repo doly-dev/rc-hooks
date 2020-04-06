@@ -1,0 +1,31 @@
+---
+title: useMount
+group:
+  title: LifeCycle
+  path: /life-cycle
+  order: 3
+legacy: /life-cycle/use-mount
+---
+
+# useMount
+
+只在组件 mount 时执行的 Hook。
+
+## 代码演示
+
+### 基本用法
+
+<code src="./demo/Demo1.jsx" />
+
+## API
+
+```javascript
+useMount(fn);
+```
+
+### Params
+
+| 参数    | 说明                                         | 类型                   | 默认值 |
+|---------|----------------------------------------------|------------------------|--------|
+| fn | mount 时执行的函数  | `function` | -      |
+
