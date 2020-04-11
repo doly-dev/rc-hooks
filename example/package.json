@@ -22,7 +22,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@umijs/hooks": "^1.8.0",
     "antd": "^4.0.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",

@@ -11,7 +11,7 @@ import Mock from 'mockjs';
 const { Option } = Select;
 
 async function getEmail(search) {
-  console.log(search);
+  // console.log(search);
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(Mock.mock({ 'data|5': ['@email'] }).data);

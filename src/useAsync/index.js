@@ -8,10 +8,7 @@ import subscribeFocus from '../utils/windowFocus';
 import subscribeVisible from '../utils/windowVisible';
 
 // TODO：
-// 1.有缓存时，不重新请求，获取缓存时判断params是否相同，长缓存?
-// 2.refreshDeps？
-// 3.考虑分页、的情况？
-// 4.并行请求？
+// 有缓存时，不重新请求，获取缓存时判断params是否相同，长缓存?
 
 // 空函数
 const noop = () => { };
@@ -72,48 +69,49 @@ function useAsync(asyncFn, {
     } else {
       loadingDelayTimerRef.current = null;
     }
-
-    return asyncFn(...args).then(data => {
-      if (!unmountFlagRef.current && currentCount === counterRef.current) {
-        if (loadingDelayTimerRef.current) {
-          clearTimeout(loadingDelayTimerRef.current);
-        }
-
-        set(s => ({ ...s, data, error: null, loading: false }));
-
-        if (cacheKey) {
-          setCache(cacheKey, data, cacheTime);
-        }
-        onSuccess(data, args);
-
-        return data;
-      }
-    }).catch(error => {
-      if (!unmountFlagRef.current && currentCount === counterRef.current) {
-        if (loadingDelayTimerRef.current) {
-          clearTimeout(loadingDelayTimerRef.current);
-        }
-
-        set(s => ({ ...s, error, loading: false }));
-        onError(error, args);
-
-        return error;
-      }
-      throw error;
-    }).finally(() => {
-      if (!unmountFlagRef.current && currentCount === counterRef.current) {
-        // 轮询
-        if (pollingInterval) {
-          if (!isDocumentVisible() && !pollingWhenHidden) {
-            pollingWhenVisibleFlagRef.current = true;
-            return;
+    // fix: 同时多次调用2次run，并通过then处理时，前面调用的会返回undefined导致异常的问题
+    return new Promise((resolve, reject) => {
+      asyncFn(...args).then(data => {
+        if (!unmountFlagRef.current && currentCount === counterRef.current) {
+          if (loadingDelayTimerRef.current) {
+            clearTimeout(loadingDelayTimerRef.current);
           }
 
-          pollingTimerRef.current = setTimeout(() => {
-            run(...args);
-          }, pollingInterval);
+          set(s => ({ ...s, data, error: null, loading: false }));
+
+          if (cacheKey) {
+            setCache(cacheKey, data, cacheTime);
+          }
+          onSuccess(data, args);
+
+          resolve(data, args);
         }
-      }
+      }).catch(error => {
+        if (!unmountFlagRef.current && currentCount === counterRef.current) {
+          if (loadingDelayTimerRef.current) {
+            clearTimeout(loadingDelayTimerRef.current);
+          }
+
+          set(s => ({ ...s, error, loading: false }));
+          onError(error, args);
+
+          reject(error, args);
+        }
+      }).finally(() => {
+        if (!unmountFlagRef.current && currentCount === counterRef.current) {
+          // 轮询
+          if (pollingInterval) {
+            if (!isDocumentVisible() && !pollingWhenHidden) {
+              pollingWhenVisibleFlagRef.current = true;
+              return;
+            }
+
+            pollingTimerRef.current = setTimeout(() => {
+              run(...args);
+            }, pollingInterval);
+          }
+        }
+      });
     });
   }, []);
 
@@ -163,7 +161,7 @@ function useAsync(asyncFn, {
     if (loadingDelayTimerRef.current) {
       clearTimeout(loadingDelayTimerRef.current);
     }
-    
+
     pollingWhenVisibleFlagRef.current = false;
 
     counterRef.current += 1;
@@ -199,7 +197,7 @@ function useAsync(asyncFn, {
       unsubscribeRef.current.push(subscribeFocus(limitRefresh));
     }
 
-    return ()=>{
+    return () => {
       unmountFlagRef.current = true;
       cancel();
       // 取消订阅

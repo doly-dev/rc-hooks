@@ -57,21 +57,21 @@ import useAsync from 'rc-hooks/lib/useAsync'
   - [usePersistFn] - 持久化 function
   - [useClientRect] - 获取元素的大小及其相对于视口的位置
 
-[site]: https://doly-dev.github.io/rc-hooks/site/0.x/
+[site]: https://doly-dev.github.io/rc-hooks/site/
 
-[useAsync]: https://doly-dev.github.io/rc-hooks/site/0.x/#/async/use-async
+[useAsync]: https://doly-dev.github.io/rc-hooks/site/#/async/use-async
 
-[useDebounce]: https://doly-dev.github.io/rc-hooks/site/0.x/#/side-effect/use-debounce
-[useThrottle]: https://doly-dev.github.io/rc-hooks/site/0.x/#/side-effect/use-throttle
-[useDebounceFn]: https://doly-dev.github.io/rc-hooks/site/0.x/#/side-effect/use-debounce-fn
-[useThrottleFn]: https://doly-dev.github.io/rc-hooks/site/0.x/#/side-effect/use-throttle-fn
+[useDebounce]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce
+[useThrottle]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle
+[useDebounceFn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce-fn
+[useThrottleFn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle-fn
 
-[useMount]: https://doly-dev.github.io/rc-hooks/site/0.x/#/life-cycle/use-mount
-[useUpdate]: https://doly-dev.github.io/rc-hooks/site/0.x/#/life-cycle/use-update
-[useUnmount]: https://doly-dev.github.io/rc-hooks/site/0.x/#/life-cycle/use-unmount
-[useUpdateEffect]: https://doly-dev.github.io/rc-hooks/site/0.x/#/life-cycle/use-update-effect
-[useUpdateLayoutEffect]: https://doly-dev.github.io/rc-hooks/site/0.x/#/life-cycle/use-update-layout-effect
+[useMount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-mount
+[useUpdate]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update
+[useUnmount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-unmount
+[useUpdateEffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-effect
+[useUpdateLayoutEffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-layout-effect
 
-[usePrevious]: https://doly-dev.github.io/rc-hooks/site/0.x/#/other/use-previous
-[usePersistFn]: https://doly-dev.github.io/rc-hooks/site/0.x/#/other/use-persist-fn
-[useClientRect]: https://doly-dev.github.io/rc-hooks/site/0.x/#/other/use-client-rect
+[usePrevious]: https://doly-dev.github.io/rc-hooks/site/#/other/use-previous
+[usePersistFn]: https://doly-dev.github.io/rc-hooks/site/#/other/use-persist-fn
+[useClientRect]: https://doly-dev.github.io/rc-hooks/site/#/other/use-client-rect

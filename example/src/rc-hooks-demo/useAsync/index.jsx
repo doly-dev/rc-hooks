@@ -9,6 +9,12 @@ import RefreshOnWindowFocus from "./RefreshOnWindowFocus";
 import Preload from "./Preload";
 import DebounceInterval from "./DebounceInterval";
 import ThrottleInterval from "./ThrottleInterval";
+import Parallel from "./Parallel";
+import Pagination1 from "./Pagination1";
+import Pagination2 from "./Pagination2";
+import Pagination3 from "./Pagination3";
+import LoadMore1 from "./LoadMore1";
+import LoadMore2 from "./LoadMore2";
 
 export default () => {
   return (
@@ -47,6 +53,24 @@ export default () => {
       <h3>延迟loading</h3>
       <p>有效防止闪烁</p>
       <LoadingDelay />
+      <hr />
+      <h3>并行请求</h3>
+      <Parallel />
+      <hr />
+      <h3>分页1</h3>
+      <Pagination1 />
+      <hr />
+      <h3>分页2</h3>
+      <Pagination2 />
+      <hr />
+      <h3>分页3</h3>
+      <Pagination3 />
+      <hr />
+      <h3>加载更多1</h3>
+      <LoadMore1 />
+      <hr />
+      <h3>加载更多2</h3>
+      <LoadMore2 />
       <hr />
     </>
   )
