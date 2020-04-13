@@ -138,9 +138,9 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 基于基础的 `useAsync`，我们可以进一步封装，实现更高级的定制需求。下面演示 `分页` 和 `加载更多` 两种场景，你可以参考代码，根据业务实现自己的封装。
 
-### 分页
+该场景以下面的 `请求参数` 和 `响应数据` 格式为示例
 
-该场景以下面的 `请求参数` 格式为示例
+请求参数：
 
 ```
 {
@@ -153,6 +153,20 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
   }
 }
 ```
+
+响应数据：
+
+```
+{
+  pageInfo: {
+    ...,
+    total: number
+  },
+  data: []
+}
+```
+
+### 分页
 
 - 自动管理分页条件 `page` ， `page: {pageNum: number, pageSize: number}` 。
 - 内部缓存当前查询条件 `data` ，当分页变化后，自动携带当前查询条件触发请求。
@@ -279,20 +293,6 @@ pagination  | 分页数据 `current` `pageSize` `total` | `object` |
 defaultPageSize  | 默认每页的数量 | `number` | `10` |
 
 ### 加载更多
-
-该场景同样以下面的 `请求参数` 格式为示例
-
-```
-{
-  page: {
-    pageNum: number,
-    pageSize: number
-  },
-  data: {
-    ...
-  }
-}
-```
 
 - 自动管理列表数据，返回的数据 `data` 即为合并数组。
 - `loading` 仅在第一页时为 `ture` ， `loadingMore` 为每次请求时都为 `true` 。
