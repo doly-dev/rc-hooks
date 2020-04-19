@@ -16,8 +16,8 @@ export default function usePagination(service, { defaultPageSize = 10, ...restOp
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
-      pageRef.current.total = res.pageInfo.total;
-      setData(res.data);
+      pageRef.current.total = res.pageInfo ? res.pageInfo.total : 0;
+      setData(res.data || []);
 
       if (restOptions.onSuccess) {
         restOptions.onSuccess(res, params)

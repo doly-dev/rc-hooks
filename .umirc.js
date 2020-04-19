@@ -10,6 +10,8 @@ const outputPath = 'site';
 const publicPath = serverRootDirect + outputPath + '/';
 const manifestLink = `${publicPath}asset-manifest.json`;
 
+const links = process.env.NODE_ENV === 'production' ? [{ rel: 'manifest', href: manifestLink }] : [];
+
 export default {
   extraBabelPlugins: [[
     'babel-plugin-import',
@@ -23,7 +25,7 @@ export default {
   history: {
     type: 'hash'
   },
-  title: 'rc-hooks',
+  title: pkg.name,
   logo,
   favicon,
   publicPath,
@@ -31,7 +33,7 @@ export default {
   manifest: {
     publicPath
   },
-  links: [{ rel: 'manifest', href: manifestLink }],
+  links,
   hash: true,
   locales: [['zh-CN', '中文'], ['en-US', 'English']]
 }
