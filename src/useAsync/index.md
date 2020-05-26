@@ -195,6 +195,7 @@ export default function usePagination(service, { defaultPageSize = 10, ...restOp
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
+      // 1. 设置分页和数据
       pageRef.current.total = res.pageInfo.total;
       setData(res.data);
 
@@ -213,6 +214,7 @@ export default function usePagination(service, { defaultPageSize = 10, ...restOp
 
     const { pageSize, pageNum } = pageRef.current;
 
+    // 2. 传入参数，发起请求
     request.run({
       page: { pageSize, pageNum },
       data: {
@@ -338,6 +340,7 @@ export default function useLoadMore(service, { defaultPageSize = 10, threshold =
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
+      // 1. 设置分页和数据
       pageRef.current.total = res.pageInfo.total;
       doneRef.current = isDone(res.data);
       setLoadingMore(false);
@@ -379,6 +382,7 @@ export default function useLoadMore(service, { defaultPageSize = 10, threshold =
 
     const { pageSize, pageNum } = pageRef.current;
 
+    // 2. 传入参数，发起请求
     request.run({
       page: { pageSize, pageNum },
       data: {
