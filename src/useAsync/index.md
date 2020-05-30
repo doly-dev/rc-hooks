@@ -123,6 +123,7 @@ mutate  | 直接修改data | `(newData) => void` / `((oldData) => newData) => vo
 autoRun  | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
 initialData  | 默认的 `data`。 | `any` | - |
 defaultParams  | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 |  `array`  | - |
+formatResult  | 格式化请求结果 | `(data) => any` | - |
 onSuccess  | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 onError  | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
 cacheKey  | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | - |

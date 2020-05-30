@@ -23,6 +23,7 @@ function useAsync(asyncFn, {
   cacheTime = 5 * 60 * 1000,
   onSuccess = noop,
   onError = noop,
+  formatResult,
   pollingInterval = 0,
   pollingWhenHidden = true,
   refreshOnWindowFocus = false,
@@ -69,22 +70,23 @@ function useAsync(asyncFn, {
     } else {
       loadingDelayTimerRef.current = null;
     }
-    // fix: 同时多次调用2次run，并通过then处理时，前面调用的会返回undefined导致异常的问题
+    // fix: 同时多次调用run，并通过then处理时，前面调用的会返回undefined导致异常的问题
     return new Promise((resolve, reject) => {
       asyncFn(...args).then(data => {
         if (!unmountFlagRef.current && currentCount === counterRef.current) {
           if (loadingDelayTimerRef.current) {
             clearTimeout(loadingDelayTimerRef.current);
           }
+          const fmtData = typeof formatResult === 'function' ? formatResult(data) : data;
 
-          set(s => ({ ...s, data, error: null, loading: false }));
+          set(s => ({ ...s, data: fmtData, error: null, loading: false }));
 
           if (cacheKey) {
-            setCache(cacheKey, data, cacheTime);
+            setCache(cacheKey, fmtData, cacheTime);
           }
-          onSuccess(data, args);
+          onSuccess(fmtData, args);
 
-          resolve(data, args);
+          resolve(fmtData, args);
         }
       }).catch(error => {
         if (!unmountFlagRef.current && currentCount === counterRef.current) {
