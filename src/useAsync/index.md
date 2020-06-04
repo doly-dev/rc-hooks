@@ -182,23 +182,28 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
 
 // 针对接口入参和响应，自定义 usePagination Hook
-export default function usePagination(service, { defaultPageSize = 10, ...restOptions } = {}) {
+export default function usePagination(service, {
+  defaultPageNum = 1,
+  defaultPageSize = 10,
+  defaultTotal = 0,
+  defaultParams = {},
+  ...restOptions } = {}) {
   const [data, setData] = useState([]);
 
   const pageRef = useRef({
-    pageNum: 1,
+    pageNum: defaultPageNum,
     pageSize: defaultPageSize,
-    total: 0
+    total: defaultTotal
   }); // 分页
-  const paramsRef = useRef({}); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
+  const paramsRef = useRef({ ...defaultParams }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
   const request = useAsync(service, {
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
       // 1. 设置分页和数据
-      pageRef.current.total = res.pageInfo.total;
-      setData(res.data);
+      pageRef.current.total = res.pageInfo ? res.pageInfo.total : 0;
+      setData(res.data || []);
 
       if (restOptions.onSuccess) {
         restOptions.onSuccess(res, params)
@@ -246,7 +251,7 @@ export default function usePagination(service, { defaultPageSize = 10, ...restOp
 
   useEffect(() => {
     if (typeof restOptions.autoRun === 'undefined' || restOptions.autoRun) {
-      run(restOptions.defaultParams || {});
+      run();
     }
   }, []);
 
@@ -278,7 +283,10 @@ const {
   changePagination, 
   pagination 
 } = usePagination(service, {
-  defaultPageSize
+  defaultPageNum,
+  defaultPageSize,
+  defaultTotal,
+  defaultParams
 });
 ```
 
@@ -291,9 +299,14 @@ pagination  | 分页数据 `current` `pageSize` `total` | `object` |
 
 #### Params
 
+将默认分页与默认参数提取出来，便于实现缓存。
+
 参数 | 说明 | 类型 | 默认值 |
 ------------- | ------------- | ------------- | ------------- |
+defaultPageNum  | 默认当前页面 | `number` | `1` |
 defaultPageSize  | 默认每页的数量 | `number` | `10` |
+defaultTotal  | 默认总数量 | `number` | `0` |
+defaultParams  | 默认参数 | `object` | `{}` |
 
 ### 加载更多
 

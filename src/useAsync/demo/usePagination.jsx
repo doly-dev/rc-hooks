@@ -2,15 +2,20 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
 
 // 针对接口入参和响应，自定义 usePagination Hook
-export default function usePagination(service, { defaultPageSize = 10, ...restOptions } = {}) {
+export default function usePagination(service, {
+  defaultPageNum = 1,
+  defaultPageSize = 10,
+  defaultTotal = 0,
+  defaultParams = {},
+  ...restOptions } = {}) {
   const [data, setData] = useState([]);
 
   const pageRef = useRef({
-    pageNum: 1,
+    pageNum: defaultPageNum,
     pageSize: defaultPageSize,
-    total: 0
+    total: defaultTotal
   }); // 分页
-  const paramsRef = useRef({}); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
+  const paramsRef = useRef({ ...defaultParams }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
   const request = useAsync(service, {
     ...restOptions,
@@ -66,7 +71,7 @@ export default function usePagination(service, { defaultPageSize = 10, ...restOp
 
   useEffect(() => {
     if (typeof restOptions.autoRun === 'undefined' || restOptions.autoRun) {
-      run(restOptions.defaultParams || {});
+      run();
     }
   }, []);
 
