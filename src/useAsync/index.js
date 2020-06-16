@@ -33,7 +33,8 @@ function useAsync(asyncFn, {
   throttleInterval
 } = {}) {
   const [state, set] = useState({
-    params: [],
+    // 参数兼容非array的情况
+    params: Array.isArray(defaultParams) ? defaultParams : [defaultParams],
     loading: !!autoRun || defaultLoading,
     error: null,
     data: cacheKey ? getCache(cacheKey) : initialData
@@ -136,7 +137,7 @@ function useAsync(asyncFn, {
 
   const refresh = useCallback(() => {
     return run(...state.params);
-  }, []);
+  }, [state.params]);
 
   const rePolling = useCallback(() => {
     if (pollingWhenVisibleFlagRef.current) {
@@ -183,9 +184,8 @@ function useAsync(asyncFn, {
   useEffect(() => {
     // 默认自动执行
     if (autoRun) {
-      // 参数兼容非array的情况
-      const _params = Array.isArray(defaultParams) ? defaultParams : [defaultParams];
-      run(..._params);
+      // 参数可能为默认参数
+      run(...state.params);
     }
 
     // 订阅页面显示时轮询
