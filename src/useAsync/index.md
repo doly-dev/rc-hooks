@@ -23,11 +23,9 @@ legacy: /async/use-async
 * 突变
 * Loading Delay
 * 并行请求
-
-**规划中：**
-
-* [ ] 长缓存：有缓存数据的情况下不再进行请求
-* [ ] 缓存方式：目前是缓存到内存中，后面需支持 `sessionStorage` `localStorage`，能更好的支持长缓存
+* 分页
+* 加载更多
+* ...
 
 ## 代码演示
 

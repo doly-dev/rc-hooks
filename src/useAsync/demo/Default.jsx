@@ -1,6 +1,6 @@
 /**
  * title: 默认请求
- * desc: 在这个例子中， useAsync 接收了一个异步函数 `getUsername` ，在组件初次加载时， 自动触发该函数执行。同时 useAsync 会自动管理异步请求的 `loading` , `data` , `error` 等状态。
+ * desc: 在这个例子中， `useAsync` 接收了一个异步函数 `getUsername` ，在组件初次加载时， 自动触发该函数执行。同时 useAsync 会自动管理异步请求的 `loading` , `data` , `error` 等状态。
  */
 
 import { useAsync } from "rc-hooks";

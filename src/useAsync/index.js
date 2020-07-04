@@ -7,9 +7,6 @@ import limit from '../utils/limit';
 import subscribeFocus from '../utils/windowFocus';
 import subscribeVisible from '../utils/windowVisible';
 
-// TODO：
-// 有缓存时，不重新请求，获取缓存时判断params是否相同，长缓存?
-
 // 空函数
 const noop = () => { };
 
@@ -87,7 +84,7 @@ function useAsync(asyncFn, {
           }
           onSuccess(fmtData, args);
 
-          resolve(fmtData, args);
+          resolve(fmtData);
         }
       }).catch(error => {
         if (!unmountFlagRef.current && currentCount === counterRef.current) {
@@ -98,7 +95,7 @@ function useAsync(asyncFn, {
           set(s => ({ ...s, error, loading: false }));
           onError(error, args);
 
-          reject(error, args);
+          reject(error);
         }
       }).finally(() => {
         if (!unmountFlagRef.current && currentCount === counterRef.current) {
