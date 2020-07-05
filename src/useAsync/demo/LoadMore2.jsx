@@ -4,41 +4,21 @@
  */
 
 import { Avatar, Button, List } from 'antd';
-import React, { useRef } from 'react';
-import Mock from 'mockjs';
-import useLoadMore from "./useLoadMore";
+import React, { useRef, useEffect } from 'react';
+import useLoadMore from './hooks/useLoadMore';
 
-const userList = ({ page: { pageNum, pageSize }, data = {} }) => (
-  Mock.mock({
-    [`data|${pageSize}`]: [{
-      id: '@guid',
-      name: '@cname',
-      'gender|1': ['male', 'female'],
-      email: '@email',
-      disabled: false
-    }],
-    pageInfo: {
-      total: 30,
-      pages: 3
-    },
-    errCode: "00",
-    errMsg: ""
-  })
-)
-
-function getUserList(params) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(userList(params))
-    }, 1000)
-  });
-}
+import getUserList from './services/getUserList';
 
 export default () => {
   const containerRef = useRef(null);
-  const { data, loading, loadingMore, reload, loadMore, done, pagination } = useLoadMore(getUserList, {
-    ref: containerRef
+  const { run, data, loading, loadingMore, reload, loadMore, done, pagination } = useLoadMore(getUserList, {
+    ref: containerRef,
+    autoRun: false
   });
+
+  useEffect(() => {
+    run({ a: 1 });
+  }, []);
 
   const renderFooter = () => (
     <>
@@ -62,7 +42,7 @@ export default () => {
             Reload
           </Button>
         }
-        footer={!loading && renderFooter()}
+        footer={renderFooter()}
         loading={loading}
         bordered
         dataSource={data}

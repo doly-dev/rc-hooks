@@ -4,38 +4,12 @@
 
 import React from 'react';
 import { Button, Table } from 'antd';
-import Mock from 'mockjs';
+import usePagination from './hooks/usePagination';
 
-import usePagination from "./usePagination";
-
-const userList = ({ page: { pageNum, pageSize }, data = {} }) => (
-  Mock.mock({
-    [`data|${pageSize}`]: [{
-      id: '@guid',
-      name: '@cname',
-      'gender|1': ['male', 'female'],
-      email: '@email',
-      disabled: false
-    }],
-    pageInfo: {
-      total: 55,
-      pages: 10
-    },
-    errCode: "00",
-    errMsg: ""
-  })
-)
-
-function getUserList(params) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(userList(params))
-    }, 1000)
-  });
-}
+import getUserList from './services/getUserList';
 
 export default () => {
-  const { run, refresh, data, loading, pagination, changePagination } = usePagination(getUserList, { defaultPageSize: 5 });
+  const { run, refresh, data, loading, pagination, changePagination } = usePagination(getUserList);
 
   const columns = [
     {
@@ -73,15 +47,10 @@ export default () => {
       <Table
         dataSource={data || []}
         columns={columns}
-        pagination={{...pagination, showSizeChanger: false}}
+        pagination={pagination}
         onChange={(page, filters, sorter) => {
           if (page.current === pagination.current && page.pageSize === pagination.pageSize) {
-            run({
-              sorter: {
-                [sorter.field]: sorter.order
-              },
-              filters
-            });
+            run({ filters, sorter });
           } else {
             changePagination(page);
           }

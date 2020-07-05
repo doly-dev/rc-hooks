@@ -106,11 +106,11 @@ const {
 data  | 异步函数的返回值，默认为 `undefined`。 | `any` |
 error  | 异步函数抛出的异常，默认为 `undefined` | `any` |
 loading  | 异步函数正在执行 | `boolean` |
-params  | 执行service的参数数组。比如你触发了 run(1, 2, 3)，则 params 等于 [1, 2, 3] | `array` |
-run  | 手动触发异步函数。debounce 模式与throttle 模式返回值为 `Promise<null>` | `(...args) => Promise` |
+params  | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array` |
+run  | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args) => Promise` |
 cancel  | 取消当前请求。如果有轮询，停止。 | `() => void` |
-refresh  | 使用上一次的params，重新执行异步函数。 | `() => void` |
-mutate  | 直接修改data | `(newData) => void` / `((oldData) => newData) => void` |
+refresh  | 使用上一次的 `params`，重新执行异步函数。 | `() => void` |
+mutate  | 直接修改 `data` | `(newData) => void` / `((oldData) => newData) => void` |
 
 ### Params
 
@@ -128,8 +128,8 @@ cacheKey  | 缓存的键值，启用缓存机制。异步成功结果，将被�
 cacheTime  | 缓存时间，单位为毫秒。 | `number` | `5*60*1000` |
 loadingDelay  | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。| `number` | - |
 pollingInterval | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run` | `number`  | - |
-refreshOnWindowFocus  | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 false，即不会重新发起请求。如果设置为 true，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean` | `false` |
-focusTimespan  | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 refreshOnWindowFocus 使用。 | `number` | `5000` |
+refreshOnWindowFocus  | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 `false`，即不会重新发起请求。如果设置为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean` | `false` |
+focusTimespan  | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。 | `number` | `5000` |
 debounceInterval  | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。 | `number` | - |
 throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节流模式。 | `number` | - |
 
@@ -169,105 +169,11 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 - 自动管理分页条件 `page` ， `page: {pageNum: number, pageSize: number}` 。
 - 内部缓存当前查询条件 `data` ，当分页变化后，自动携带当前查询条件触发请求。
-- `run` 方法如果带有参数，表示修改了查询条件 `data` 。将会重置分页到第一页，并触发请求。
-- `refresh` 相当于 `run` 不带参数的方式触发请求，将使用当前缓存的分页条件和查询条件触发请求。
+- `run` 方法如果带有参数，表示修改了查询条件，将会重置当前页码为 `1`，并触发请求。
+- `refresh` 自动带入当前参数并触发请求。
 - `changePagination` 修改分页，将使用当前查询条件进行请求。
 
 #### usePagination
-
-```
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useAsync } from "rc-hooks";
-
-// 针对接口入参和响应，自定义 usePagination Hook
-export default function usePagination(service, {
-  defaultPageNum = 1,
-  defaultPageSize = 10,
-  defaultTotal = 0,
-  defaultParams = {},
-  ...restOptions } = {}) {
-  const [data, setData] = useState([]);
-
-  const pageRef = useRef({
-    pageNum: defaultPageNum,
-    pageSize: defaultPageSize,
-    total: defaultTotal
-  }); // 分页
-  const paramsRef = useRef({ ...defaultParams }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
-
-  const request = useAsync(service, {
-    ...restOptions,
-    autoRun: false,
-    onSuccess: (res, params) => {
-      // 1. 设置分页和数据
-      pageRef.current.total = res.pageInfo ? res.pageInfo.total : 0;
-      setData(res.data || []);
-
-      if (restOptions.onSuccess) {
-        restOptions.onSuccess(res, params)
-      }
-    }
-  });
-
-  const run = useCallback(params => {
-    // 如果查询参数变化，重置分页 和 参数
-    if (params) {
-      paramsRef.current = params;
-      pageRef.current.pageNum = 1;
-    }
-
-    const { pageSize, pageNum } = pageRef.current;
-
-    // 2. 传入参数，发起请求
-    request.run({
-      page: { pageSize, pageNum },
-      data: {
-        ...paramsRef.current,
-        ...params
-      }
-    });
-  }, []);
-
-  const refresh = useCallback(() => {
-    run();
-  }, []);
-
-  // 监听分页变化
-  const changePagination = useCallback(({ pageSize, current }) => {
-    pageRef.current = {
-      ...pageRef.current,
-      pageSize,
-      pageNum: current
-    };
-    run();
-  });
-
-  // 显示数据总量
-  const showTotal = useCallback(num => {
-    return `共 ${num} 条数据`;
-  }, []);
-
-  useEffect(() => {
-    if (typeof restOptions.autoRun === 'undefined' || restOptions.autoRun) {
-      run();
-    }
-  }, []);
-
-  return {
-    ...request,
-    run,
-    refresh,
-    data,
-    changePagination,
-    pagination: {
-      total: pageRef.current.total,
-      current: pageRef.current.pageNum,
-      pageSize: pageRef.current.pageSize,
-      showTotal
-    }
-  };
-}
-```
 
 <code src="./demo/Pagination1.jsx" />
 <code src="./demo/Pagination2.jsx" />
@@ -280,11 +186,10 @@ const {
   ...,
   changePagination, 
   pagination 
-} = usePagination(service, {
+} = usePagination(asyncFn, {
   defaultPageNum,
   defaultPageSize,
-  defaultTotal,
-  defaultParams
+  defaultTotal
 });
 ```
 
@@ -304,164 +209,17 @@ pagination  | 分页数据 `current` `pageSize` `total` | `object` |
 defaultPageNum  | 默认当前页面 | `number` | `1` |
 defaultPageSize  | 默认每页的数量 | `number` | `10` |
 defaultTotal  | 默认总数量 | `number` | `0` |
-defaultParams  | 默认参数 | `object` | `{}` |
 
 ### 加载更多
 
+- 自动管理分页条件 `page` ， `page: {pageNum: number, pageSize: number}` 。
 - 自动管理列表数据，返回的数据 `data` 即为合并数组。
-- `loading` 仅在第一页时为 `ture` ， `loadingMore` 为每次请求时都为 `true` 。
-- `loadMore` 方法如果带有参数，表示修改了查询条件 `data` 。将会重置分页到第一页，并触发请求。
-- `refresh` 相当于 `loadMore` 不带参数的方式触发请求，将使用当前缓存的分页条件和查询条件触发请求。
+- 首次加载需通过调用 `run`，并传入除分页外的查询参数。
+- 加载下一页 `loadMore` 或 重新加载 `reload` 会自动带入之前参数，并自动管理分页参数。
+- `loadingMore` 仅在非首页加载时为 `true` 。
+- `refresh` 和 `reload` 是一样的，将会重置当前页码为 `1`，并触发请求。
 
 #### useLoadMore
-
-```
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useAsync } from "rc-hooks";
-
-// 针对接口入参和响应，自定义 useLoadMore Hook
-export default function useLoadMore(service, { defaultPageSize = 10, threshold = 100, ref, ...restOptions }) {
-  const [data, setData] = useState([]);
-  const [loadingMore, setLoadingMore] = useState(false);
-
-  const pageRef = useRef({
-    pageNum: 1,
-    pageSize: defaultPageSize,
-    total: 0
-  }); // 分页
-  const doneRef = useRef(false); // 是否完成
-  const paramsRef = useRef({}); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
-
-  const isDone = useCallback((data) => {
-    // 以下状态表示已完成:
-    // 1. 无响应数据
-    // 2. 当前响应数据小于单次请求数据
-    // 3. 当前响应数据总数小于等于当前页码和每页大小的乘积
-    if (
-      !data ||
-      data.length < pageRef.current.pageSize ||
-      pageRef.current.total <= pageRef.current.pageSize * pageRef.current.pageNum
-    ) {
-      return true;
-    }
-
-    return false;
-  })
-
-  const request = useAsync(service, {
-    ...restOptions,
-    autoRun: false,
-    onSuccess: (res, params) => {
-      // 1. 设置分页和数据
-      pageRef.current.total = res.pageInfo.total;
-      doneRef.current = isDone(res.data);
-      setLoadingMore(false);
-
-      if (pageRef.current.pageNum === 1) {
-        setData(res.data);
-      } else {
-        setData(d => d.concat(res.data));
-      }
-
-      if (restOptions.onSuccess) {
-        restOptions.onSuccess(res, params)
-      }
-    },
-    onError: (error, params) => {
-      setLoadingMore(false);
-
-      if (restOptions.onError) {
-        restOptions.onError(error, params)
-      }
-    }
-  });
-
-  const loadMore = useCallback(params => {
-    // 如果查询参数变化，重置分页 和 参数
-    if (params) {
-      paramsRef.current = params;
-      pageRef.current.pageNum = 1;
-      doneRef.current = false;
-    } else {
-      if (doneRef.current) {
-        return;
-      } else {
-        pageRef.current.pageNum += 1;
-      }
-    }
-
-    setLoadingMore(true);
-
-    const { pageSize, pageNum } = pageRef.current;
-
-    // 2. 传入参数，发起请求
-    request.run({
-      page: { pageSize, pageNum },
-      data: {
-        ...paramsRef.current,
-        ...params
-      }
-    });
-  }, []);
-
-  const reload = useCallback(() => {
-    loadMore(paramsRef.current);
-  }, []);
-
-  const cancel = useCallback(() => {
-    setLoadingMore(false);
-    request.cancel();
-  }, []);
-
-  /* 上拉加载的方法 */
-  const scrollMethod = useCallback(() => {
-    if (request.loading || !ref || !ref.current) {
-      return;
-    }
-    if (ref.current.scrollHeight - ref.current.scrollTop <= ref.current.clientHeight + threshold) {
-      loadMore();
-    }
-  }, [request.loading, ref]);
-
-  useEffect(() => {
-    if (typeof restOptions.autoRun === 'undefined' || restOptions.autoRun) {
-      loadMore(restOptions.defaultParams || {});
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!ref || !ref.current) {
-      return () => { };
-    }
-
-    ref.current.addEventListener('scroll', scrollMethod);
-    return () => {
-      if (ref && ref.current) {
-        ref.current.removeEventListener('scroll', scrollMethod);
-      }
-    };
-  }, [scrollMethod]);
-
-  return {
-    ...request,
-    run: loadMore,
-    refresh: reload,
-    cancel,
-    loading: request.loading && pageRef.current.pageNum === 1,
-
-    reload,
-    loadMore,
-    data,
-    loadingMore,
-    done: doneRef.current,
-    pagination: {
-      total: pageRef.current.total,
-      current: pageRef.current.pageNum,
-      pageSize: pageRef.current.pageSize
-    }
-  };
-}
-```
 
 <code src="./demo/LoadMore1.jsx" />
 <code src="./demo/LoadMore2.jsx" />
@@ -476,7 +234,7 @@ const {
   loadingMore,
   done,
   pagination
-} = usePagination(service, {
+} = useLoadMore(asyncFn, {
   defaultPageSize,
   threshold,
   ref

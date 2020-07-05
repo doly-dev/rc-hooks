@@ -3,17 +3,11 @@
  * desc: 通过设置 `options.loadingDelay` ，可以延迟 `loading` 变成 `true` 的时间，有效防止闪烁。
  */
 
-import { useAsync } from 'rc-hooks';
-import { Spin, Button } from 'antd';
 import React from 'react';
+import { Spin, Button } from 'antd';
+import { useAsync } from 'rc-hooks';
 
-async function getCurrentTime() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(new Date().getTime())
-    }, 100)
-  });
-}
+import getCurrentTime from './services/getCurrentTime';
 
 export default () => {
   const getTimeAction = useAsync(getCurrentTime);

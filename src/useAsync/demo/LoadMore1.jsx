@@ -1,46 +1,30 @@
 /**
  * title: 基本用法
+ * desc: |
+ *    首次加载需通过调用 `run`，并传入查询参数。
+ * 
+ *    加载下一页 `loadMore` 或 重新加载 `reload` 会自动带入之前参数和分页。
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Spin, List, Typography } from 'antd';
-import Mock from 'mockjs';
-import useLoadMore from "./useLoadMore";
+import useLoadMore from './hooks/useLoadMore';
 
-const userList = ({ page: { pageNum, pageSize }, data = {} }) => (
-  Mock.mock({
-    [`data|${pageSize}`]: [{
-      id: '@guid',
-      name: '@cname',
-      'gender|1': ['male', 'female'],
-      email: '@email',
-      disabled: false
-    }],
-    pageInfo: {
-      total: 10,
-      pages: 2
-    },
-    errCode: "00",
-    errMsg: ""
-  })
-)
-
-function getUserList(params) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(userList(params))
-    }, 1000)
-  });
-}
+import getUserList from './services/getUserList';
 
 export default () => {
-  const { data, loading, loadingMore, done, loadMore } = useLoadMore(getUserList, {
-    defaultPageSize: 5
+  const { run, data, loading, loadingMore, done, loadMore } = useLoadMore(getUserList, {
+    defaultPageSize: 5,
+    autoRun: false
   });
+
+  useEffect(() => {
+    run({ someParams: 1 });
+  }, []);
 
   return (
     <div>
-      <Spin spinning={loading}>
+      <Spin spinning={loading && !loadingMore}>
         <List
           dataSource={data}
           renderItem={item => (
@@ -51,7 +35,7 @@ export default () => {
         />
       </Spin>
       <Button
-        onClick={() => loadMore()}
+        onClick={loadMore}
         loading={loadingMore}
         disabled={done}
       >

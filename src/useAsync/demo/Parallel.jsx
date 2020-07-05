@@ -5,18 +5,11 @@
 
 import React from "react";
 import { Button, message } from 'antd';
-import { useAsync } from "rc-hooks";
+import { useAsync } from 'rc-hooks';
 
-function deleteUser(userId){
-  console.log(userId);
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
-}
+import deleteUser from './services/deleteUser'
 
-function DeleteButton({id, username}){
+function DeleteButton({ id, username }) {
   const { run, loading } = useAsync(deleteUser, {
     autoRun: false,
     onSuccess: (result) => {
@@ -29,7 +22,7 @@ function DeleteButton({id, username}){
   return <Button loading={loading} onClick={() => { run(id) }}>delete {username}</Button>
 }
 
-export default ()=>{
+export default () => {
   const users = [{ id: '1', username: 'A' }, { id: '2', username: 'B' }, { id: '3', username: 'C' }];
 
   return (

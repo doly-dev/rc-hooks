@@ -8,18 +8,11 @@
  *  - 在 `options.autoRun=false` 时，需要第一次执行 `run` 后，才开始轮询。
  */
 
-import { useAsync } from 'rc-hooks';
-import { Button, Spin } from 'antd';
 import React from 'react';
-import Mock from 'mockjs';
+import { Button, Spin } from 'antd';
+import { useAsync } from 'rc-hooks';
 
-function getUsername() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(Mock.mock('@name'));
-    }, 1000);
-  });
-}
+import getUsername from './services/getUsername';
 
 export default () => {
   const { data, loading, run, cancel } = useAsync(getUsername, {

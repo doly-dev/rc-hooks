@@ -32,7 +32,7 @@ function useAsync(asyncFn, {
   const [state, set] = useState({
     // 参数兼容非array的情况
     params: Array.isArray(defaultParams) ? defaultParams : [defaultParams],
-    loading: !!autoRun || defaultLoading,
+    loading: defaultLoading,
     error: null,
     data: cacheKey ? getCache(cacheKey) : initialData
   });

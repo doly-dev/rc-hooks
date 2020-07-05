@@ -3,19 +3,11 @@
  * desc: 如果你设置了 `options.refreshOnWindowFocus = true` ，则在浏览器窗口 `refocus` 和 `revisible` 时，会重新发起请求。你可以通过设置 `options.focusTimespan` 来设置请求间隔，默认为 `5000ms` 。
  */
 
-import { useAsync } from 'rc-hooks';
-import { Spin } from 'antd';
 import React from 'react';
-import Mock from 'mockjs';
+import { Spin } from 'antd';
+import { useAsync } from 'rc-hooks';
 
-function getUsername() {
-  const userInfo = Mock.mock('@name');
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(userInfo);
-    }, 1000);
-  });
-}
+import getUsername from './services/getUsername';
 
 export default () => {
   const { data, loading } = useAsync(getUsername, {

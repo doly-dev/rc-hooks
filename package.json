@@ -32,9 +32,12 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
+    "@typescript-eslint/parser": "^1.13.0",
     "antd": "^4.1.0",
     "babel-plugin-import": "^1.13.0",
-    "dumi": "^1.0.13",
+    "dayjs": "^1.8.29",
+    "dumi": "^1.0.31",
+    "eslint-plugin-react": "^7.20.3",
     "mockjs": "^1.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

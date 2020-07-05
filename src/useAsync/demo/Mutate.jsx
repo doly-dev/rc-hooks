@@ -3,27 +3,12 @@
  * desc: 你可以通过 `mutate` ，直接修改 `data` 。 `mutate` 函数参数可以为 `newData` 或 `(oldData)=> newData` 。
  */
 
-import { useAsync } from 'rc-hooks';
-import { Button, Input, message } from 'antd';
 import React, { useState } from 'react';
-import Mock from 'mockjs';
+import { Button, Input, message } from 'antd';
+import { useAsync } from 'rc-hooks';
 
-function getUsername() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(Mock.mock('@name'));
-    }, 1000);
-  });
-}
-
-function changeUsername(username) {
-  console.log(username);
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
-}
+import getUsername from './services/getUsername';
+import changeUsername from './services/changeUsername';
 
 export default () => {
   const [state, setState] = useState('');

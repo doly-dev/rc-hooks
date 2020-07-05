@@ -12,7 +12,7 @@ const manifestLink = `${publicPath}asset-manifest.json`;
 
 const links = process.env.NODE_ENV === 'production' ? [{ rel: 'manifest', href: manifestLink }] : [];
 
-export default {
+const umiConfig = {
   extraBabelPlugins: [[
     'babel-plugin-import',
     {
@@ -36,4 +36,28 @@ export default {
   links,
   hash: true,
   locales: [['zh-CN', '中文'], ['en-US', 'English']]
+};
+
+if (process.env.NODE_ENV === 'production') {
+  umiConfig.chunks = ['vendors', 'umi'];
+  umiConfig.chainWebpack = function (config, { webpack }) {
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /node_modules/,
+              chunks: "all",
+              name: "vendors",
+              priority: -10,
+              enforce: true
+            }
+          }
+        }
+      }
+    });
+  }
 }
+
+export default umiConfig;

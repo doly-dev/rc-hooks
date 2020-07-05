@@ -9,7 +9,7 @@ React Hooks Library.
 ```shell
 npm install rc-hooks
 # or
-yarn install rc-hooks
+yarn add rc-hooks
 ```
 
 ## 使用

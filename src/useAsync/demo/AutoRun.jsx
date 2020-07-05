@@ -3,18 +3,11 @@
  * desc: 通过设置 `options.autoRun = false` , 则需要手动调用 `run` 时才会触发执行异步函数。
  */
 
-import { useAsync } from 'rc-hooks';
-import { Button, Input, message } from 'antd';
 import React, { useState } from 'react';
+import { Button, Input, message } from 'antd';
+import { useAsync } from 'rc-hooks';
 
-function changeUsername(username){
-  console.log(username);
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
-}
+import changeUsername from './services/changeUsername';
 
 export default () => {
   const [state, setState] = useState('');

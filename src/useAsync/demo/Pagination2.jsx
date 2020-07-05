@@ -4,35 +4,10 @@
 
 import React, { useCallback } from 'react';
 import { Form, Input, Select, Button, Table } from 'antd';
-import Mock from 'mockjs';
+import usePagination from './hooks/usePagination';
 
-import usePagination from "./usePagination";
-
-const userList = ({ page: { pageNum, pageSize }, data = {} }) => (
-  Mock.mock({
-    [`data|${pageSize}`]: [{
-      id: '@guid',
-      name: '@cname',
-      'gender|1': ['male', 'female'],
-      email: '@email',
-      disabled: false
-    }],
-    pageInfo: {
-      total: 55,
-      pages: 10
-    },
-    errCode: "00",
-    errMsg: ""
-  })
-)
-
-function getUserList(params) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(userList(params))
-    }, 1000)
-  });
-}
+import getUserList from './services/getUserList';
+import { useEffect } from 'react';
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -63,13 +38,19 @@ const columns = [
 ];
 
 export default () => {
-  const { run, refresh, data, loading, pagination, changePagination } = usePagination(getUserList);
+  const { run, refresh, data, loading, pagination, changePagination } = usePagination(getUserList, {
+    autoRun: false
+  });
 
   const [form] = Form.useForm();
 
   const handleReset = useCallback(() => {
     form.resetFields();
-    run(form.getFieldsValue())
+    form.submit();
+  }, []);
+
+  useEffect(() => {
+    form.submit();
   }, []);
 
   return (
@@ -98,7 +79,7 @@ export default () => {
       <Table
         dataSource={data || []}
         columns={columns}
-        pagination={{ ...pagination, showSizeChanger: true }}
+        pagination={pagination}
         onChange={changePagination}
         loading={loading}
         rowKey="id"
