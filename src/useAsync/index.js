@@ -181,7 +181,7 @@ function useAsync(asyncFn, {
   useEffect(() => {
     // 默认自动执行
     if (autoRun) {
-      // 参数可能为默认参数
+      // 支持默认参数
       run(...state.params);
     }
 

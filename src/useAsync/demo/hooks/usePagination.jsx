@@ -61,7 +61,7 @@ export default function usePagination(asyncFn, {
 
   useEffect(() => {
     if (typeof restOptions.autoRun === 'undefined' || restOptions.autoRun) {
-      run(paramsRef.current);
+      run();
     }
   }, []);
 
