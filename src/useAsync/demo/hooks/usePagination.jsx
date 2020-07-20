@@ -49,6 +49,10 @@ export default function usePagination(asyncFn, {
     });
   }, []);
 
+  const refresh = useCallback(() => {
+    run();
+  }, []);
+
   // 修改分页
   const changePagination = useCallback(({ pageSize, current }) => {
     pageRef.current = {
@@ -68,6 +72,7 @@ export default function usePagination(asyncFn, {
   return {
     ...request,
     run,
+    refresh,
     data,
     changePagination,
     pagination: {
