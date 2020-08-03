@@ -109,7 +109,7 @@ loading  | 异步函数正在执行 | `boolean` |
 params  | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array` |
 run  | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args) => Promise` |
 cancel  | 取消当前请求。如果有轮询，停止。 | `() => void` |
-refresh  | 使用上一次的 `params`，重新执行异步函数。 | `() => void` |
+refresh  | 使用上一次的 `params`，重新执行异步函数。 | `() => Promise` |
 mutate  | 直接修改 `data` | `(newData) => void` / `((oldData) => newData) => void` |
 
 ### Params
