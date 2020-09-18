@@ -23,8 +23,19 @@ legacy: /side-effect/use-debounce-fn
 ## API
 
 ```javascript
-const throttledValue = useThrottleFn(fn, [wait=0], [options={}]);
+const { run, cancel } = useThrottleFn(
+  fn: (...args: any) => any, 
+  wait?: number, 
+  options?: object
+);
 ```
+
+### Result
+
+参数 | 说明 | 类型 |
+------------- | ------------- | ------------- |
+run | 触发执行fn，参数也会传递给fn |
+cancel | 取消当前节流 |
 
 ### Params
 

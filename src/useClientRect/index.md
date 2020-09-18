@@ -20,7 +20,10 @@ legacy: /other/use-client-rect
 ## API
 
 ```javascript
-const [rect, ref] = useClientRect();
+const [
+  rect: object, 
+  ref: React.Ref
+] = useClientRect();
 ```
 
 ### Result

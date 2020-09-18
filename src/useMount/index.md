@@ -20,7 +20,7 @@ legacy: /life-cycle/use-mount
 ## API
 
 ```javascript
-useMount(fn);
+useMount(fn: () => void);
 ```
 
 ### Params

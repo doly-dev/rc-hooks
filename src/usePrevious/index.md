@@ -20,8 +20,8 @@ legacy: /other/use-previous
 
 ## API
 
-```
-const prevState = usePrevious(state);
+```javascript
+const prevState = usePrevious(state: any);
 ```
 
 ### Result

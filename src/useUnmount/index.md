@@ -19,7 +19,7 @@ legacy: /life-cycle/use-unmount
 ## API
 
 ```javascript
-useUnmount(fn);
+useUnmount(fn: () => void);
 ```
 
 ### Params

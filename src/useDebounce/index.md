@@ -20,7 +20,11 @@ legacy: /side-effect/use-debounce
 ## API
 
 ```javascript
-const debouncedValue = useDebounce(value, [wait=0], [options={}]);
+const debouncedValue = useDebounce(
+  value: any, 
+  wait?: number, 
+  options?: object
+);
 ```
 
 ### Params

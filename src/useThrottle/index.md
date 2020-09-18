@@ -19,7 +19,11 @@ legacy: /side-effect/use-throttle
 ## API
 
 ```javascript
-const throttledValue = useThrottle(value, [wait=0], [options={}]);
+const throttledValue = useThrottle(
+  value: any, 
+  wait?: number, 
+  options?: object
+);
 ```
 
 ### Params
