@@ -5,10 +5,11 @@
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi'",
+    "start": "npm run dev",
     "dev": "npx dumi dev",
-    "build:doc": "npx dumi build"
+    "build": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi'",
+    "build:doc": "npm run doc",
+    "doc": "npx dumi build"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,8 @@
     "eslint-plugin-react": "^7.20.3",
     "mockjs": "^1.1.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "typescript": "^3.5.1"
   },
   "peerDependencies": {
     "react": "^16.8.6"

@@ -22,6 +22,7 @@ legacy: /async/use-async
 * 节流
 * 突变
 * Loading Delay
+* refreshDeps
 * 并行请求
 * 分页
 * 加载更多
@@ -65,6 +66,22 @@ legacy: /async/use-async
 
 <code src="./demo/LoadingDelay.jsx" />
 
+### refreshDeps
+
+当某些 `state` 变化时，我们需要重新执行异步请求，一般我们会这样写代码：
+
+```javascript
+const [userId, setUserId] = useState('1');
+const { data, run, loading } = useRequest(()=> getUserSchool(userId));
+useEffect(() => {
+  run();
+}, [userId]);
+```
+
+`refreshDeps` 是一个语法糖，让你更方便的实现上面的功能。当 `refreshDeps` 变化时，会使用之前的 `params` 重新执行。
+
+<code src="./demo/RefreshDeps.jsx" />
+
 ### 并行请求
 
 <code src="./demo/Parallel.jsx" />
@@ -85,6 +102,8 @@ const {
   autoRun,
   initialData,
   defaultParams,
+  formatResult,
+  refreshDeps,
   onSuccess,
   onError,
   cacheKey,
@@ -122,6 +141,7 @@ autoRun  | 默认 `true`。即在初始化时自动执行异步函数。如果�
 initialData  | 默认的 `data`。 | `any` | - |
 defaultParams  | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 |  `array`  | - |
 formatResult  | 格式化请求结果 | `(data) => any` | - |
+refreshDeps  | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
 onSuccess  | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 onError  | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
 cacheKey  | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | - |

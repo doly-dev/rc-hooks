@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
+import usePersistFn from '../usePersistFn';
+import useUpdateEffect from '../useUpdateEffect';
 import { isDocumentVisible } from '../utils';
 import { getCache, setCache } from "../utils/cache";
 import limit from '../utils/limit';
@@ -13,6 +15,7 @@ const noop = () => { };
 // 异步方法hooks
 function useAsync(asyncFn, {
   autoRun = true,
+  refreshDeps = [],
   defaultParams = [],
   defaultLoading = false,
   initialData,
@@ -44,6 +47,11 @@ function useAsync(asyncFn, {
 
   const unsubscribeRef = useRef([]); // 取消订阅集合
 
+  // 持久化一些函数
+  const asyncFnPersist = usePersistFn(asyncFn);
+  const onSuccessPersist = usePersistFn(onSuccess);
+  const onErrorPersist = usePersistFn(onError);
+
   const _run = useCallback((...args) => {
     // 取消轮询定时器
     if (pollingTimerRef.current) {
@@ -70,7 +78,7 @@ function useAsync(asyncFn, {
     }
     // fix: 同时多次调用run，并通过then处理时，前面调用的会返回undefined导致异常的问题
     return new Promise((resolve, reject) => {
-      asyncFn(...args).then(data => {
+      asyncFnPersist(...args).then(data => {
         if (!unmountFlagRef.current && currentCount === counterRef.current) {
           if (loadingDelayTimerRef.current) {
             clearTimeout(loadingDelayTimerRef.current);
@@ -82,7 +90,7 @@ function useAsync(asyncFn, {
           if (cacheKey) {
             setCache(cacheKey, fmtData, cacheTime);
           }
-          onSuccess(fmtData, args);
+          onSuccessPersist(fmtData, args);
 
           resolve(fmtData);
         }
@@ -93,7 +101,7 @@ function useAsync(asyncFn, {
           }
 
           set(s => ({ ...s, error, loading: false }));
-          onError(error, args);
+          onErrorPersist(error, args);
 
           reject(error);
         }
@@ -168,6 +176,13 @@ function useAsync(asyncFn, {
 
     set(s => ({ ...s, loading: false }));
   }, []);
+
+  // autoRun=true 时，refreshDeps 变化，将重新执行
+  useUpdateEffect(() => {
+    if (autoRun) {
+      refresh();
+    }
+  }, [...refreshDeps]);
 
   // 突变
   const mutate = (newData) => {

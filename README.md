@@ -18,25 +18,6 @@ yarn add rc-hooks
 import { useAsync } from "rc-hooks";
 ```
 
-**按需引入**
-
-如果你使用 `babel`，下面两种方式都可以只加载用到的组件。
-
-- 方式一：指定模块文件，所有模块都放在 `lib` 目录下
-
-```javascript
-import useAsync from 'rc-hooks/lib/useAsync'
-```
-
-- 方式二：使用 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) ，在 `babel` `plugin` 中添加以下配置
-
-```javascript
-['import', { 
-  libraryName: 'rc-hooks', 
-  camel2DashComponentName: false
-}, 'rc-hooks']
-```
-
 ## API
 
 - Async

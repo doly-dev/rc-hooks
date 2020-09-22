@@ -12,9 +12,9 @@ function usePersistFn(fn = noop) {
 
   ref.current = fn;
 
-  return useCallback(() => {
-    const fn = ref.current;
-    return fn();
+  return useCallback((...args) => {
+    const refFn = ref.current;
+    return refFn(...args);
   }, [ref]);
 }
 

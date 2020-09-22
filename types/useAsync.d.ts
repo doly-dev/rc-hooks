@@ -1,15 +1,16 @@
-type AsyncFn = (...args: any) => Promise;
+type AsyncFn = (...args: any) => Promise<any>;
 
 type Params = any[];
 type FormatResultReturn = any;
 
 interface AsyncParams {
   autoRun?: boolean;
+  refreshDeps?: any[];
   initialData?: any;
   defaultParams?: any;
   formatResult?: (data: any) => FormatResultReturn;
-  onSuccess?: (data: any, params?: Params) => void;
-  onError?: (error: any, params?: Params) => void;
+  onSuccess?: (data: any, params: Params) => void;
+  onError?: (error: any, params: Params) => void;
   cacheKey?: string;
   cacheTime?: number;
   loadingDelay?: number;
@@ -29,9 +30,9 @@ interface AsyncResult {
   error: any;
   loading: boolean;
   params: any[];
-  run: (...args: any) => Promise;
+  run: (...args: any) => Promise<any>;
   cancel: () => void;
-  refresh: () => Promise;
+  refresh: () => Promise<any>;
   mutate: (MutateParams) => void;
 }
 
