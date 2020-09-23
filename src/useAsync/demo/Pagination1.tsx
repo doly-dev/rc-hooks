@@ -16,7 +16,7 @@ export default () => {
       <List
         dataSource={data || []}
         loading={loading}
-        renderItem={item => (
+        renderItem={(item: { name: string, email: string }) => (
           <List.Item>
             {item.name} - {item.email}
           </List.Item>

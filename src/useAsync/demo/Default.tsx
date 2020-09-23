@@ -4,9 +4,16 @@
  */
 
 import React from 'react';
-import { useAsync } from "rc-hooks";
+import { useAsync } from 'rc-hooks';
+import Mock from 'mockjs';
 
-import getUsername from './services/getUsername';
+function getUsername(): Promise<string> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(Mock.mock('@name'));
+    }, 1000);
+  });
+}
 
 export default () => {
   const { data, error, loading } = useAsync(getUsername);

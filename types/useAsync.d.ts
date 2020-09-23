@@ -3,7 +3,7 @@ type AsyncFn = (...args: any) => Promise<any>;
 type Params = any[];
 type FormatResultReturn = any;
 
-interface AsyncParams {
+export interface AsyncParams {
   autoRun?: boolean;
   refreshDeps?: any[];
   initialData?: any;
@@ -15,6 +15,7 @@ interface AsyncParams {
   cacheTime?: number;
   loadingDelay?: number;
   pollingInterval?: number;
+  pollingWhenHidden?: boolean;
   refreshOnWindowFocus?: boolean;
   focusTimespan?: number;
   debounceInterval?: number;
@@ -25,7 +26,7 @@ type NewData = any;
 type MutateParamMethod = (oldData: any) => NewData;
 type MutateParams = NewData | MutateParamMethod;
 
-interface AsyncResult {
+export interface AsyncResult {
   data: any;
   error: any;
   loading: boolean;

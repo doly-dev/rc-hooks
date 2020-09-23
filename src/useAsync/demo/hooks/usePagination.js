@@ -2,15 +2,15 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
 
 // 显示数据总量
-const showTotal = num => `共 ${num} 条数据`;
+const showTotal = (num) => `共 ${num} 条数据`;
 
-export default function usePagination(asyncFn, {
+const usePagination = (asyncFn, {
   defaultPageNum = 1,
   defaultPageSize = 10,
   defaultTotal = 0,
   defaultParams,
   ...restOptions
-} = {}) {
+}={}) => {
   const [data, setData] = useState([]);
 
   const pageRef = useRef({
@@ -34,7 +34,7 @@ export default function usePagination(asyncFn, {
     }
   });
 
-  const run = useCallback(params => {
+  const run = useCallback((params) => {
     // 如果查询参数变化，重置参数和分页
     if (params) {
       paramsRef.current = params;
@@ -84,3 +84,5 @@ export default function usePagination(asyncFn, {
     }
   }
 }
+
+export default usePagination;

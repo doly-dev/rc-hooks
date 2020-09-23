@@ -46,7 +46,7 @@ export default () => {
         loading={loading}
         bordered
         dataSource={data}
-        renderItem={item => (
+        renderItem={(item: { name: string }) => (
           <List.Item>
             <List.Item.Meta
               avatar={

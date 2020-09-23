@@ -32,39 +32,39 @@ legacy: /async/use-async
 
 ### 默认请求
 
-<code src="./demo/Default.jsx" />
+<code src="./demo/Default.tsx" />
 
 ### 手动触发
 
-<code src="./demo/AutoRun.jsx" />
+<code src="./demo/AutoRun.tsx" />
 
 ### 缓存 & 预加载
 
-<code src="./demo/Preload.jsx" />
+<code src="./demo/Preload.tsx" />
 
 ### 屏幕聚焦重新请求
 
-<code src="./demo/RefreshOnWindowFocus.jsx" />
+<code src="./demo/RefreshOnWindowFocus.tsx" />
 
 ### 轮询
 
-<code src="./demo/PollingInterval.jsx" />
+<code src="./demo/PollingInterval.tsx" />
 
 ### 防抖
 
-<code src="./demo/DebounceInterval.jsx" />
+<code src="./demo/DebounceInterval.tsx" />
 
 ### 节流
 
-<code src="./demo/ThrottleInterval.jsx" />
+<code src="./demo/ThrottleInterval.tsx" />
 
 ### 突变
 
-<code src="./demo/Mutate.jsx" />
+<code src="./demo/Mutate.tsx" />
 
 ### Loading Delay
 
-<code src="./demo/LoadingDelay.jsx" />
+<code src="./demo/LoadingDelay.tsx" />
 
 ### refreshDeps
 
@@ -80,11 +80,11 @@ useEffect(() => {
 
 `refreshDeps` 是一个语法糖，让你更方便的实现上面的功能。当 `refreshDeps` 变化时，会使用之前的 `params` 重新执行。
 
-<code src="./demo/RefreshDeps.jsx" />
+<code src="./demo/RefreshDeps.tsx" />
 
 ### 并行请求
 
-<code src="./demo/Parallel.jsx" />
+<code src="./demo/Parallel.tsx" />
 
 ## API
 
@@ -195,9 +195,9 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 #### usePagination
 
-<code src="./demo/Pagination1.jsx" />
-<code src="./demo/Pagination2.jsx" />
-<code src="./demo/Pagination3.jsx" />
+<code src="./demo/Pagination1.tsx" />
+<code src="./demo/Pagination2.tsx" />
+<code src="./demo/Pagination3.tsx" />
 
 #### API
 
@@ -241,8 +241,8 @@ defaultTotal  | 默认总数量 | `number` | `0` |
 
 #### useLoadMore
 
-<code src="./demo/LoadMore1.jsx" />
-<code src="./demo/LoadMore2.jsx" />
+<code src="./demo/LoadMore1.tsx" />
+<code src="./demo/LoadMore2.tsx" />
 
 #### API
 

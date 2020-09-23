@@ -18,7 +18,7 @@ legacy: /other/use-persist-fn
 
 ### 基本用法
 
-<code src="./demo/Demo2.jsx" />
+<code src="./demo/Demo2.tsx" />
 
 ## API
 

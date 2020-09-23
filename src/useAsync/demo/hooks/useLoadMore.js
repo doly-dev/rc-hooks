@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
 import useScrollToBottomLoad from "./useScrollToBottomLoad";
 
-function useLoadMore(asyncFn, {
+const useLoadMore = (asyncFn, {
   defaultPageSize = 10,
   threshold = 100,
   ref,
   ...restOptions
-} = {}) {
+} = {}) => {
   const [data, setData] = useState([]);
   const [loadDone, setLoadDone] = useState(false); // 是否完成
 

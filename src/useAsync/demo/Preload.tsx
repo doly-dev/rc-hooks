@@ -6,11 +6,21 @@
  *  同一个 `cacheKey` 的请求，是全局共享的，也就是你可以提前加载数据。利用该特性，可以很方便的实现预加载。
  */
 
-import { useAsync } from 'rc-hooks';
-import { Button, Spin } from 'antd';
 import React, { useState } from 'react';
+import { Button, Spin } from 'antd';
+import { useAsync } from 'rc-hooks';
+import Mock from 'mockjs';
 
-import getArticle from './services/getArticle';
+function getArticle(): Promise<{ data: string, time: number }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        data: Mock.mock('@paragraph'),
+        time: new Date().getTime()
+      })
+    }, 1000)
+  });
+}
 
 export default () => {
   const [visible, setVisible] = useState(false);

@@ -1,3 +1,3 @@
-declare const useUpdate: () => void;
+declare const useUpdate: () => (() => void);
 
 export default useUpdate;

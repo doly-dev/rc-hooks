@@ -14,7 +14,7 @@ legacy: /side-effect/use-throttle
 
 ### 基本用法
 
-<code src="./demo/Demo1.jsx" />
+<code src="./demo/Demo1.tsx" />
 
 ## API
 

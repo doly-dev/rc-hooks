@@ -6,8 +6,16 @@
 import React from 'react';
 import { Select } from 'antd';
 import { useAsync } from 'rc-hooks';
+import Mock from 'mockjs';
 
-import getEmail from './services/getEmail';
+function getEmail(search: string): Promise<string[]> {
+  console.log(search);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(Mock.mock({ 'data|5': ['@email'] }).data);
+    }, 300);
+  });
+}
 
 const { Option } = Select;
 
@@ -29,7 +37,7 @@ export default () => {
         loading={loading}
         style={{ width: 300 }}
       >
-        {data && data.map(i => <Option key={i}>{i}</Option>)}
+        {data && data.map(i => <Option key={i} value={i}>{i}</Option>)}
       </Select>
     </div>
   );

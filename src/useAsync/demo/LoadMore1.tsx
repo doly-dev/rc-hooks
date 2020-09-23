@@ -27,7 +27,7 @@ export default () => {
       <Spin spinning={loading && !loadingMore}>
         <List
           dataSource={data}
-          renderItem={item => (
+          renderItem={(item: { id: string, name: string }) => (
             <List.Item key={item.id}>
               <Typography.Text mark>[{item.id}]</Typography.Text> {item.name}
             </List.Item>

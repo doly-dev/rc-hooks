@@ -1,15 +1,15 @@
 /**
  * title: 基本用法
- * desc: throttledValue 每隔 500ms 变化一次。
+ * desc: debouncedValue 只会在输入结束 500ms 后变化。
  */
 
 import { Input } from 'antd';
 import React, { useState } from 'react';
-import { useThrottle } from 'rc-hooks';
+import { useDebounce } from 'rc-hooks';
 
 export default () => {
-  const [value, setValue] = useState();
-  const throttledValue = useThrottle(value, 500);
+  const [value, setValue] = useState('');
+  const debouncedValue = useDebounce(value, 500);
 
   return (
     <div>
@@ -19,7 +19,7 @@ export default () => {
         placeholder="Typed value"
         style={{ width: 280 }}
       />
-      <p style={{ marginTop: 16 }}>throttledValue: {throttledValue}</p>
+      <p style={{ marginTop: 16 }}>DebouncedValue: {debouncedValue}</p>
     </div>
   );
 };

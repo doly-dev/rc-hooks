@@ -40,8 +40,12 @@ export default () => {
   );
 };
 
+interface ExpensiveTreeProp {
+  showCount: () => void;
+}
+
 // some expensive component with React.memo
-const ExpensiveTree = React.memo(({ showCount }) => {
+const ExpensiveTree = React.memo(({ showCount }: ExpensiveTreeProp) => {
   const renderCountRef = useRef(0);
   renderCountRef.current += 1;
 

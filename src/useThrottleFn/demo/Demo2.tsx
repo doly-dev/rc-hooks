@@ -8,7 +8,7 @@ import { Button, Input } from 'antd';
 import { useThrottleFn } from 'rc-hooks';
 
 export default () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState('');
   const [throttleValue, setThrottleValue] = useState();
 
   const { run, cancel } = useThrottleFn(setThrottleValue, 1000);

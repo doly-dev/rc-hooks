@@ -7,7 +7,14 @@ import React from "react";
 import { Button, message } from 'antd';
 import { useAsync } from 'rc-hooks';
 
-import deleteUser from './services/deleteUser'
+function deleteUser(userId: string): Promise<{ success: boolean }> {
+  console.log(userId);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+}
 
 function DeleteButton({ id, username }) {
   const { run, loading } = useAsync(deleteUser, {

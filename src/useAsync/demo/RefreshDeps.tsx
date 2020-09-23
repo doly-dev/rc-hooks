@@ -3,10 +3,10 @@
  * desc: |
  *  当 `options.refreshDeps` 变化时，且 `options.autoRun=true`， `useAsync` 会使用之前的参数重新执行。
  */
-import { useAsync } from '../../../';
+import { useAsync } from 'rc-hooks';
 import React, { useState } from 'react';
 
-const userSchool = (id) => {
+const userSchool = (id: string) => {
   switch (id) {
     case '1':
       return 'Tsinghua University';
@@ -19,7 +19,7 @@ const userSchool = (id) => {
   }
 };
 
-async function getUserSchool(userId) {
+async function getUserSchool(userId: string): Promise<string> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(userSchool(userId));

@@ -7,7 +7,14 @@ import React, { useState } from 'react';
 import { Button, Input, message } from 'antd';
 import { useAsync } from 'rc-hooks';
 
-import changeUsername from './services/changeUsername';
+function changeUsername(username: string): Promise<{ success: boolean }> {
+  console.log(username);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+}
 
 export default () => {
   const [state, setState] = useState('');

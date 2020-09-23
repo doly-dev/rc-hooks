@@ -48,7 +48,7 @@ export default () => {
         dataSource={data || []}
         columns={columns}
         pagination={pagination}
-        onChange={(page, filters, sorter) => {
+        onChange={(page: { pageSize: number, current: number, [key: string]: any }, filters, sorter) => {
           if (page.current === pagination.current && page.pageSize === pagination.pageSize) {
             run({ filters, sorter });
           } else {

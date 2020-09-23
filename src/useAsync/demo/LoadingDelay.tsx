@@ -7,7 +7,13 @@ import React from 'react';
 import { Spin, Button } from 'antd';
 import { useAsync } from 'rc-hooks';
 
-import getCurrentTime from './services/getCurrentTime';
+function getCurrentTime(): Promise<number> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(new Date().getTime())
+    }, 100)
+  })
+}
 
 export default () => {
   const getTimeAction = useAsync(getCurrentTime);

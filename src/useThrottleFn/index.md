@@ -14,11 +14,11 @@ legacy: /side-effect/use-debounce-fn
 
 ### 基本用法
 
-<code src="./demo/Demo1.jsx" />
+<code src="./demo/Demo1.tsx" />
 
 ### 对比
 
-<code src="./demo/Demo2.jsx" />
+<code src="./demo/Demo2.tsx" />
 
 ## API
 

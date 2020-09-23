@@ -5,7 +5,7 @@ const useScrollToLower = ({
   threshold = 100,
   ready = false,
   onLoad = () => { }
-} = {}) => {
+}) => {
   const scrollMethod = useCallback(() => {
     if (!ready) {
       return;
