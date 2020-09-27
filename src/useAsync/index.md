@@ -201,6 +201,8 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 #### API
 
+查看 [`usePagination.d.ts`](https://github.com/doly-dev/rc-hooks/blob/master/src/useAsync/demo/hooks/usePagination.d.ts)
+
 ```
 const { 
   ...,
@@ -245,6 +247,8 @@ defaultTotal  | 默认总数量 | `number` | `0` |
 <code src="./demo/LoadMore2.tsx" />
 
 #### API
+
+查看 [`useLoadMore.d.ts`](https://github.com/doly-dev/rc-hooks/blob/master/src/useAsync/demo/hooks/useLoadMore.d.ts)
 
 ```
 const { 
