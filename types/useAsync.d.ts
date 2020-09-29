@@ -30,7 +30,7 @@ export interface AsyncResult {
   run: (...args: any) => Promise<any>;
   cancel: () => void;
   refresh: () => Promise<any>;
-  mutate: <T>(newData: (newData: T) => void | T) => void;
+  mutate: <T>(newData: T | ((newData: T) => void)) => void;
 }
 
 declare const useAsync: (asyncFn: AsyncFn, options?: AsyncParams) => AsyncResult;
