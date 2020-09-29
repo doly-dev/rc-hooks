@@ -1,13 +1,13 @@
 type AsyncFn = (...args: any) => Promise<any>;
 
-export interface AsyncParams {
+export interface AsyncParams<D, P> {
   autoRun?: boolean;
   refreshDeps?: any[];
   initialData?: any;
   defaultParams?: any;
-  formatResult?: (data: any) => any;
-  onSuccess?: (data: any, params: any[]) => void;
-  onError?: (error: any, params: any[]) => void;
+  formatResult?: (data: D) => any;
+  onSuccess?: (data: D, params: P) => void;
+  onError?: (error: any, params: P) => void;
   cacheKey?: string;
   cacheTime?: number;
   loadingDelay?: number;
@@ -23,13 +23,13 @@ export interface AsyncResult {
   data: any;
   error: any;
   loading: boolean;
-  params: any[];
+  params: any[] | undefined;
   run: (...args: any) => Promise<any>;
   cancel: () => void;
   refresh: () => Promise<any>;
-  mutate: <T>(newData: T | ((newData: T) => void)) => void;
+  mutate: (newData: any | ((oldData: any) => any)) => void;
 }
 
-declare const useAsync: (asyncFn: AsyncFn, options?: AsyncParams) => AsyncResult;
+declare const useAsync: (asyncFn: AsyncFn, options?: AsyncParams<any, any[] | undefined>) => AsyncResult;
 
 export default useAsync;
