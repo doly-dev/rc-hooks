@@ -53,7 +53,7 @@ const useLoadMore = (asyncFn, {
     const { pageSize, pageNum } = pageRef.current;
 
     // 2. 传入参数，发起请求
-    request.run({
+    return request.run({
       page: { pageSize, pageNum },
       data: paramsRef.current
     });
@@ -72,14 +72,14 @@ const useLoadMore = (asyncFn, {
       return;
     }
     pageRef.current.pageNum += 1;
-    run(paramsRef.current);
+    return run(paramsRef.current);
   }, []);
 
   const reload = useCallback(() => {
     setLoadDone(false);
     cancel();
     pageRef.current.pageNum = 1;
-    run(paramsRef.current);
+    return run(paramsRef.current);
   }, []);
 
   useScrollToBottomLoad({

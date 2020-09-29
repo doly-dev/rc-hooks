@@ -8,8 +8,8 @@ interface Options extends AsyncParams {
 }
 
 interface ReturnValues extends AsyncResult {
-  reload: () => void;
-  loadMore: () => void;
+  reload: () => Promise<any>;
+  loadMore: () => Promise<any>;
   loadingMore: boolean;
   done: boolean;
   pagination: {

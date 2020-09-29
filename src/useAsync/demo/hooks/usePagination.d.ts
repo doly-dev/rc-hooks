@@ -16,7 +16,7 @@ interface PaginationParams {
 }
 
 interface ReturnValues extends AsyncResult {
-  changePagination: (page: PaginationParams) => void;
+  changePagination: (page: PaginationParams) => Promise<any>;
   pagination: {
     total: number;
     current: number;

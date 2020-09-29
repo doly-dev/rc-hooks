@@ -43,14 +43,14 @@ const usePagination = (asyncFn, {
     const { pageSize, pageNum } = pageRef.current;
 
     // 2. 传入参数，发起请求
-    request.run({
+    return request.run({
       page: { pageSize, pageNum },
       data: paramsRef.current
     });
   }, []);
 
   const refresh = useCallback(() => {
-    run();
+    return run();
   }, []);
 
   // 修改分页
@@ -60,7 +60,7 @@ const usePagination = (asyncFn, {
       pageSize,
       pageNum: current
     };
-    run();
+    return run();
   }, []);
 
   useEffect(() => {
