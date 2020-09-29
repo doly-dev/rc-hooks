@@ -1,16 +1,13 @@
 type AsyncFn = (...args: any) => Promise<any>;
 
-type Params = any[];
-type FormatResultReturn = any;
-
 export interface AsyncParams {
   autoRun?: boolean;
   refreshDeps?: any[];
   initialData?: any;
   defaultParams?: any;
-  formatResult?: (data: any) => FormatResultReturn;
-  onSuccess?: (data: any, params: Params) => void;
-  onError?: (error: any, params: Params) => void;
+  formatResult?: (data: any) => any;
+  onSuccess?: (data: any, params: any[]) => void;
+  onError?: (error: any, params: any[]) => void;
   cacheKey?: string;
   cacheTime?: number;
   loadingDelay?: number;
