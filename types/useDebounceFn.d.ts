@@ -11,6 +11,6 @@ interface ReturnValue<T extends Fn> {
   cancel: () => void;
 }
 
-declare const useDebounceFn: <T extends Fn>(fn: T, wait?: number, options?: DebounceOptions) => ReturnValue;
+declare const useDebounceFn: <T extends Fn>(fn: T, wait?: number, options?: DebounceOptions) => ReturnValue<any>;
 
 export default useDebounceFn;

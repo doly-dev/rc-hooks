@@ -10,6 +10,6 @@ interface ReturnValue<T extends Fn> {
   cancel: () => void;
 }
 
-declare const useThrottleFn: (value: any, wait?: number, options?: ThrottleOptions) => ReturnValue;
+declare const useThrottleFn: (value: any, wait?: number, options?: ThrottleOptions) => ReturnValue<any>;
 
 export default useThrottleFn;

@@ -3,7 +3,7 @@ import { AsyncParams, AsyncResult } from "rc-hooks/types/useAsync";
 interface Options extends AsyncParams {
   defaultPageSize?: number;
   threshold?: number;
-  ref?: React.RefObject<HTMLElement> | null;
+  ref?: React.Ref<HTMLElement>;
   [key: string]: any;
 }
 

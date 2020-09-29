@@ -1,5 +1,5 @@
 interface ScrollToLowerOptions {
-  ref?: null | React.RefObject<HTMLElement>;
+  ref?: null | React.Ref<HTMLElement>;
   threshold?: number;
   ready?: boolean;
   onLoad?: () => void;

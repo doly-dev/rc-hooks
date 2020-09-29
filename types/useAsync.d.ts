@@ -22,10 +22,6 @@ export interface AsyncParams {
   throttleInterval?: number;
 }
 
-type NewData = any;
-type MutateParamMethod = (oldData: any) => NewData;
-type MutateParams = NewData | MutateParamMethod;
-
 export interface AsyncResult {
   data: any;
   error: any;
@@ -34,7 +30,7 @@ export interface AsyncResult {
   run: (...args: any) => Promise<any>;
   cancel: () => void;
   refresh: () => Promise<any>;
-  mutate: (MutateParams) => void;
+  mutate: <T>(newData: (newData: T) => void | T) => void;
 }
 
 declare const useAsync: (asyncFn: AsyncFn, options?: AsyncParams) => AsyncResult;

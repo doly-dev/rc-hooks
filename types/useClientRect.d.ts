@@ -11,8 +11,6 @@ interface Rect {
   left: number;
 }
 
-type ReturnValue = [Rect, React.Ref];
-
-declare const useClientRect: () => ReturnValue;
+declare const useClientRect: () => [Rect, React.Ref<HTMLElement>];
 
 export default useClientRect;

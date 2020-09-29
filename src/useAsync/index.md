@@ -282,4 +282,4 @@ pagination  | 分页数据 `current` `pageSize` `total` | `object` |
 ------------- | ------------- | ------------- | ------------- |
 defaultPageSize  | 默认每页的数量 | `number` | `10` |
 threshold  | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
-ref  | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `RefObject<HTMLElement>` | - |
+ref  | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | - |
