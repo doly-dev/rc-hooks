@@ -1,6 +1,6 @@
 import { AsyncParams, AsyncResult } from "rc-hooks/types/useAsync";
 
-interface Options extends AsyncParams {
+interface Options extends AsyncParams<any, any[] | undefined> {
   defaultPageSize?: number;
   threshold?: number;
   ref?: React.Ref<HTMLElement>;

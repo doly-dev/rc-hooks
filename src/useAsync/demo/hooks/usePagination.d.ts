@@ -2,7 +2,7 @@ import { AsyncParams, AsyncResult } from "rc-hooks/types/useAsync";
 
 type showTotalFn = (num: number | string) => string;
 
-interface Options extends AsyncParams {
+interface Options extends AsyncParams<any, any[] | undefined> {
   defaultPageNum?: number;
   defaultPageSize?: number;
   defaultTotal?: number;
