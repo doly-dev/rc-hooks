@@ -19,6 +19,6 @@ interface ReturnValues extends AsyncResult {
   }
 }
 
-declare function useLoadMore(asyncFn: () => Promise<any>, options?: Options): ReturnValues;
+declare function useLoadMore(asyncFn: (...args: any) => Promise<any>, options?: Options): ReturnValues;
 
 export default useLoadMore;

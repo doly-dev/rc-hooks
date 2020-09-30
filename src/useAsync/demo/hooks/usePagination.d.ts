@@ -26,6 +26,6 @@ interface ReturnValues extends AsyncResult {
   }
 }
 
-declare function usePagination(asyncFn: () => Promise<any>, options?: Options): ReturnValues;
+declare function usePagination(asyncFn: (...args: any) => Promise<any>, options?: Options): ReturnValues;
 
 export default usePagination;
