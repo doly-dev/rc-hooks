@@ -2,7 +2,26 @@ const cache = {};
 const defaultCacheTime = 5 * 60 * 1000; // 默认缓存5分钟
 
 const getCache = (key) => {
-  return cache[key] ? cache[key].data : undefined;
+  const currentCache = cache[key];
+
+  if (!currentCache) {
+    return;
+  }
+
+  const { startTime, cacheTime, data } = currentCache;
+  const currentTime = new Date().getTime();
+
+  if (currentTime - startTime >= cacheTime) {
+    if (currentCache.timer) {
+      clearTimeout(currentCache.timer);
+      currentCache.timer = null;
+      delete cache[key];
+    }
+
+    return;
+  }
+
+  return data;
 }
 
 const setCache = (key, data, cacheTime = defaultCacheTime) => {
@@ -16,7 +35,9 @@ const setCache = (key, data, cacheTime = defaultCacheTime) => {
 
   cache[key] = {
     data,
-    timer
+    timer,
+    cacheTime,
+    startTime: new Date().getTime()
   };
 }
 

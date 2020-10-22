@@ -21,6 +21,7 @@ function useAsync(asyncFn, {
   initialData,
   cacheKey = '',
   cacheTime = 5 * 60 * 1000,
+  persisted = false,
   onSuccess = noop,
   onError = noop,
   formatResult,
@@ -63,63 +64,83 @@ function useAsync(asyncFn, {
       clearTimeout(loadingDelayTimerRef.current);
     }
 
+    // 确保返回最后结果，并且不会返回取消的结果
     counterRef.current += 1;
-    const currentCount = counterRef.current; // 确保返回最后结果，并且不会返回取消的结果
+    const currentCount = counterRef.current;
 
-    set(s => ({ ...s, loading: !loadingDelay, params: args }));
+    // 缓存数据
+    const cacheData = cacheKey ? getCache(cacheKey) : undefined;
 
-    // 设置延迟loading定时器
-    if (loadingDelay) {
-      loadingDelayTimerRef.current = setTimeout(() => {
-        set(s => ({ ...s, loading: true }));
-      }, loadingDelay);
-    } else {
-      loadingDelayTimerRef.current = null;
+    // 没有缓存数据 或 没有开启持久缓存，设置loading
+    if (!cacheData || !persisted) {
+      set(s => ({ ...s, loading: !loadingDelay, params: args }));
+
+      // 设置延迟loading定时器
+      if (loadingDelay) {
+        loadingDelayTimerRef.current = setTimeout(() => {
+          set(s => ({ ...s, loading: true }));
+        }, loadingDelay);
+      } else {
+        loadingDelayTimerRef.current = null;
+      }
     }
-    // fix: 同时多次调用run，并通过then处理时，前面调用的会返回undefined导致异常的问题
-    return new Promise((resolve, reject) => {
-      asyncFnPersist(...args).then(data => {
-        if (!unmountFlagRef.current && currentCount === counterRef.current) {
-          if (loadingDelayTimerRef.current) {
-            clearTimeout(loadingDelayTimerRef.current);
+
+    const wrapperAsyncFn = () => {
+      // fix: 同时多次调用run，并通过then处理时，前面调用的会返回undefined导致异常的问题
+      return new Promise((resolve, reject) => {
+        // 有缓存数据，且开启持久缓存，不需要再次请求
+        if (cacheData && persisted) {
+          if (!unmountFlagRef.current && currentCount === counterRef.current) {
+            onSuccessPersist(cacheData, args);
+            resolve(cacheData);
           }
-          const fmtData = typeof formatResult === 'function' ? formatResult(data) : data;
+        } else {
+          asyncFnPersist(...args).then(data => {
+            if (!unmountFlagRef.current && currentCount === counterRef.current) {
+              if (loadingDelayTimerRef.current) {
+                clearTimeout(loadingDelayTimerRef.current);
+              }
+              const fmtData = typeof formatResult === 'function' ? formatResult(data) : data;
 
-          set(s => ({ ...s, data: fmtData, error: null, loading: false }));
+              set(s => ({ ...s, data: fmtData, error: null, loading: false }));
 
-          if (cacheKey) {
-            setCache(cacheKey, fmtData, cacheTime);
-          }
-          onSuccessPersist(fmtData, args);
+              if (cacheKey) {
+                setCache(cacheKey, fmtData, cacheTime);
+              }
+              onSuccessPersist(fmtData, args);
 
-          resolve(fmtData);
-        }
-      }).catch(error => {
-        if (!unmountFlagRef.current && currentCount === counterRef.current) {
-          if (loadingDelayTimerRef.current) {
-            clearTimeout(loadingDelayTimerRef.current);
-          }
-
-          set(s => ({ ...s, error, loading: false }));
-          onErrorPersist(error, args);
-
-          reject(error);
-        }
-      }).finally(() => {
-        if (!unmountFlagRef.current && currentCount === counterRef.current) {
-          // 轮询
-          if (pollingInterval) {
-            if (!isDocumentVisible() && !pollingWhenHidden) {
-              pollingWhenVisibleFlagRef.current = true;
-              return;
+              resolve(fmtData);
             }
+          }).catch(error => {
+            if (!unmountFlagRef.current && currentCount === counterRef.current) {
+              if (loadingDelayTimerRef.current) {
+                clearTimeout(loadingDelayTimerRef.current);
+              }
 
-            pollingTimerRef.current = setTimeout(() => {
-              run(...args);
-            }, pollingInterval);
-          }
+              set(s => ({ ...s, error, loading: false }));
+              onErrorPersist(error, args);
+
+              reject(error);
+            }
+          });
         }
       });
+    }
+
+    return wrapperAsyncFn().finally(() => {
+      if (!unmountFlagRef.current && currentCount === counterRef.current) {
+        // 轮询
+        if (pollingInterval) {
+          if (!isDocumentVisible() && !pollingWhenHidden) {
+            pollingWhenVisibleFlagRef.current = true;
+            return;
+          }
+
+          pollingTimerRef.current = setTimeout(() => {
+            run(...args);
+          }, pollingInterval);
+        }
+      }
     });
   }, []);
 

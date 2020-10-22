@@ -1,5 +1,3 @@
-type AsyncFn = (...args: any) => Promise<any>;
-
 export interface AsyncParams<D, P> {
   autoRun?: boolean;
   refreshDeps?: any[];
@@ -10,6 +8,7 @@ export interface AsyncParams<D, P> {
   onError?: (error: any, params: P) => void;
   cacheKey?: string;
   cacheTime?: number;
+  persisted?: boolean;
   loadingDelay?: number;
   pollingInterval?: number;
   pollingWhenHidden?: boolean;
@@ -30,6 +29,6 @@ export interface AsyncResult {
   mutate: (newData: any | ((oldData: any) => any)) => void;
 }
 
-declare const useAsync: (asyncFn: AsyncFn, options?: AsyncParams<any, any[] | undefined>) => AsyncResult;
+declare const useAsync: (asyncFn: (...args: any) => Promise<any>, options?: AsyncParams<any, any[] | undefined>) => AsyncResult;
 
 export default useAsync;

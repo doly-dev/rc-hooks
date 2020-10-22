@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "npx dumi dev",
-    "build": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi'",
+    "build": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
     "build:doc": "npm run doc",
     "doc": "npx dumi build"
   },

@@ -16,6 +16,7 @@ legacy: /async/use-async
 * 自动请求
 * 手动请求
 * 缓存 & 预加载
+* 持久化数据
 * 屏幕聚焦重新请求
 * 轮询
 * 防抖
@@ -41,6 +42,10 @@ legacy: /async/use-async
 ### 缓存 & 预加载
 
 <code src="./demo/Preload.tsx" />
+
+### 持久化数据
+
+<code src="./demo/Persisted.tsx" />
 
 ### 屏幕聚焦重新请求
 
@@ -108,6 +113,7 @@ const {
   onError,
   cacheKey,
   cacheTime,
+  persisted,
   loadingDelay,
   pollingInterval,
   pollingWhenHidden,
@@ -146,6 +152,7 @@ onSuccess  | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。
 onError  | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
 cacheKey  | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | - |
 cacheTime  | 缓存时间，单位为毫秒。 | `number` | `5*60*1000` |
+persisted  | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。 | `boolean` | `false` |
 loadingDelay  | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。| `number` | - |
 pollingInterval | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run` | `number`  | - |
 pollingWhenHidden | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询 | `boolean`  | true |

@@ -1,5 +1,7 @@
 # rc-hooks
 
+[![npm][npm]][npm-url]
+
 React Hooks Library. 
 
 [查看文档和示例][site]
@@ -56,3 +58,7 @@ import { useAsync } from "rc-hooks";
 [usePrevious]: https://doly-dev.github.io/rc-hooks/site/#/other/use-previous
 [usePersistFn]: https://doly-dev.github.io/rc-hooks/site/#/other/use-persist-fn
 [useClientRect]: https://doly-dev.github.io/rc-hooks/site/#/other/use-client-rect
+
+
+[npm]: https://img.shields.io/npm/v/rc-hooks.svg
+[npm-url]: https://npmjs.com/package/rc-hooks
