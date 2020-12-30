@@ -1,6 +1,6 @@
 import Mock from 'mockjs';
 
-const userList = ({ page: { pageNum, pageSize }, data = {} }) => (
+const userList = ({ pageNum, pageSize, ...restParams }) => (
   Mock.mock({
     [`data|${pageSize}`]: [{
       id: '@guid',
@@ -9,18 +9,19 @@ const userList = ({ page: { pageNum, pageSize }, data = {} }) => (
       email: '@email',
       disabled: false
     }],
-    pageInfo: {
-      total: 25
-    },
+    total: 25,
     errCode: "00",
     errMsg: ""
   })
 )
 
-export default function getUserList(params) {
+export default function getUserList({current, pageSize}) {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(userList(params))
+      resolve(userList({
+        pageNum: current,
+        pageSize
+      }))
     }, 1000)
   });
 }

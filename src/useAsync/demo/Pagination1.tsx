@@ -9,7 +9,7 @@ import usePagination from './hooks/usePagination';
 import getUserList from './services/getUserList';
 
 export default () => {
-  const { data, loading, pagination, changePagination } = usePagination(getUserList);
+  const { data, loading, pagination, onTableChange } = usePagination(getUserList);
 
   return (
     <div>
@@ -24,8 +24,8 @@ export default () => {
       />
       <Pagination
         {...pagination}
-        onChange={(current, pageSize) => changePagination({ current, pageSize })}
-        onShowSizeChange={(current, pageSize) => changePagination({ current, pageSize })}
+        onChange={(current, pageSize) => onTableChange({ current, pageSize })}
+        onShowSizeChange={(current, pageSize) => onTableChange({ current, pageSize })}
         style={{ marginTop: 16, textAlign: 'right' }}
       />
     </div>

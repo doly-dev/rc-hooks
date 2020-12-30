@@ -1,4 +1,4 @@
-export interface AsyncParams<D, P> {
+export interface AsyncParams<D = any, P = any[] | undefined> {
   autoRun?: boolean;
   refreshDeps?: any[];
   initialData?: any;
@@ -18,17 +18,17 @@ export interface AsyncParams<D, P> {
   throttleInterval?: number;
 }
 
-export interface AsyncResult {
-  data: any;
+export interface AsyncResult<D = any, P = any[] | undefined> {
+  data: D;
   error: any;
   loading: boolean;
-  params: any[] | undefined;
-  run: (...args: any) => Promise<any>;
+  params: P;
+  run: (...args: any) => Promise<D>;
   cancel: () => void;
-  refresh: () => Promise<any>;
+  refresh: () => Promise<D>;
   mutate: (newData: any | ((oldData: any) => any)) => void;
 }
 
-declare const useAsync: (asyncFn: (...args: any) => Promise<any>, options?: AsyncParams<any, any[] | undefined>) => AsyncResult;
+declare const useAsync: (asyncFn: (...args: any) => Promise<any>, options?: AsyncParams) => AsyncResult;
 
 export default useAsync;

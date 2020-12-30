@@ -1,7 +1,16 @@
 import { useEffect, useCallback } from 'react';
 
-const useScrollToLower = ({
-  ref = null,
+interface ScrollToLowerOptions {
+  ref?: React.RefObject<HTMLDivElement | any> | null;
+  threshold?: number;
+  ready?: boolean;
+  onLoad?: () => void;
+}
+
+type UseScrollToBottomLoad = (options?: ScrollToLowerOptions) => void;
+
+const useScrollToLower: UseScrollToBottomLoad = ({
+  ref,
   threshold = 100,
   ready = false,
   onLoad = () => { }

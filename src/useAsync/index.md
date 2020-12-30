@@ -169,37 +169,30 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 请求参数：
 
-```
+```typescript
 {
-  page: {
-    pageNum: number,
-    pageSize: number
-  },
-  data: {
-    ...
-  }
+  pageNum: number,
+  pageSize: number,
+  // ...other params
 }
 ```
 
 响应数据：
 
-```
+```typescript
 {
-  pageInfo: {
-    ...,
-    total: number
-  },
+  total: number,
   data: []
 }
 ```
 
 ### 分页
 
-- 自动管理分页条件 `page` ， `page: {pageNum: number, pageSize: number}` 。
-- 内部缓存当前查询条件 `data` ，当分页变化后，自动携带当前查询条件触发请求。
-- `run` 方法如果带有参数，表示修改了查询条件，将会重置当前页码为 `1`，并触发请求。
-- `refresh` 自动带入当前参数并触发请求。
-- `changePagination` 修改分页，将使用当前查询条件进行请求。
+- 自动管理分页数据
+- 缓存当前查询条件，自动携带当前查询条件触发请求
+- `run` 方法如果带有参数，表示修改了查询条件，将会重置当前页码为 `1`，并触发请求
+- `refresh` 自动带入当前参数并触发请求
+- `onTableChange` 分页、排序、筛选变化时触发
 
 #### usePagination
 
@@ -209,17 +202,18 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 #### API
 
-查看 [`usePagination.d.ts`](https://github.com/doly-dev/rc-hooks/blob/master/src/useAsync/demo/hooks/usePagination.d.ts)
-
 ```
+type AsyncFnReturn = {
+  data: any[]; 
+  total?: number;
+};
+
 const { 
   ...,
-  changePagination, 
+  onTableChange, 
   pagination 
-} = usePagination(asyncFn, {
-  defaultPageNum,
-  defaultPageSize,
-  defaultTotal
+} = usePagination(asyncFn: (...param: any)=>Promise<AsyncFnReturn>, {
+  defaultPageSize
 });
 ```
 
@@ -227,8 +221,8 @@ const {
 
 参数 | 说明 | 类型 |
 ------------- | ------------- | ------------- |
-changePagination  | 页码改变时调用 | `({current, pageSize}) => void` |
-pagination  | 分页数据 `current` `pageSize` `total` | `object` |
+onTableChange  | 分页、排序、筛选变化时触发 | `function(pagination, filters, sorter, extra: { currentDataSource: [], action: paginate` \| `sort` \| `filter })` |
+pagination  | 分页数据 `current` `pageSize` `total` `showTotal` `showSizeChanger` `showQuickJumper` |
 
 #### Params
 
@@ -236,13 +230,11 @@ pagination  | 分页数据 `current` `pageSize` `total` | `object` |
 
 参数 | 说明 | 类型 | 默认值 |
 ------------- | ------------- | ------------- | ------------- |
-defaultPageNum  | 默认当前页面 | `number` | `1` |
 defaultPageSize  | 默认每页的数量 | `number` | `10` |
-defaultTotal  | 默认总数量 | `number` | `0` |
 
 ### 加载更多
 
-- 自动管理分页条件 `page` ， `page: {pageNum: number, pageSize: number}` 。
+- 自动管理分页数据
 - 自动管理列表数据，返回的数据 `data` 即为合并数组。
 - 首次加载需通过调用 `run`，并传入除分页外的查询参数。
 - 加载下一页 `loadMore` 或 重新加载 `reload` 会自动带入之前参数，并自动管理分页参数。
@@ -255,8 +247,6 @@ defaultTotal  | 默认总数量 | `number` | `0` |
 <code src="./demo/LoadMore2.tsx" />
 
 #### API
-
-查看 [`useLoadMore.d.ts`](https://github.com/doly-dev/rc-hooks/blob/master/src/useAsync/demo/hooks/useLoadMore.d.ts)
 
 ```
 const { 
@@ -281,7 +271,7 @@ reload  | 触发重新加载 | `() => void` |
 loadMore  | 触发加载更多 | `() => void` |
 loadingMore  | 是否正在加载更多 | `boolean` |
 done  | 是否加载完成 | `boolean` |
-pagination  | 分页数据 `current` `pageSize` `total` | `object` |
+pagination  | 分页数据 `current` `pageSize` `total` |
 
 #### Params
 

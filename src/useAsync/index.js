@@ -40,7 +40,7 @@ function useAsync(asyncFn, {
     error: null,
     data: cacheKey ? getCache(cacheKey) : initialData
   });
-  const counterRef = useRef(0); // 计数器用于判定，或多次执行，只去最后一次结果
+  const counterRef = useRef(0); // 计数器用于判定，或多次执行，只取最后一次结果
   const pollingTimerRef = useRef(null); // 轮询定时器
   const pollingWhenVisibleFlagRef = useRef(false); // 视窗获取焦点标识
   const loadingDelayTimerRef = useRef(null); // 延迟loading

@@ -1,8 +1,35 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
+import { AsyncParams, AsyncResult } from "rc-hooks/types/useAsync";
 import useScrollToBottomLoad from "./useScrollToBottomLoad";
 
-const useLoadMore = (asyncFn, {
+interface AsyncFnReturn extends Record<number | string, any> {
+  data: any[];
+  total?: number;
+};
+
+interface Options extends AsyncParams {
+  defaultPageSize?: number;
+  threshold?: number;
+  ref?: React.RefObject<HTMLDivElement | any> | null;
+  [key: string]: any;
+}
+
+interface ReturnValues extends AsyncResult {
+  reload: () => Promise<any>;
+  loadMore: () => Promise<any>;
+  loadingMore: boolean;
+  done: boolean;
+  pagination: {
+    total: number;
+    current: number;
+    pageSize: number;
+  }
+}
+
+type UseLoadMore = (asyncFn: (...args: any) => Promise<AsyncFnReturn>, options?: Options) => ReturnValues;
+
+const useLoadMore: UseLoadMore = (asyncFn, {
   defaultPageSize = 10,
   threshold = 100,
   ref,
@@ -12,7 +39,7 @@ const useLoadMore = (asyncFn, {
   const [loadDone, setLoadDone] = useState(false); // 是否完成
 
   const pageRef = useRef({
-    pageNum: 1,
+    current: 1,
     pageSize: defaultPageSize,
     total: 0
   }); // 分页
@@ -23,14 +50,14 @@ const useLoadMore = (asyncFn, {
     autoRun: false,
     onSuccess: (res, params) => {
       // 1. 设置分页和数据
-      pageRef.current.total = res.pageInfo.total;
-      if (pageRef.current.pageNum === 1) {
+      pageRef.current.total = res.total;
+      if (pageRef.current.current === 1) {
         setData(res.data);
       } else {
         setData(d => d.concat(res.data));
       }
 
-      if (pageRef.current.pageSize * pageRef.current.pageNum >= pageRef.current.total) {
+      if (pageRef.current.pageSize * pageRef.current.current >= pageRef.current.total) {
         setLoadDone(true);
       }
 
@@ -39,8 +66,8 @@ const useLoadMore = (asyncFn, {
       }
     },
     onError: (error, params) => {
-      if (pageRef.current.pageNum > 1) {
-        pageRef.current.pageNum -= 1;
+      if (pageRef.current.current > 1) {
+        pageRef.current.current -= 1;
       }
       if (restOptions.onError) {
         restOptions.onError(error, params)
@@ -48,21 +75,25 @@ const useLoadMore = (asyncFn, {
     }
   });
 
-  const run = useCallback((params) => {
-    paramsRef.current = params;
-    const { pageSize, pageNum } = pageRef.current;
+  const run = useCallback((params?: any) => {
+    if (params) {
+      paramsRef.current = params;
+      pageRef.current.current = 1;
+    }
+    const { pageSize, current } = pageRef.current;
 
     // 2. 传入参数，发起请求
     return request.run({
-      page: { pageSize, pageNum },
-      data: paramsRef.current
+      pageSize,
+      current,
+      ...paramsRef.current
     });
   }, []);
 
   const cancel = useCallback(() => {
     // 加载中并且当前页码大于第一页，页码自减一
-    if (request.loading && pageRef.current.pageNum > 1) {
-      pageRef.current.pageNum -= 1;
+    if (request.loading && pageRef.current.current > 1) {
+      pageRef.current.current -= 1;
     }
     request.cancel();
   }, []);
@@ -71,15 +102,15 @@ const useLoadMore = (asyncFn, {
     if (request.loading || loadDone) {
       return;
     }
-    pageRef.current.pageNum += 1;
-    return run(paramsRef.current);
+    pageRef.current.current += 1;
+    return run();
   }, []);
 
   const reload = useCallback(() => {
     setLoadDone(false);
     cancel();
-    pageRef.current.pageNum = 1;
-    return run(paramsRef.current);
+    pageRef.current.current = 1;
+    return run();
   }, []);
 
   useScrollToBottomLoad({
@@ -90,7 +121,7 @@ const useLoadMore = (asyncFn, {
 
   useEffect(() => {
     if (typeof restOptions.autoRun === 'undefined' || restOptions.autoRun) {
-      run(paramsRef.current);
+      run();
     }
   }, []);
 
@@ -103,13 +134,9 @@ const useLoadMore = (asyncFn, {
 
     reload,
     loadMore,
-    loadingMore: request.loading && pageRef.current.pageNum > 1,
+    loadingMore: request.loading && pageRef.current.current > 1,
     done: loadDone,
-    pagination: {
-      total: pageRef.current.total,
-      current: pageRef.current.pageNum,
-      pageSize: pageRef.current.pageSize
-    }
+    pagination: pageRef.current
   };
 }
 

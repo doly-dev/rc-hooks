@@ -38,7 +38,7 @@ const columns = [
 ];
 
 export default () => {
-  const { run, refresh, data, loading, pagination, changePagination } = usePagination(getUserList, {
+  const { run, refresh, data=[], loading, pagination, onTableChange } = usePagination(getUserList, {
     autoRun: false
   });
 
@@ -77,10 +77,10 @@ export default () => {
         </Form.Item>
       </Form>
       <Table
-        dataSource={data || []}
+        dataSource={data}
         columns={columns}
         pagination={pagination}
-        onChange={changePagination}
+        onChange={onTableChange}
         loading={loading}
         rowKey="id"
         bordered
