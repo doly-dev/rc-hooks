@@ -1,4 +1,4 @@
-export { default as useAsync } from "./useAsync";
+export { default as useAsync, AsyncFn, AsyncParams, AsyncResult } from "./useAsync";
 
 export { default as useDebounce } from "./useDebounce";
 export { default as useDebounceFn } from "./useDebounceFn";

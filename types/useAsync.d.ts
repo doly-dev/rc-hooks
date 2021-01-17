@@ -1,9 +1,10 @@
-export interface AsyncParams<D = any, P = any[] | undefined> {
+export type AsyncFn<D = any> = (...args: any[]) => Promise<D>;
+export interface AsyncParams<D = any, P = any> {
   autoRun?: boolean;
   refreshDeps?: any[];
   initialData?: any;
   defaultParams?: any;
-  formatResult?: (data: D) => any;
+  formatResult?: (data: D | any) => D;
   onSuccess?: (data: D, params: P) => void;
   onError?: (error: any, params: P) => void;
   cacheKey?: string;
@@ -18,17 +19,17 @@ export interface AsyncParams<D = any, P = any[] | undefined> {
   throttleInterval?: number;
 }
 
-export interface AsyncResult<D = any, P = any[] | undefined> {
+export interface AsyncResult<D = any, P = any> {
   data: D;
   error: any;
   loading: boolean;
   params: P;
-  run: (...args: any) => Promise<D>;
+  run: AsyncFn<D>;
   cancel: () => void;
   refresh: () => Promise<D>;
-  mutate: (newData: any | ((oldData: any) => any)) => void;
+  mutate: (newData: D | ((oldData: D | any) => D)) => void;
 }
 
-declare const useAsync: (asyncFn: (...args: any) => Promise<any>, options?: AsyncParams) => AsyncResult;
+declare const useAsync: <D = any, P = any>(asyncFn: AsyncFn<D>, options?: AsyncParams<D, P>) => AsyncResult<D, P>;
 
 export default useAsync;
