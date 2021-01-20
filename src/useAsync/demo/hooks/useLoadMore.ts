@@ -1,23 +1,24 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
-import { AsyncParams, AsyncResult } from "rc-hooks/types/useAsync";
+import { AsyncFn, AsyncParams, AsyncResult } from 'rc-hooks/types/useAsync';
 import useScrollToBottomLoad from "./useScrollToBottomLoad";
 
-interface AsyncFnReturn extends Record<number | string, any> {
-  data: any[];
+interface AsyncFnReturn<RecordType> extends Record<number | string, any> {
+  data: RecordType[];
   total?: number;
 };
 
-interface Options extends AsyncParams {
+interface Options<RecordType = any, P = any> extends AsyncParams<RecordType, P> {
   defaultPageSize?: number;
   threshold?: number;
   ref?: React.RefObject<HTMLDivElement | any> | null;
   [key: string]: any;
 }
 
-interface ReturnValues extends AsyncResult {
-  reload: () => Promise<any>;
-  loadMore: () => Promise<any>;
+interface ReturnValues<RecordType = any> extends Omit<AsyncResult<AsyncFnReturn<RecordType>>, 'data'> {
+  data: AsyncFnReturn<RecordType>['data'];
+  reload: () => Promise<AsyncFnReturn<RecordType>>;
+  loadMore: () => Promise<AsyncFnReturn<RecordType>>;
   loadingMore: boolean;
   done: boolean;
   pagination: {
@@ -27,14 +28,12 @@ interface ReturnValues extends AsyncResult {
   }
 }
 
-type UseLoadMore = (asyncFn: (...args: any) => Promise<AsyncFnReturn>, options?: Options) => ReturnValues;
-
-const useLoadMore: UseLoadMore = (asyncFn, {
+function useLoadMore<RecordType = any, P = any>(asyncFn: AsyncFn<AsyncFnReturn<RecordType>>, {
   defaultPageSize = 10,
   threshold = 100,
   ref,
   ...restOptions
-} = {}) => {
+}: Options<AsyncFnReturn<RecordType>, P> = {}): ReturnValues<RecordType> {
   const [data, setData] = useState([]);
   const [loadDone, setLoadDone] = useState(false); // 是否完成
 

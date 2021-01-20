@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 
 interface ScrollToLowerOptions {
-  ref?: React.RefObject<HTMLDivElement | any> | null;
+  ref?: React.RefObject<HTMLElement | any> | null;
   threshold?: number;
   ready?: boolean;
   onLoad?: () => void;

@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAsync } from 'rc-hooks';
-import { AsyncParams, AsyncResult } from 'rc-hooks/types/useAsync';
+import { AsyncFn, AsyncParams, AsyncResult } from 'rc-hooks/types/useAsync';
 import { SorterResult, TableCurrentDataSource } from 'antd/es/table/interface';
 
 type Text = number | string;
 type RecordText = Record<Text, any>;
-interface AsyncFnReturn extends RecordText {
-  data: any[];
+interface AsyncFnReturn<D = any> extends RecordText {
+  data: D[];
   total?: number;
 };
 
@@ -14,23 +14,24 @@ interface AsyncFnReturn extends RecordText {
 const showTotal = (num: Text) => `共 ${num} 条数据`;
 
 interface ParamsRef {
-  params: Record<string, any>;
+  params: any;
   filters?: Record<string, (string | number)[] | null>;
   sorter?: SorterResult<RecordText> | SorterResult<RecordText>[];
   extra?: TableCurrentDataSource<RecordText>;
 }
 
-interface Options extends AsyncParams {
+interface Options<D = any, P = any> extends AsyncParams<D, P> {
   defaultPageSize?: number;
 }
 
-interface ReturnValues extends AsyncResult {
+interface ReturnValues<RecordType = any> extends Omit<AsyncResult<AsyncFnReturn<RecordType>>, 'data'> {
+  data: AsyncFnReturn<RecordType>['data'];
   onTableChange: (
     params: ParamsRef['params'],
     filters?: ParamsRef['filters'],
     sorter?: ParamsRef['sorter'],
     extra?: ParamsRef['extra']
-  ) => Promise<AsyncFnReturn>;
+  ) => Promise<AsyncFnReturn<RecordType>>;
   pagination: {
     total: number;
     current: number;
@@ -38,19 +39,17 @@ interface ReturnValues extends AsyncResult {
     showTotal: typeof showTotal;
     showSizeChanger: boolean;
     showQuickJumper: boolean;
-  };
+  } & RecordText;
 }
 
-type UsePagination = (asyncFn: (...args: any) => Promise<AsyncFnReturn>, options?: Options) => ReturnValues;
-
-const usePagination: UsePagination = (
-  asyncFn,
+function usePagination<RecordType = any, P = any>(
+  asyncFn: AsyncFn<AsyncFnReturn<RecordType>>,
   {
     defaultPageSize = 10,
-    autoRun,
+    autoRun = false,
     onSuccess = () => { },
     ...restOptions
-  }={}) => {
+  }: Options<AsyncFnReturn<RecordType>, P> = {}): ReturnValues<RecordType> {
   const [data, setData] = useState([]);
 
   const pageRef = useRef({
@@ -65,7 +64,7 @@ const usePagination: UsePagination = (
     extra: null
   }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
-  const request = useAsync(asyncFn, {
+  const request = useAsync<AsyncFnReturn<RecordType>, P>(asyncFn, {
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
