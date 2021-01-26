@@ -1,5 +1,6 @@
 node_modules
 lib/
+esm/
 .idea
 dist/
 .vscode
@@ -8,3 +9,4 @@ yarn.lock
 package-lock.json
 .umi
 .umi-production
+example
