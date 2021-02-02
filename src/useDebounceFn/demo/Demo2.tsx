@@ -9,7 +9,7 @@ import { useDebounceFn } from 'rc-hooks';
 
 export default () => {
   const [value, setValue] = useState('');
-  const [debouncedValue, setDebouncedValue] = useState();
+  const [debouncedValue, setDebouncedValue] = useState<string | undefined>();
 
   const { run, cancel } = useDebounceFn(setDebouncedValue, 1000);
 

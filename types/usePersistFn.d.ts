@@ -1,5 +1,5 @@
 type Fn = (...args: any) => any;
 
-declare const usePersisFn: <T extends Fn>(fn: T) => T;
+declare const usePersisFn: <T extends Fn>(fn: T) => typeof fn;
 
 export default usePersisFn;

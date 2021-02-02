@@ -4,13 +4,13 @@ interface DebounceOptions {
   trailing?: boolean;
 }
 
-type Fn = (...args: any) => any;
+type Fn = (...args: any[]) => any;
 
 interface ReturnValue<T extends Fn> {
   run: T;
   cancel: () => void;
 }
 
-declare const useDebounceFn: <T extends Fn>(fn: T, wait?: number, options?: DebounceOptions) => ReturnValue<any>;
+declare const useDebounceFn: <T extends Fn>(func: T, wait?: number, options?: DebounceOptions) => ReturnValue<typeof func>;
 
 export default useDebounceFn;

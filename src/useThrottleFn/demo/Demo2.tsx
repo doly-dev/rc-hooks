@@ -9,7 +9,7 @@ import { useThrottleFn } from 'rc-hooks';
 
 export default () => {
   const [value, setValue] = useState('');
-  const [throttleValue, setThrottleValue] = useState();
+  const [throttleValue, setThrottleValue] = useState<string|undefined>();
 
   const { run, cancel } = useThrottleFn(setThrottleValue, 1000);
 

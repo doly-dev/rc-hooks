@@ -11,6 +11,8 @@ interface Rect {
   left: number;
 }
 
-declare const useClientRect: () => [Rect, React.Ref<HTMLElement>];
+// type Ref = ((instance: HTMLElement) => void) | React.RefObject<HTMLElement>;
+
+declare const useClientRect: () => [Rect, any];
 
 export default useClientRect;

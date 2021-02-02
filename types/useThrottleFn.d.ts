@@ -3,13 +3,13 @@ interface ThrottleOptions {
   trailing?: boolean;
 }
 
-type Fn = (...args: any) => any;
+type Fn = (...args: any[]) => any;
 
 interface ReturnValue<T extends Fn> {
   run: T;
   cancel: () => void;
 }
 
-declare const useThrottleFn: (value: any, wait?: number, options?: ThrottleOptions) => ReturnValue<any>;
+declare const useThrottleFn: <T extends Fn>(func: T, wait?: number, options?: ThrottleOptions) => ReturnValue<typeof func>;
 
 export default useThrottleFn;

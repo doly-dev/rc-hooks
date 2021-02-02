@@ -4,6 +4,6 @@ interface DebounceOptions {
   trailing?: boolean;
 }
 
-declare const useDebounce: <T>(value: T, wait?: number, options?: DebounceOptions) => T;
+declare const useDebounce: <T=any>(value: T, wait?: number, options?: DebounceOptions) => T;
 
 export default useDebounce;
