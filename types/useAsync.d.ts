@@ -30,6 +30,10 @@ export interface AsyncResult<D = any, P = any> {
   mutate: (newData: D | ((oldData: D | any) => D)) => void;
 }
 
-declare const useAsync: <D = any, P = any>(asyncFn: AsyncFn<D>, options?: AsyncParams<D, P>) => AsyncResult<D, P>;
+interface InternalAsyncResult<D, P, R> extends Omit<AsyncResult<D, P>, 'run'> {
+  run: R;
+}
+
+declare const useAsync: <D = any, P = any>(asyncFn: AsyncFn<D>, options?: AsyncParams<D, P>) => InternalAsyncResult<D, P, typeof asyncFn>;
 
 export default useAsync;

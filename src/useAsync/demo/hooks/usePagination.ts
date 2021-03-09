@@ -46,7 +46,7 @@ function usePagination<RecordType = any, P = any>(
   asyncFn: AsyncFn<AsyncFnReturn<RecordType>>,
   {
     defaultPageSize = 10,
-    autoRun = false,
+    autoRun,
     onSuccess = () => { },
     ...restOptions
   }: Options<AsyncFnReturn<RecordType>, P> = {}): ReturnValues<RecordType> {
