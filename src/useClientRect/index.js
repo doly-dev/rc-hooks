@@ -1,14 +1,17 @@
 // ref: 
 //  https://zh-hans.reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
-import { useState, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function useClientRect() {
+  const ref = useRef(null);
   const [rect, setRect] = useState(null);
-  const ref = useCallback(node => {
-    if (node !== null) {
-      setRect(node.getBoundingClientRect());
+
+  useEffect(() => {
+    if (ref.current) {
+      setRect(ref.current.getBoundingClientRect());
     }
-  }, []);
+  }, [ref]);
+
   return [rect, ref];
 }
 

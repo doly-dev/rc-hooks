@@ -4,7 +4,7 @@ export interface AsyncParams<D = any, P = any> {
   refreshDeps?: any[];
   initialData?: any;
   defaultParams?: any;
-  formatResult?: (data: D | any) => D;
+  formatResult?: (data: any) => D;
   onSuccess?: (data: D, params: P) => void;
   onError?: (error: any, params: P) => void;
   cacheKey?: string;
@@ -27,13 +27,9 @@ export interface AsyncResult<D = any, P = any> {
   run: AsyncFn<D>;
   cancel: () => void;
   refresh: () => Promise<D>;
-  mutate: (newData: D | ((oldData: D | any) => D)) => void;
+  mutate: (newData: any | ((oldData: any) => any)) => void;
 }
 
-interface InternalAsyncResult<D, P, R> extends Omit<AsyncResult<D, P>, 'run'> {
-  run: R;
-}
-
-declare const useAsync: <D = any, P = any>(asyncFn: AsyncFn<D>, options?: AsyncParams<D, P>) => InternalAsyncResult<D, P, typeof asyncFn>;
+declare const useAsync: <D = any, P = any>(asyncFn: AsyncFn<D>, options?: AsyncParams<D, P>) => AsyncResult<D, P>;
 
 export default useAsync;
