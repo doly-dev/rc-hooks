@@ -17,5 +17,8 @@ module.exports = {
       }
     ],
     "@babel/react"
+  ],
+  "plugins": [
+    "@babel/transform-runtime"
   ]
 }

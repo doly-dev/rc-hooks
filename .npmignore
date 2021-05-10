@@ -17,3 +17,4 @@ example/
 demo/
 site/
 .umirc.js
+.babelrc.*

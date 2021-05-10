@@ -10,7 +10,7 @@
     "start": "npm run dev",
     "dev": "npx dumi dev",
     "build": "npm run build:lib & npm run build:esm",
-    "build:lib": "rm -rf lib && cross-env MODULE_TYPE=lib babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
+    "build:lib": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
     "build:esm": "rm -rf esm && cross-env MODULE_TYPE=esm babel src --out-dir esm --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
     "build:doc": "npm run doc",
     "doc": "npx dumi build"
@@ -30,12 +30,14 @@
   },
   "homepage": "https://github.com/doly-dev/hooks#readme",
   "dependencies": {
+    "@babel/runtime": "^7.14.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.13.15",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "@typescript-eslint/parser": "^1.13.0",
