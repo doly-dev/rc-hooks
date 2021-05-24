@@ -19,7 +19,7 @@ function useControllableValue<T = any>(props: Props = {}, options: Options<T> = 
   } = options;
 
   const hasValueProp = valuePropName in props;
-  const value = props[valuePropName];
+  const value = props[valuePropName] as T;
   const [state, setState] = useState<T>(() => {
     if (hasValueProp) {
       return value;
@@ -48,7 +48,7 @@ function useControllableValue<T = any>(props: Props = {}, options: Options<T> = 
     [props, valuePropName, trigger],
   );
 
-  return [hasValueProp ? value : state, handleSetState];
+  return [hasValueProp ? value : state, handleSetState] as const;
 }
 
 export default useControllableValue;
