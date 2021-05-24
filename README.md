@@ -2,7 +2,7 @@
 
 [![npm][npm]][npm-url]
 
-React Hooks Library. 
+React Hooks Library.
 
 [查看文档和示例][site]
 
@@ -17,7 +17,7 @@ yarn add rc-hooks
 ## 使用
 
 ```javascript
-import { useAsync } from "rc-hooks";
+import { useAsync } from 'rc-hooks';
 ```
 
 ## API
@@ -36,29 +36,25 @@ import { useAsync } from "rc-hooks";
   - [useUpdateEffect] - 只在依赖更新时执行的 useEffect
   - [useUpdateLayoutEffect] - 只在依赖更新时执行的 useLayoutEffect
 - Other
-  - [usePrevious] - 保存上一次渲染时状态
-  - [usePersistFn] - 持久化 function
   - [useClientRect] - 获取元素的大小及其相对于视口的位置
+  - [useControllableValue] - 便于管理 `受控/非受控` 状态
+  - [usePersistFn] - 持久化 function
+  - [usePrevious] - 保存上一次渲染时状态
 
 [site]: https://doly-dev.github.io/rc-hooks/site/
-
-[useAsync]: https://doly-dev.github.io/rc-hooks/site/#/async/use-async
-
-[useDebounce]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce
-[useThrottle]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle
-[useDebounceFn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce-fn
-[useThrottleFn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle-fn
-
-[useMount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-mount
-[useUpdate]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update
-[useUnmount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-unmount
-[useUpdateEffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-effect
-[useUpdateLayoutEffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-layout-effect
-
-[usePrevious]: https://doly-dev.github.io/rc-hooks/site/#/other/use-previous
-[usePersistFn]: https://doly-dev.github.io/rc-hooks/site/#/other/use-persist-fn
-[useClientRect]: https://doly-dev.github.io/rc-hooks/site/#/other/use-client-rect
-
-
+[useasync]: https://doly-dev.github.io/rc-hooks/site/#/async/use-async
+[usedebounce]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce
+[usethrottle]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle
+[usedebouncefn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce-fn
+[usethrottlefn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle-fn
+[usemount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-mount
+[useupdate]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update
+[useunmount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-unmount
+[useupdateeffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-effect
+[useupdatelayouteffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-layout-effect
+[useprevious]: https://doly-dev.github.io/rc-hooks/site/#/other/use-previous
+[usepersistfn]: https://doly-dev.github.io/rc-hooks/site/#/other/use-persist-fn
+[useclientrect]: https://doly-dev.github.io/rc-hooks/site/#/other/use-client-rect
+[usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/site/#/other/use-controllable-value
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
 [npm-url]: https://npmjs.com/package/rc-hooks

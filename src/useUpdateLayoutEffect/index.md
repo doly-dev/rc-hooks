@@ -14,7 +14,7 @@ legacy: /life-cycle/use-update-layout-effect
 
 ### 基本用法
 
-<code src="./demo/Demo1.tsx" />
+<code src="./demos/Demo1.tsx" />
 
 ## API
 
@@ -24,7 +24,7 @@ useUpdateLayoutEffect(fn: () => void, deps?: any[]);
 
 ### Params
 
-| 参数    | 说明                                         | 类型                   | 默认值 |
-|---------|----------------------------------------------|------------------------|--------|
-| fn | 可执行函数  | `function` | -      |
-| deps | 可选项，传入依赖变化的对象  | `any[]`      |
+| 参数 | 说明                       | 类型       | 默认值 |
+| ---- | -------------------------- | ---------- | ------ |
+| fn   | 可执行函数                 | `function` | -      |
+| deps | 可选项，传入依赖变化的对象 | `any[]`    |

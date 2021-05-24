@@ -1,6 +1,7 @@
 node_modules
 lib/
 esm/
+es/
 .idea
 dist/
 .vscode

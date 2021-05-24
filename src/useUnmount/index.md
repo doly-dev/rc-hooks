@@ -14,17 +14,16 @@ legacy: /life-cycle/use-unmount
 
 ### 基本用法
 
-<code src="./demo/Demo1.tsx" />
+<code src="./demos/Demo1.tsx" />
 
 ## API
 
 ```javascript
-useUnmount(fn: () => void);
+useUnmount((fn: () => void));
 ```
 
 ### Params
 
-| 参数    | 说明                                         | 类型                   | 默认值 |
-|---------|----------------------------------------------|------------------------|--------|
-| fn | unmount 时执行的函数  | `function` | -      |
-
+| 参数 | 说明                 | 类型       | 默认值 |
+| ---- | -------------------- | ---------- | ------ |
+| fn   | unmount 时执行的函数 | `function` | -      |

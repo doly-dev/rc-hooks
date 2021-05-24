@@ -14,7 +14,7 @@ legacy: /life-cycle/use-update
 
 ### 基本用法
 
-<code src="./demo/Demo1.tsx" />
+<code src="./demos/Demo1.tsx" />
 
 ## API
 

@@ -13,63 +13,63 @@ legacy: /async/use-async
 
 **核心特性**
 
-* 自动请求
-* 手动请求
-* 缓存 & 预加载
-* 持久化数据
-* 屏幕聚焦重新请求
-* 轮询
-* 防抖
-* 节流
-* 突变
-* Loading Delay
-* refreshDeps
-* 并行请求
-* 分页
-* 加载更多
-* ...
+- 自动请求
+- 手动请求
+- 缓存 & 预加载
+- 持久化数据
+- 屏幕聚焦重新请求
+- 轮询
+- 防抖
+- 节流
+- 突变
+- Loading Delay
+- refreshDeps
+- 并行请求
+- 分页
+- 加载更多
+- ...
 
 ## 代码演示
 
 ### 默认请求
 
-<code src="./demo/Default.tsx" />
+<code src="./demos/Default.tsx" />
 
 ### 手动触发
 
-<code src="./demo/AutoRun.tsx" />
+<code src="./demos/AutoRun.tsx" />
 
 ### 缓存 & 预加载
 
-<code src="./demo/Preload.tsx" />
+<code src="./demos/Preload.tsx" />
 
 ### 持久化数据
 
-<code src="./demo/Persisted.tsx" />
+<code src="./demos/Persisted.tsx" />
 
 ### 屏幕聚焦重新请求
 
-<code src="./demo/RefreshOnWindowFocus.tsx" />
+<code src="./demos/RefreshOnWindowFocus.tsx" />
 
 ### 轮询
 
-<code src="./demo/PollingInterval.tsx" />
+<code src="./demos/PollingInterval.tsx" />
 
 ### 防抖
 
-<code src="./demo/DebounceInterval.tsx" />
+<code src="./demos/DebounceInterval.tsx" />
 
 ### 节流
 
-<code src="./demo/ThrottleInterval.tsx" />
+<code src="./demos/ThrottleInterval.tsx" />
 
 ### 突变
 
-<code src="./demo/Mutate.tsx" />
+<code src="./demos/Mutate.tsx" />
 
 ### Loading Delay
 
-<code src="./demo/LoadingDelay.tsx" />
+<code src="./demos/LoadingDelay.tsx" />
 
 ### refreshDeps
 
@@ -77,7 +77,7 @@ legacy: /async/use-async
 
 ```javascript
 const [userId, setUserId] = useState('1');
-const { data, run, loading } = useRequest(()=> getUserSchool(userId));
+const { data, run, loading } = useRequest(() => getUserSchool(userId));
 useEffect(() => {
   run();
 }, [userId]);
@@ -85,25 +85,16 @@ useEffect(() => {
 
 `refreshDeps` 是一个语法糖，让你更方便的实现上面的功能。当 `refreshDeps` 变化时，会使用之前的 `params` 重新执行。
 
-<code src="./demo/RefreshDeps.tsx" />
+<code src="./demos/RefreshDeps.tsx" />
 
 ### 并行请求
 
-<code src="./demo/Parallel.tsx" />
+<code src="./demos/Parallel.tsx" />
 
 ## API
 
 ```javascript
-const {
-  data,
-  error,
-  loading,
-  params,
-  run,
-  cancel,
-  refresh,
-  mutate
-} = useAsync(asyncFn, {
+const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(asyncFn, {
   autoRun,
   initialData,
   defaultParams,
@@ -126,40 +117,40 @@ const {
 
 ### Result
 
-参数 | 说明 | 类型 |
-------------- | ------------- | ------------- |
-data  | 异步函数的返回值，默认为 `undefined`。 | `any` |
-error  | 异步函数抛出的异常，默认为 `undefined` | `any` |
-loading  | 异步函数正在执行 | `boolean` |
-params  | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array` |
-run  | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args) => Promise` |
-cancel  | 取消当前请求。如果有轮询，停止。 | `() => void` |
-refresh  | 使用上一次的 `params`，重新执行异步函数。 | `() => Promise` |
-mutate  | 直接修改 `data` | `(newData) => void` / `((oldData) => newData) => void` |
+| 参数    | 说明                                                                              | 类型                                                   |
+| ------- | --------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| data    | 异步函数的返回值，默认为 `undefined`。                                            | `any`                                                  |
+| error   | 异步函数抛出的异常，默认为 `undefined`                                            | `any`                                                  |
+| loading | 异步函数正在执行                                                                  | `boolean`                                              |
+| params  | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array`                                                |
+| run     | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>`       | `(...args) => Promise`                                 |
+| cancel  | 取消当前请求。如果有轮询，停止。                                                  | `() => void`                                           |
+| refresh | 使用上一次的 `params`，重新执行异步函数。                                         | `() => Promise`                                        |
+| mutate  | 直接修改 `data`                                                                   | `(newData) => void` / `((oldData) => newData) => void` |
 
 ### Params
 
 所有配置项都是可选的。
 
-参数 | 说明 | 类型 | 默认值 |
-------------- | ------------- | ------------- | ------------- |
-autoRun  | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
-initialData  | 默认的 `data`。 | `any` | - |
-defaultParams  | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 |  `array`  | - |
-formatResult  | 格式化请求结果 | `(data) => any` | - |
-refreshDeps  | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
-onSuccess  | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
-onError  | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
-cacheKey  | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | - |
-cacheTime  | 缓存时间，单位为毫秒。 | `number` | `5*60*1000` |
-persisted  | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。 | `boolean` | `false` |
-loadingDelay  | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。| `number` | - |
-pollingInterval | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run` | `number`  | - |
-pollingWhenHidden | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询 | `boolean`  | true |
-refreshOnWindowFocus  | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 `false`，即不会重新发起请求。<br />如果设置为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean` | `false` |
-focusTimespan  | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。 | `number` | `5000` |
-debounceInterval  | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。 | `number` | - |
-throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节流模式。 | `number` | - |
+| 参数                 | 说明                                                                                                                                                        | 类型                       | 默认值      |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------- |
+| autoRun              | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。                                                              | `boolean`                  | `true`      |
+| initialData          | 默认的 `data`。                                                                                                                                             | `any`                      | -           |
+| defaultParams        | 如果 `autoRun=true` 自动执行 `run` 的默认参数。                                                                                                             | `array`                    | -           |
+| formatResult         | 格式化请求结果                                                                                                                                              | `(data) => any`            | -           |
+| refreshDeps          | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行                                                                                                  | `any[]`                    | `[]`        |
+| onSuccess            | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。                                                                                                      | `(data, params) => void`   | -           |
+| onError              | 异步函数报错时触发，参数为 `error` 和 `params`                                                                                                              | `(error, parmams) => void` | -           |
+| cacheKey             | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。                                                                                                          | `string`                   | -           |
+| cacheTime            | 缓存时间，单位为毫秒。                                                                                                                                      | `number`                   | `5*60*1000` |
+| persisted            | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。                                                                        | `boolean`                  | `false`     |
+| loadingDelay         | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。                                                                                                             | `number`                   | -           |
+| pollingInterval      | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run`                                                                                                | `number`                   | -           |
+| pollingWhenHidden    | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询                   | `boolean`                  | true        |
+| refreshOnWindowFocus | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 `false`，即不会重新发起请求。<br />如果设置为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean`                  | `false`     |
+| focusTimespan        | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。          | `number`                   | `5000`      |
+| debounceInterval     | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。                                                                                                            | `number`                   | -           |
+| throttleInterval     | 节流间隔, 单位为毫秒，设置后，请求进入节流模式。                                                                                                            | `number`                   | -           |
 
 ## 扩展用法
 
@@ -196,41 +187,38 @@ throttleInterval  | 节流间隔, 单位为毫秒，设置后，请求进入节�
 
 #### usePagination
 
-<code src="./demo/Pagination1.tsx" />
-<code src="./demo/Pagination2.tsx" />
-<code src="./demo/Pagination3.tsx" />
+<code src="./demos/Pagination1.tsx" />
+<code src="./demos/Pagination2.tsx" />
+<code src="./demos/Pagination3.tsx" />
 
 #### API
 
 ```
-type AsyncFnReturn = {
-  data: any[]; 
-  total?: number;
-};
-
-const { 
+const {
   ...,
-  onTableChange, 
-  pagination 
-} = usePagination(asyncFn: (...param: any)=>Promise<AsyncFnReturn>, {
-  defaultPageSize
+  onTableChange,
+  pagination
+} = usePagination(asyncFn, {
+  defaultPageSize,
+  defaultTotal,
 });
 ```
 
 #### Result
 
-参数 | 说明 | 类型 |
-------------- | ------------- | ------------- |
-onTableChange  | 分页、排序、筛选变化时触发 | `function(pagination, filters, sorter, extra: { currentDataSource: [], action: paginate` \| `sort` \| `filter })` |
-pagination  | 分页数据 `current` `pageSize` `total` `showTotal` `showSizeChanger` `showQuickJumper` |
+| 参数          | 说明                                                                                  | 类型                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| onTableChange | 分页、排序、筛选变化时触发                                                            | `function(pagination, filters, sorter, extra: { currentDataSource: [], action: paginate` \| `sort` \| `filter })` |
+| pagination    | 分页数据 `current` `pageSize` `total` `showTotal` `showSizeChanger` `showQuickJumper` |
 
 #### Params
 
 将默认分页与默认参数提取出来，便于实现缓存。
 
-参数 | 说明 | 类型 | 默认值 |
-------------- | ------------- | ------------- | ------------- |
-defaultPageSize  | 默认每页的数量 | `number` | `10` |
+| 参数            | 说明           | 类型     | 默认值 |
+| --------------- | -------------- | -------- | ------ |
+| defaultPageSize | 默认每页的数量 | `number` | `10`   |
+| defaultTotal    | 默认数据总量   | `number` | `0`    |
 
 ### 加载更多
 
@@ -243,13 +231,13 @@ defaultPageSize  | 默认每页的数量 | `number` | `10` |
 
 #### useLoadMore
 
-<code src="./demo/LoadMore1.tsx" />
-<code src="./demo/LoadMore2.tsx" />
+<code src="./demos/LoadMore1.tsx" />
+<code src="./demos/LoadMore2.tsx" />
 
 #### API
 
 ```
-const { 
+const {
   ...,
   reload,
   loadMore,
@@ -265,18 +253,18 @@ const {
 
 #### Result
 
-参数 | 说明 | 类型 |
-------------- | ------------- | ------------- |
-reload  | 触发重新加载 | `() => void` |
-loadMore  | 触发加载更多 | `() => void` |
-loadingMore  | 是否正在加载更多 | `boolean` |
-done  | 是否加载完成 | `boolean` |
-pagination  | 分页数据 `current` `pageSize` `total` |
+| 参数        | 说明                                  | 类型         |
+| ----------- | ------------------------------------- | ------------ |
+| reload      | 触发重新加载                          | `() => void` |
+| loadMore    | 触发加载更多                          | `() => void` |
+| loadingMore | 是否正在加载更多                      | `boolean`    |
+| done        | 是否加载完成                          | `boolean`    |
+| pagination  | 分页数据 `current` `pageSize` `total` |
 
 #### Params
 
-参数 | 说明 | 类型 | 默认值 |
-------------- | ------------- | ------------- | ------------- |
-defaultPageSize  | 默认每页的数量 | `number` | `10` |
-threshold  | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
-ref  | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | - |
+| 参数            | 说明                                                         | 类型               | 默认值 |
+| --------------- | ------------------------------------------------------------ | ------------------ | ------ |
+| defaultPageSize | 默认每页的数量                                               | `number`           | `10`   |
+| threshold       | 上拉自动加载，距离底部距离阈值                               | `number`           | `100`  |
+| ref             | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | -      |

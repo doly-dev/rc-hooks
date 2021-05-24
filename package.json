@@ -3,18 +3,36 @@
   "version": "0.8.4",
   "description": "React Hooks Library.",
   "main": "lib/index.js",
-  "module": "esm/index.js",
+  "module": "es/index.js",
   "sideEffects": false,
-  "types": "types/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "start": "npm run dev",
-    "dev": "npx dumi dev",
-    "build": "npm run build:lib & npm run build:esm",
-    "build:lib": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
-    "build:esm": "rm -rf esm && cross-env MODULE_TYPE=esm babel src --out-dir esm --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
+    "dev": "dumi dev",
+    "build": "npm run build:es && npm run build:cjs && npm run build:umd",
+    "build:es": "rm -rf es && tsc -m ES2015 -t ES5 --outDir es -d",
+    "build:cjs": "rm -rf lib && tsc -m commonjs -t ES5 --outDir lib -d",
+    "build:umd": "rm -rf dist && rollup -c",
     "build:doc": "npm run doc",
-    "doc": "npx dumi build"
+    "doc": "dumi build && npm run doc:version",
+    "doc:version": "cross-env BUIDL_DOC_VERSION=true dumi build",
+    "commit": "cz"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/doly-dev/rc-hooks.git"
@@ -30,27 +48,38 @@
   },
   "homepage": "https://github.com/doly-dev/hooks#readme",
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
     "lodash.debounce": "^4.0.8",
-    "lodash.throttle": "^4.1.1"
+    "lodash.throttle": "^4.1.1",
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.13.15",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "@typescript-eslint/parser": "^1.13.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@types/lodash": "^4.14.169",
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/lodash.throttle": "^4.1.6",
+    "@types/mockjs": "^1.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "antd": "^4.1.0",
     "babel-plugin-import": "^1.13.0",
     "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
     "dayjs": "^1.8.29",
     "dumi": "^1.0.34",
-    "eslint-plugin-react": "^7.20.3",
+    "dumi-theme-default": "^1.1.1",
+    "eslint": "^7.26.0",
+    "eslint-plugin-react": "^7.23.2",
+    "husky": "4",
     "mockjs": "^1.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "typescript": "^3.5.1"
+    "rollup": "^2.48.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.2.4"
   },
   "peerDependencies": {
     "react": ">= 16.8.6"

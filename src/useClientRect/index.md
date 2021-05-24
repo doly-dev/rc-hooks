@@ -15,21 +15,17 @@ legacy: /other/use-client-rect
 
 ### 基本用法
 
-<code src="./demo/Demo1.tsx" />
+<code src="./demos/Demo1.tsx" />
 
 ## API
 
 ```javascript
-const [
-  rect: object, 
-  ref: React.Ref
-] = useClientRect();
+const [rect, ref]: [DOMRect, React.RefObject<HTMLDivElement>] = useClientRect();
 ```
 
 ### Result
 
-| 参数 | 说明                                         | 类型                 |
-|----------|------------------------------------------|------------|
-| rect  | dom 节点的尺寸和相对于视口的位置                             | `object`    |
-| ref     | 将 ref 绑定 dom 节点      | -        |
-
+| 参数 | 说明                             | 类型      |
+| ---- | -------------------------------- | --------- |
+| rect | dom 节点的尺寸和相对于视口的位置 | `DOMRect` |
+| ref  | 将 ref 绑定 dom 节点             | -         |

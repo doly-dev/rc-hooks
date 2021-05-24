@@ -14,22 +14,22 @@ legacy: /side-effect/use-throttle
 
 ### 基本用法
 
-<code src="./demo/Demo1.tsx" />
+<code src="./demos/Demo1.tsx" />
 
 ## API
 
 ```javascript
 const throttledValue = useThrottle(
-  value: any, 
-  wait?: number, 
+  value: any,
+  wait?: number,
   options?: object
 );
 ```
 
 ### Params
 
-| 参数  | 说明                     | 类型   | 默认值 |
-|-------|-----------------------|--------|--------|
-| value | 需要防抖的值         | `any`    | -      |
-| wait  | 防抖等待时间，单位为毫秒 | `number` | `0`   |
-| options  | [`lodash.throttle`](https://www.lodashjs.com/docs/latest#_throttlefunc-wait0-options) 的 `options` 配置项 | `object`  | `{}` |
+| 参数    | 说明                                                                                                      | 类型     | 默认值 |
+| ------- | --------------------------------------------------------------------------------------------------------- | -------- | ------ |
+| value   | 需要防抖的值                                                                                              | `any`    | -      |
+| wait    | 防抖等待时间，单位为毫秒                                                                                  | `number` | `0`    |
+| options | [`lodash.throttle`](https://www.lodashjs.com/docs/latest#_throttlefunc-wait0-options) 的 `options` 配置项 | `object` | `{}`   |
