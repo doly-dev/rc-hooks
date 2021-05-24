@@ -41,20 +41,20 @@ import { useAsync } from 'rc-hooks';
   - [usePersistFn] - 持久化 function
   - [usePrevious] - 保存上一次渲染时状态
 
-[site]: https://doly-dev.github.io/rc-hooks/site/
-[useasync]: https://doly-dev.github.io/rc-hooks/site/#/async/use-async
-[usedebounce]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce
-[usethrottle]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle
-[usedebouncefn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-debounce-fn
-[usethrottlefn]: https://doly-dev.github.io/rc-hooks/site/#/side-effect/use-throttle-fn
-[usemount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-mount
-[useupdate]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update
-[useunmount]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-unmount
-[useupdateeffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-effect
-[useupdatelayouteffect]: https://doly-dev.github.io/rc-hooks/site/#/life-cycle/use-update-layout-effect
-[useprevious]: https://doly-dev.github.io/rc-hooks/site/#/other/use-previous
-[usepersistfn]: https://doly-dev.github.io/rc-hooks/site/#/other/use-persist-fn
-[useclientrect]: https://doly-dev.github.io/rc-hooks/site/#/other/use-client-rect
-[usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/site/#/other/use-controllable-value
+[site]: https://doly-dev.github.io/rc-hooks/site/latest/index.html
+[useasync]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/async/use-async
+[usedebounce]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/side-effect/use-debounce
+[usethrottle]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/side-effect/use-throttle
+[usedebouncefn]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/side-effect/use-debounce-fn
+[usethrottlefn]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/side-effect/use-throttle-fn
+[usemount]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/life-cycle/use-mount
+[useupdate]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/life-cycle/use-update
+[useunmount]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/life-cycle/use-unmount
+[useupdateeffect]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/life-cycle/use-update-effect
+[useupdatelayouteffect]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/life-cycle/use-update-layout-effect
+[useprevious]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-previous
+[usepersistfn]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-persist-fn
+[useclientrect]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-client-rect
+[usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-controllable-value
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
 [npm-url]: https://npmjs.com/package/rc-hooks
