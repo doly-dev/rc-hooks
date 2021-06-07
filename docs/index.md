@@ -42,7 +42,7 @@ import { useAsync } from 'rc-hooks';
   - [useUpdateEffect] - 只在依赖更新时执行的 useEffect
   - [useUpdateLayoutEffect] - 只在依赖更新时执行的 useLayoutEffect
 - Other
-  - [useClientRect] - 获取元素的大小及其相对于视口的位置
+  - [useSize] - 获取并监听 dom 节点的宽高
   - [useControllableValue] - 便于管理 `受控/非受控` 组件的状态
   - [usePersistFn] - 持久化 function
   - [usePrevious] - 保存上一次渲染时状态
@@ -59,7 +59,7 @@ import { useAsync } from 'rc-hooks';
 [useupdatelayouteffect]: /life-cycle/use-update-layout-effect
 [useprevious]: /other/use-previous
 [usepersistfn]: /other/use-persist-fn
-[useclientrect]: /other/use-client-rect
+[usesize]: /other/use-size
 [usecontrollablevalue]: /other/use-controllable-value
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
 [npm-url]: https://npmjs.com/package/rc-hooks

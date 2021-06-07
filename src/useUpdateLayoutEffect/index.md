@@ -19,12 +19,12 @@ legacy: /life-cycle/use-update-layout-effect
 ## API
 
 ```javascript
-useUpdateLayoutEffect(fn: () => void, deps?: any[]);
+useUpdateLayoutEffect(effect: () => void, deps?: any[]);
 ```
 
 ### Params
 
-| 参数 | 说明                       | 类型       | 默认值 |
-| ---- | -------------------------- | ---------- | ------ |
-| fn   | 可执行函数                 | `function` | -      |
-| deps | 可选项，传入依赖变化的对象 | `any[]`    |
+| 参数   | 说明                       | 类型       | 默认值 |
+| ------ | -------------------------- | ---------- | ------ |
+| effect | 可执行函数                 | `function` | -      |
+| deps   | 可选项，传入依赖变化的对象 | `any[]`    |

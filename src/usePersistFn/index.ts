@@ -13,7 +13,7 @@ function usePersistFn<T extends (...args: any[]) => any>(fn: T) {
     return refFn?.(...args);
   }, [ref]);
 
-  return persistFn;
+  return persistFn as T;
 }
 
 export default usePersistFn;

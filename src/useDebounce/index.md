@@ -29,8 +29,8 @@ const debouncedValue = useDebounce(
 
 ### Params
 
-| 参数    | 说明                                                                                                      | 类型     | 默认值 |
-| ------- | --------------------------------------------------------------------------------------------------------- | -------- | ------ |
-| value   | 需要防抖的值                                                                                              | `any`    | -      |
-| wait    | 防抖等待时间，单位为毫秒                                                                                  | `number` | `0`    |
-| options | [`lodash.debounce`](https://www.lodashjs.com/docs/latest#_debouncefunc-wait0-options) 的 `options` 配置项 | `object` | `{}`   |
+| 参数    | 说明                                                                                                     | 类型     | 默认值 |
+| ------- | -------------------------------------------------------------------------------------------------------- | -------- | ------ |
+| value   | 需要防抖的值                                                                                             | `any`    | -      |
+| wait    | 防抖等待时间，单位为毫秒                                                                                 | `number` | `0`    |
+| options | [同 lodash.debounce 的 options 配置项](https://www.lodashjs.com/docs/latest#_debouncefunc-wait0-options) | `object` | `{}`   |

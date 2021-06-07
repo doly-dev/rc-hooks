@@ -1,0 +1,19 @@
+/**
+ * title: 基本用法
+ * desc: 获取 h1 元素大小及其相对于视口的位置。
+ */
+
+import React, { useRef } from "react";
+import { useSize } from "rc-hooks";
+
+export default () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const size = useSize(ref);
+
+  return (
+    <>
+      <h1 ref={ref}>Hello, world</h1>
+      <p>rect value: {JSON.stringify(size)}</p>
+    </>
+  );
+}

@@ -36,7 +36,7 @@ import { useAsync } from 'rc-hooks';
   - [useUpdateEffect] - 只在依赖更新时执行的 useEffect
   - [useUpdateLayoutEffect] - 只在依赖更新时执行的 useLayoutEffect
 - Other
-  - [useClientRect] - 获取元素的大小及其相对于视口的位置
+  - [useSize] - 获取并监听 dom 节点的宽高
   - [useControllableValue] - 便于管理 `受控/非受控` 状态
   - [usePersistFn] - 持久化 function
   - [usePrevious] - 保存上一次渲染时状态
@@ -54,7 +54,7 @@ import { useAsync } from 'rc-hooks';
 [useupdatelayouteffect]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/life-cycle/use-update-layout-effect
 [useprevious]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-previous
 [usepersistfn]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-persist-fn
-[useclientrect]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-client-rect
+[usesize]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-size
 [usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/site/latest/index.html#/other/use-controllable-value
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
 [npm-url]: https://npmjs.com/package/rc-hooks

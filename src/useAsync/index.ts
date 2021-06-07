@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import { isDocumentVisible } from '../utils';
-import { getCache, setCache } from "../utils/cache";
+import { getCache, setCache } from '../utils/cache';
 import limit from '../utils/limit';
 import subscribeFocus from '../utils/windowFocus';
 import subscribeVisible from '../utils/windowVisible';
@@ -77,7 +77,7 @@ function useAsync<DataType = any>(asyncFn: AsyncFunction, {
   const unsubscribeRef = useRef<Function[]>([]); // 取消订阅集合
 
   // 持久化一些函数
-  const asyncFnPersist = usePersistFn(asyncFn);
+  const asyncFnPersist = usePersistFn<typeof asyncFn>(asyncFn);
   const onSuccessPersist = usePersistFn(onSuccess);
   const onErrorPersist = usePersistFn(onError);
 

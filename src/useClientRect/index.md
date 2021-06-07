@@ -5,6 +5,7 @@ group:
   path: /other
   order: 4
 legacy: /other/use-client-rect
+hide: true
 ---
 
 # useClientRect
