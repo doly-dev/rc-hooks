@@ -12,8 +12,8 @@
     "build": "npm run build:lib & npm run build:esm",
     "build:lib": "rm -rf lib && babel src --out-dir lib --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
     "build:esm": "rm -rf esm && cross-env MODULE_TYPE=esm babel src --out-dir esm --ignore 'src/**/demo/**/*','src/**/*.md','src/.umi','src/.umi-production'",
-    "build:doc": "npm run doc",
-    "doc": "npx dumi build"
+    "doc": "dumi build",
+    "doc-version": "cross-env BUIDL_DOC_VERSION=true dumi build"
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "cross-env": "^7.0.3",
     "dayjs": "^1.8.29",
     "dumi": "^1.0.34",
+    "dumi-theme-default": "^1.1.2",
     "eslint-plugin-react": "^7.20.3",
     "mockjs": "^1.1.0",
     "react": "^16.13.1",

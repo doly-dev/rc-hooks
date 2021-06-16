@@ -1,8 +1,10 @@
 node_modules
 lib/
 esm/
+es/
 .idea
 dist/
+site/
 .vscode
 module-config.js
 yarn.lock
