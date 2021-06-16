@@ -3,7 +3,13 @@ import ResizeObserver from './ResizeObserver';
 import getRef from '../utils/getRef';
 
 function useSize(targetNode: MutableRefObject<HTMLElement>) {
-  const [size, setSize] = useState<{ width?: number; height?: number; }>();
+  const [size, setSize] = useState<{ width?: number; height?: number; }>(() => {
+    const target = getRef(targetNode);
+    return {
+      width: (target || {}).clientWidth,
+      height: (target || {}).clientHeight
+    }
+  });
 
   const refresh = useCallback((target?: HTMLElement | null) => {
     if (target) {
