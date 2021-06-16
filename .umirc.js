@@ -1,11 +1,13 @@
 const pkg = require('./package.json');
 
 const { BUIDL_DOC_VERSION } = process.env;
-const version = BUIDL_DOC_VERSION ? `v${pkg.version.split('.')[0]}` : 'latest';
+const MajorVersionNumber = pkg.version.split('.')[0];
+const versionSiteRoot = `refs/heads/v${MajorVersionNumber}`;
+const version = BUIDL_DOC_VERSION ? versionSiteRoot : 'latest';
 
 const serverRootDirect = process.env.NODE_ENV === 'production' ? '/rc-hooks/' : '/';
-const outputPath = 'site/' + version;
-const publicPath = serverRootDirect + outputPath + '/';
+const outputPath = 'site';
+const publicPath = serverRootDirect + version + '/';
 
 const logo = 'https://www.caijinfeng.com/assets/images/logo-doly@3x.png';
 const favicon = 'https://www.caijinfeng.com/assets/images/doly-touch-icon_48x48.png';

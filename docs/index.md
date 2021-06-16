@@ -1,12 +1,12 @@
 ---
-title: Home
+title: Introduction
 group:
-  title: Home
+  title: Introduction
   path: /
   order: 0
 ---
 
-# Home
+# Introduction
 
 [![npm][npm]][npm-url]
 
