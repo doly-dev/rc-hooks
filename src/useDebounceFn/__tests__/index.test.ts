@@ -33,7 +33,7 @@ describe('useDebounceFn', () => {
 
       result.current.setCount(1);
       expect(result.current.count).toBe(0);
-      await waitTime(300);
+      await waitTime(350);
       expect(result.current.count).toBe(1);
 
       result.current.setCount(4);
