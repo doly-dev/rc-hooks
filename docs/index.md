@@ -6,7 +6,7 @@ group:
   order: 0
 ---
 
-# Introduction
+# rc-hooks
 
 [![npm][npm]][npm-url]
 

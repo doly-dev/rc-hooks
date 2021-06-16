@@ -23,8 +23,6 @@ jobs:
           persist-credentials: false
       - name: Install
         run: npm install
-      - name: Test
-        run: npm test
       - name: Build package
         run: npm run build
       - name: Build latest docs

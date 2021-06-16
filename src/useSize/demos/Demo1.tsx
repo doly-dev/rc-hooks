@@ -1,6 +1,6 @@
 /**
  * title: 基本用法
- * desc: 获取 h1 元素大小及其相对于视口的位置。
+ * desc: 获取 h1 元素大小
  */
 
 import React, { useRef } from "react";
