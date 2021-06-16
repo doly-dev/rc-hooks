@@ -9,6 +9,7 @@ group:
 # rc-hooks
 
 [![npm][npm]][npm-url]
+![GitHub](https://img.shields.io/github/license/doly-dev/rc-hooks.svg)
 
 React Hooks Library.
 
