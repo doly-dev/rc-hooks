@@ -1,8 +1,9 @@
-import { useState, useEffect, MutableRefObject, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ResizeObserver from './ResizeObserver';
 import getRef from '../utils/getRef';
+import type { RefType } from '../utils/getRef';
 
-function useSize(targetNode: MutableRefObject<HTMLElement>) {
+function useSize<T extends HTMLElement = HTMLElement>(targetNode: RefType<T>) {
   const [size, setSize] = useState<{ width?: number; height?: number; }>(() => {
     const target = getRef(targetNode);
     return {
@@ -35,7 +36,7 @@ function useSize(targetNode: MutableRefObject<HTMLElement>) {
       }
     });
 
-    observer.observe(targetNode.current);
+    observer.observe(target);
 
     return () => {
       observer.disconnect();

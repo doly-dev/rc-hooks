@@ -40,7 +40,7 @@ class ResizeObserver {
     }
   }
 
-  onTransitionEnd_({ propertyName = '' }) {
+  onTransitionEnd_ = ({ propertyName = '' }) => {
     const isReflowProperty = transitionKeys.some(key => {
       return propertyName.indexOf(key) > -1;
     });
@@ -50,7 +50,7 @@ class ResizeObserver {
     }
   }
 
-  observe(targetNode: HTMLElement, options?: MutationObserverInit) {
+  observe = (targetNode: HTMLElement, options?: MutationObserverInit) => {
 
     if (!isBrowser) {
       return;
@@ -66,7 +66,7 @@ class ResizeObserver {
     });
   }
 
-  disconnect() {
+  disconnect = () => {
     if (!isBrowser) {
       return;
     }
