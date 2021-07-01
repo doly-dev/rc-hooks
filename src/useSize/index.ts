@@ -3,9 +3,9 @@ import ResizeObserver from './ResizeObserver';
 import getRef from '../utils/getRef';
 import type { RefType } from '../utils/getRef';
 
-function useSize<T extends HTMLElement = HTMLElement>(targetNode: RefType<T>) {
+function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
   const [size, setSize] = useState<{ width?: number; height?: number; }>(() => {
-    const target = getRef(targetNode);
+    const target = getRef(ref);
     return {
       width: (target || {}).clientWidth,
       height: (target || {}).clientHeight
@@ -22,7 +22,7 @@ function useSize<T extends HTMLElement = HTMLElement>(targetNode: RefType<T>) {
   }, []);
 
   useEffect(() => {
-    const target = getRef(targetNode);
+    const target = getRef(ref);
 
     if (!target) {
       return () => { }
@@ -41,7 +41,7 @@ function useSize<T extends HTMLElement = HTMLElement>(targetNode: RefType<T>) {
     return () => {
       observer.disconnect();
     }
-  }, [targetNode]);
+  }, [ref]);
 
   return size;
 }

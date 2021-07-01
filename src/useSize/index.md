@@ -20,7 +20,7 @@ legacy: /other/use-size
 ## API
 
 ```javascript
-const size = useSize((target: (() => HTMLElement) | HTMLElement | MutableRefObject<HTMLElement>));
+const size = useSize((ref: (() => HTMLElement) | HTMLElement | MutableRefObject<HTMLElement>));
 ```
 
 ### Result
