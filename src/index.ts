@@ -16,6 +16,7 @@ export { default as useUpdateLayoutEffect } from './useUpdateLayoutEffect';
 
 // other
 export { default as useClientRect } from './useClientRect';
+export { default as useClickAway } from './useClickAway';
 export { default as useSize } from './useSize';
 export { default as useControllableValue } from './useControllableValue';
 export { default as usePrevious } from './usePrevious';

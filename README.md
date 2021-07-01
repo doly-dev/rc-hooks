@@ -37,6 +37,7 @@ import { useAsync } from 'rc-hooks';
   - [useUpdateEffect] - 只在依赖更新时执行的 useEffect
   - [useUpdateLayoutEffect] - 只在依赖更新时执行的 useLayoutEffect
 - Other
+  - [useClickAway] - 管理目标元素外的事件
   - [useSize] - 获取并监听 dom 节点的宽高
   - [useControllableValue] - 便于管理 `受控/非受控` 状态
   - [usePersistFn] - 持久化 function
@@ -55,6 +56,7 @@ import { useAsync } from 'rc-hooks';
 [useupdatelayouteffect]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-update-layout-effect
 [useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-previous
 [usepersistfn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-persist-fn
+[useclickaway]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-click-away
 [usesize]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-size
 [usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-controllable-value
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
