@@ -76,7 +76,7 @@ legacy: /async/use-async
 当某些 `state` 变化时，我们需要重新执行异步请求，一般我们会这样写代码：
 
 ```javascript
-const [userId, setUserId] = useState('1');
+const [userId, setUserId] = useState("1");
 const { data, run, loading } = useRequest(() => getUserSchool(userId));
 useEffect(() => {
   run();
@@ -94,63 +94,66 @@ useEffect(() => {
 ## API
 
 ```javascript
-const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(asyncFn, {
-  autoRun,
-  initialData,
-  defaultParams,
-  formatResult,
-  refreshDeps,
-  onSuccess,
-  onError,
-  cacheKey,
-  cacheTime,
-  persisted,
-  loadingDelay,
-  pollingInterval,
-  pollingWhenHidden,
-  refreshOnWindowFocus,
-  focusTimespan,
-  debounceInterval,
-  throttleInterval,
-});
+const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(
+  asyncFn,
+  {
+    autoRun,
+    initialData,
+    defaultParams,
+    formatResult,
+    refreshDeps,
+    onSuccess,
+    onError,
+    cacheKey,
+    cacheTime,
+    persisted,
+    loadingDelay,
+    pollingInterval,
+    pollingWhenHidden,
+    refreshOnWindowFocus,
+    focusTimespan,
+    debounceInterval,
+    throttleInterval,
+  }
+);
 ```
 
 ### Result
 
-| 参数    | 说明                                                                              | 类型                                                   |
-| ------- | --------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| data    | 异步函数的返回值，默认为 `undefined`。                                            | `any`                                                  |
-| error   | 异步函数抛出的异常，默认为 `undefined`                                            | `any`                                                  |
-| loading | 异步函数正在执行                                                                  | `boolean`                                              |
-| params  | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array`                                                |
-| run     | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>`       | `(...args) => Promise`                                 |
-| cancel  | 取消当前请求。如果有轮询，停止。                                                  | `() => void`                                           |
-| refresh | 使用上一次的 `params`，重新执行异步函数。                                         | `() => Promise`                                        |
-| mutate  | 直接修改 `data`                                                                   | `(newData) => void` / `((oldData) => newData) => void` |
+| 参数 | 说明 | 类型 |
+| --- | --- | --- |
+| data | 异步函数的返回值，默认为 `undefined`。 | `any` |
+| error | 异步函数抛出的异常，默认为 `undefined` | `any` |
+| loading | 异步函数正在执行 | `boolean` |
+| params | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array` |
+| run | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args) => Promise` |
+| cancel | 取消当前请求。如果有轮询，停止。 | `() => void` |
+| refresh | 使用上一次的 `params`，重新执行异步函数。 | `() => Promise` |
+| mutate | 直接修改 `data` | `(newData) => void` / `((oldData) => newData) => void` |
 
 ### Params
 
 所有配置项都是可选的。
 
-| 参数                 | 说明                                                                                                                                                        | 类型                       | 默认值      |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------- |
-| autoRun              | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。                                                              | `boolean`                  | `true`      |
-| initialData          | 默认的 `data`。                                                                                                                                             | `any`                      | -           |
-| defaultParams        | 如果 `autoRun=true` 自动执行 `run` 的默认参数。                                                                                                             | `array`                    | -           |
-| formatResult         | 格式化请求结果                                                                                                                                              | `(data) => any`            | -           |
-| refreshDeps          | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行                                                                                                  | `any[]`                    | `[]`        |
-| onSuccess            | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。                                                                                                      | `(data, params) => void`   | -           |
-| onError              | 异步函数报错时触发，参数为 `error` 和 `params`                                                                                                              | `(error, parmams) => void` | -           |
-| cacheKey             | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。                                                                                                          | `string`                   | -           |
-| cacheTime            | 缓存时间，单位为毫秒。                                                                                                                                      | `number`                   | `5*60*1000` |
-| persisted            | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。                                                                        | `boolean`                  | `false`     |
-| loadingDelay         | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。                                                                                                             | `number`                   | -           |
-| pollingInterval      | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run`                                                                                                | `number`                   | -           |
-| pollingWhenHidden    | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询                   | `boolean`                  | true        |
-| refreshOnWindowFocus | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 `false`，即不会重新发起请求。<br />如果设置为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean`                  | `false`     |
-| focusTimespan        | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。          | `number`                   | `5000`      |
-| debounceInterval     | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。                                                                                                            | `number`                   | -           |
-| throttleInterval     | 节流间隔, 单位为毫秒，设置后，请求进入节流模式。                                                                                                            | `number`                   | -           |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| autoRun | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
+| initialData | 默认的 `data`。 | `any` | - |
+| defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `array` | - |
+| formatResult | 格式化请求结果 | `(data) => any` | - |
+| refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
+| onSuccess | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
+| onError | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
+| cacheKey | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | - |
+| cacheTime | 缓存时间，单位为毫秒。 | `number` | `5*60*1000` |
+| persisted | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。 | `boolean` | `false` |
+| loadingDelay | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。 | `number` | - |
+| pollingInterval | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run` | `number` | - |
+| pollingWhenHidden | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询 | `boolean` | true |
+| refreshOnWindowFocus | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 `false`，即不会重新发起请求。<br />如果设置为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean` | `false` |
+| focusTimespan | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。 | `number` | `5000` |
+| debounceInterval | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。 | `number` | - |
+| throttleInterval | 节流间隔, 单位为毫秒，设置后，请求进入节流模式。 | `number` | - |
 
 ## 扩展用法
 
@@ -206,10 +209,10 @@ const {
 
 #### Result
 
-| 参数          | 说明                                                                                  | 类型                                                                                                              |
-| ------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| onTableChange | 分页、排序、筛选变化时触发                                                            | `function(pagination, filters, sorter, extra: { currentDataSource: [], action: paginate` \| `sort` \| `filter })` |
-| pagination    | 分页数据 `current` `pageSize` `total` `showTotal` `showSizeChanger` `showQuickJumper` |
+| 参数 | 说明 | 类型 |
+| --- | --- | --- |
+| onTableChange | 分页、排序、筛选变化时触发 | `function(pagination, filters, sorter, extra: { currentDataSource: [], action: 'paginate' \| 'sort' \| 'filter' })` |
+| pagination | 分页数据 `current` `pageSize` `total` `showTotal` `showSizeChanger` `showQuickJumper` |
 
 #### Params
 
@@ -263,8 +266,8 @@ const {
 
 #### Params
 
-| 参数            | 说明                                                         | 类型               | 默认值 |
-| --------------- | ------------------------------------------------------------ | ------------------ | ------ |
-| defaultPageSize | 默认每页的数量                                               | `number`           | `10`   |
-| threshold       | 上拉自动加载，距离底部距离阈值                               | `number`           | `100`  |
-| ref             | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | -      |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| defaultPageSize | 默认每页的数量 | `number` | `10` |
+| threshold | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
+| ref | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | - |

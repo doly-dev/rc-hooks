@@ -28,8 +28,8 @@ const throttledValue = useThrottle(
 
 ### Params
 
-| 参数    | 说明                                                                                                      | 类型     | 默认值 |
-| ------- | --------------------------------------------------------------------------------------------------------- | -------- | ------ |
-| value   | 需要防抖的值                                                                                              | `any`    | -      |
-| wait    | 防抖等待时间，单位为毫秒                                                                                  | `number` | `0`    |
-| options | [`lodash.throttle`](https://www.lodashjs.com/docs/latest#_throttlefunc-wait0-options) 的 `options` 配置项 | `object` | `{}`   |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| value | 需要防抖的值 | `any` | - |
+| wait | 防抖等待时间，单位为毫秒 | `number` | `0` |
+| options | [`lodash.throttle`](https://www.lodashjs.com/docs/latest#_throttlefunc-wait0-options) 的 `options` 配置项 | `object` | `{}` |
