@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import throttle from 'lodash.throttle';
 import type { ThrottleSettings } from 'lodash';
 
 function useThrottleFn<T extends (...args: any[]) => any>(fn: T, wait = 0, options: ThrottleSettings = {}) {
-  const throttleRun = useCallback(throttle<T>(fn, wait, options), []);
-
+  const refFn = useRef<T>(fn);
+  refFn.current = fn;
+  const throttleRun = useCallback(throttle(((...args) => refFn.current(...args)) as T, wait, options), []);
   useEffect(() => throttleRun.cancel, []);
 
   return {
