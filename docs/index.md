@@ -33,8 +33,8 @@ import { useAsync } from 'rc-hooks';
   - [useAsync] - 管理异步函数
 - SideEffect
   - [useDebounce] - 用来处理防抖值
-  - [useThrottle] - 用来处理节流值
   - [useDebounceFn] - 用来处理防抖函数
+  - [useThrottle] - 用来处理节流值
   - [useThrottleFn] - 用来处理节流函数
 - LifeCycle
   - [useMount] - 只在组件 mount 时执行
@@ -44,10 +44,11 @@ import { useAsync } from 'rc-hooks';
   - [useUpdateLayoutEffect] - 只在依赖更新时执行的 useLayoutEffect
 - Other
   - [useClickAway] - 管理目标元素外的事件
-  - [useSize] - 获取并监听 dom 节点的宽高
   - [useControllableValue] - 便于管理 `受控/非受控` 组件的状态
+  - [useIsMounted] - 用于异步回调中判断当前组件是否装载
   - [usePersistFn] - 持久化 function
   - [usePrevious] - 保存上一次渲染时状态
+  - [useSize] - 获取并监听 dom 节点的宽高
 
 [useasync]: /async/use-async
 [usedebounce]: /side-effect/use-debounce
@@ -62,6 +63,7 @@ import { useAsync } from 'rc-hooks';
 [useprevious]: /other/use-previous
 [usepersistfn]: /other/use-persist-fn
 [usesize]: /other/use-size
+[useismounted]: /other/use-is-mounted
 [useclickaway]: /other/use-click-away
 [usecontrollablevalue]: /other/use-controllable-value
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg

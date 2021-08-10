@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "dumi dev",
-    "build": "npm run lint && npm test && npm run build:es && npm run build:cjs && npm run build:umd",
+    "build": "npm test && npm run build:es && npm run build:cjs && npm run build:umd",
     "build:es": "rm -rf es && tsc -m ES2015 -t ES5 --outDir es -d",
     "build:cjs": "rm -rf lib && tsc -m commonjs -t ES5 --outDir lib -d",
     "build:umd": "rm -rf dist && rollup -c",

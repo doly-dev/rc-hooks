@@ -9,6 +9,7 @@ export { default as useThrottle } from './useThrottle';
 
 // life cycle
 export { default as useMount } from './useMount';
+export { default as useIsMounted } from './useIsMounted';
 export { default as useUnmount } from './useUnmount';
 export { default as useUpdate } from './useUpdate';
 export { default as useUpdateEffect } from './useUpdateEffect';
