@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 const useUpdateEffect: typeof useEffect = (effect, deps) => {
   const isMounted = useRef(false);
@@ -9,6 +9,7 @@ const useUpdateEffect: typeof useEffect = (effect, deps) => {
     } else {
       return effect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
 

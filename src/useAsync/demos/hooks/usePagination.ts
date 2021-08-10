@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useAsync } from 'rc-hooks';
-import { AsyncOptions, AsyncFunction } from 'rc-hooks/es/useAsync';
-import { SorterResult, TableCurrentDataSource } from 'antd/es/table/interface';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useAsync } from "rc-hooks";
+import { AsyncOptions, AsyncFunction } from "rc-hooks/es/useAsync";
+import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 
 type RecordType = Record<number | string, any>;
 
@@ -31,10 +31,11 @@ function usePagination<DataType extends ResponseDataType = any>(
     defaultPageSize = 10,
     defaultTotal = 0,
     autoRun,
-    onSuccess = () => { },
+    onSuccess = () => {},
     ...restOptions
-  }: Options<DataType> = {}) {
-  const [data, setData] = useState<DataType['data']>([]);
+  }: Options<DataType> = {}
+) {
+  const [data, setData] = useState<DataType["data"]>([]);
 
   const pageRef = useRef({
     current: 1,
@@ -45,7 +46,7 @@ function usePagination<DataType extends ResponseDataType = any>(
     params: {},
     filters: null,
     sorter: null,
-    extra: null
+    extra: null,
   }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
   const request = useAsync<DataType>(asyncFn, {
@@ -55,7 +56,7 @@ function usePagination<DataType extends ResponseDataType = any>(
       pageRef.current.total = res.total || 0;
       setData(res.data || []);
 
-      if (typeof onSuccess === 'function') {
+      if (typeof onSuccess === "function") {
         onSuccess(res, params);
       }
     },
@@ -71,34 +72,43 @@ function usePagination<DataType extends ResponseDataType = any>(
       const { pageSize, current } = pageRef.current;
       const { params: paramsRet, filters, sorter, extra } = paramsRef.current;
 
-      return request.run({ ...paramsRet, pageSize, current }, filters, sorter, extra);
+      return request.run(
+        { ...paramsRet, pageSize, current },
+        filters,
+        sorter,
+        extra
+      );
     },
-    [data],
+    [request]
   );
 
   const refresh = useCallback(() => {
     return run();
-  }, []);
+  }, [run]);
 
   // 修改分页、筛选、排序
-  const onTableChange = useCallback((pagination?, filters?, sorter?, extra?) => {
-    pageRef.current = {
-      ...pageRef.current,
-      ...pagination,
-    };
-    paramsRef.current = {
-      ...paramsRef.current,
-      filters,
-      sorter,
-      extra,
-    };
-    return run();
-  }, []);
+  const onTableChange = useCallback(
+    (pagination?, filters?, sorter?, extra?) => {
+      pageRef.current = {
+        ...pageRef.current,
+        ...pagination,
+      };
+      paramsRef.current = {
+        ...paramsRef.current,
+        filters,
+        sorter,
+        extra,
+      };
+      return run();
+    },
+    [run]
+  );
 
   useEffect(() => {
-    if (typeof autoRun === 'undefined' || autoRun) {
+    if (typeof autoRun === "undefined" || autoRun) {
       run();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

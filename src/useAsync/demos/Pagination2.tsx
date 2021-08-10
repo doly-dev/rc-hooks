@@ -2,12 +2,12 @@
  * title: 查询表单和Ant Table
  */
 
-import React, { useCallback } from 'react';
-import { Form, Input, Select, Button, Table } from 'antd';
-import usePagination from './hooks/usePagination';
+import React, { useCallback } from "react";
+import { Form, Input, Select, Button, Table } from "antd";
+import usePagination from "./hooks/usePagination";
 
-import getUserList from './services/getUserList';
-import { useEffect } from 'react';
+import getUserList from "./services/getUserList";
+import { useEffect } from "react";
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -20,26 +20,33 @@ const buttonItemLayout = {
 
 const columns = [
   {
-    title: 'name',
-    dataIndex: 'name',
+    title: "name",
+    dataIndex: "name",
   },
   {
-    title: 'email',
-    dataIndex: 'email',
+    title: "email",
+    dataIndex: "email",
   },
   {
-    title: 'id',
-    dataIndex: 'id'
+    title: "id",
+    dataIndex: "id",
   },
   {
-    title: 'gender',
-    dataIndex: 'gender'
+    title: "gender",
+    dataIndex: "gender",
   },
 ];
 
 export default () => {
-  const { run, refresh, data=[], loading, pagination, onTableChange } = usePagination(getUserList, {
-    autoRun: false
+  const {
+    run,
+    refresh,
+    data = [],
+    loading,
+    pagination,
+    onTableChange,
+  } = usePagination(getUserList, {
+    autoRun: false,
   });
 
   const [form] = Form.useForm();
@@ -47,20 +54,16 @@ export default () => {
   const handleReset = useCallback(() => {
     form.resetFields();
     form.submit();
-  }, []);
+  }, [form]);
 
   useEffect(() => {
     form.submit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div>
-      <Form
-        {...formItemLayout}
-        form={form}
-        initialValues={{}}
-        onFinish={run}
-      >
+      <Form {...formItemLayout} form={form} initialValues={{}} onFinish={run}>
         <Form.Item label="name" name="name">
           <Input placeholder="请输入" />
         </Form.Item>
@@ -71,9 +74,23 @@ export default () => {
           </Select>
         </Form.Item>
         <Form.Item {...buttonItemLayout}>
-          <Button type="primary" htmlType="submit" loading={loading}>查询</Button>
-          <Button onClick={handleReset} style={{ marginLeft: 16 }} disabled={loading}>重置</Button>
-          <Button onClick={refresh} style={{ marginLeft: 16 }} disabled={loading}>刷新</Button>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            查询
+          </Button>
+          <Button
+            onClick={handleReset}
+            style={{ marginLeft: 16 }}
+            disabled={loading}
+          >
+            重置
+          </Button>
+          <Button
+            onClick={refresh}
+            style={{ marginLeft: 16 }}
+            disabled={loading}
+          >
+            刷新
+          </Button>
         </Form.Item>
       </Form>
       <Table

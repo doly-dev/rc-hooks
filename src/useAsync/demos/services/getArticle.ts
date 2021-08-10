@@ -1,12 +1,12 @@
-import Mock from 'mockjs';
+import Mock from "mockjs";
 
-export default function getArticle(type?: any) {
-  return new Promise(resolve => {
+export default function getArticle() {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        data: Mock.mock('@paragraph'),
-        time: new Date().getTime()
-      })
-    }, 1000)
+        data: Mock.mock("@paragraph"),
+        time: new Date().getTime(),
+      });
+    }, 1000);
   });
 }

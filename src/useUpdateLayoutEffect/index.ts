@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from "react";
 
 const useUpdateLayoutEffect: typeof useLayoutEffect = (effect, deps) => {
   const isMounted = useRef(false);
@@ -9,6 +9,7 @@ const useUpdateLayoutEffect: typeof useLayoutEffect = (effect, deps) => {
     } else {
       return effect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from "react";
 
 interface ScrollToLowerProps {
   ref?: React.RefObject<HTMLElement | null> | null;
@@ -11,32 +11,37 @@ const useScrollToLower = ({
   ref,
   threshold = 100,
   ready = false,
-  onLoad = () => { }
+  onLoad = () => {},
 }: ScrollToLowerProps = {}) => {
   const scrollMethod = useCallback(() => {
     if (!ready) {
       return;
     }
     if (
-      (ref?.current?.scrollHeight && ref?.current?.scrollTop && ref?.current?.clientHeight) &&
-      ref.current.scrollHeight - ref.current.scrollTop <= ref.current.clientHeight + threshold
+      ref?.current?.scrollHeight &&
+      ref?.current?.scrollTop &&
+      ref?.current?.clientHeight &&
+      ref.current.scrollHeight - ref.current.scrollTop <=
+        ref.current.clientHeight + threshold
     ) {
       onLoad();
     }
-  }, [ready, ref]);
+  }, [onLoad, ready, ref, threshold]);
 
   useEffect(() => {
     if (!ref || !ref.current) {
-      return () => { };
+      return () => {};
     }
+    const target = ref.current;
 
-    ref.current.addEventListener('scroll', scrollMethod);
+    target.addEventListener("scroll", scrollMethod);
+
     return () => {
-      if (ref && ref.current) {
-        ref.current.removeEventListener('scroll', scrollMethod);
+      if (target) {
+        target.removeEventListener("scroll", scrollMethod);
       }
     };
-  }, [scrollMethod]);
-}
+  }, [ref, scrollMethod]);
+};
 
 export default useScrollToLower;
