@@ -3,7 +3,7 @@
 //  https://hooks.umijs.org/zh-CN/hooks/advanced/use-persist-fn
 import { useCallback, useRef } from 'react';
 
-function usePersistFn<T extends (...args: any[]) => any>(fn: T) {
+function usePersistFn<T extends (...args: any[]) => any>(fn: T): T extends (infer R) ? R : T {
   const ref = useRef<T>(fn);
 
   ref.current = fn;
@@ -13,7 +13,7 @@ function usePersistFn<T extends (...args: any[]) => any>(fn: T) {
     return refFn?.(...args);
   }, [ref]);
 
-  return persistFn as T;
+  return persistFn as any;
 }
 
 export default usePersistFn;
