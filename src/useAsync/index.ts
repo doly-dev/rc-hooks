@@ -11,7 +11,7 @@ import subscribeVisible from "../utils/windowVisible";
 
 export type AsyncFunction<R = any, P extends any[] = any> = (...args: P) => Promise<R>;
 
-export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
+export type AsyncOptions<R = any, P extends any[] = any, FR = any> = Partial<{
   autoRun: boolean;
   refreshDeps: any[];
   defaultParams: P;
@@ -22,7 +22,7 @@ export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
   persisted: boolean;
   onSuccess: (data: R, param: P) => void;
   onError: (error: Error, param: P) => void;
-  formatResult: <ResponseDataType = any>(res: ResponseDataType) => R;
+  formatResult: (res: FR) => R;
   pollingInterval: number;
   pollingWhenHidden: boolean;
   refreshOnWindowFocus: boolean;
@@ -36,9 +36,9 @@ export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
 const noop = () => { };
 
 // 异步方法hooks
-function useAsync<R = any, P extends any[] = any>(
+function useAsync<R = any, P extends any[] = any, FR = any>(
   asyncFn: AsyncFunction<R, P>,
-  options: AsyncOptions<R, P> = {}
+  options: AsyncOptions<R, P, FR> = {}
 ) {
   const {
     autoRun = true,
