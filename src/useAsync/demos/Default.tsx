@@ -7,8 +7,8 @@ import React from 'react';
 import { useAsync } from 'rc-hooks';
 import Mock from 'mockjs';
 
-function getUsername(): Promise<string> {
-  return new Promise((resolve) => {
+function getUsername() {
+  return new Promise<string>((resolve) => {
     setTimeout(() => {
       resolve(Mock.mock('@name'));
     }, 1000);
@@ -16,7 +16,7 @@ function getUsername(): Promise<string> {
 }
 
 export default () => {
-  const { data, error, loading } = useAsync<string>(getUsername);
+  const { data, error, loading } = useAsync(getUsername);
 
   if (loading) {
     return <div>loading...</div>

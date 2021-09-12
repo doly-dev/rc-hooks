@@ -3,53 +3,61 @@ import { useAsync } from "rc-hooks";
 import { AsyncOptions, AsyncFunction } from "rc-hooks/es/useAsync";
 import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 
-type RecordType = Record<number | string, any>;
+type Key = Record<number | string, any>;
 
-interface ResponseDataType extends RecordType {
-  data: any[];
-  total?: number;
-}
-
-interface ParamsRef {
-  params: any;
-  filters?: Record<string, (string | number)[] | null> | null;
-  sorter?: SorterResult<RecordType> | SorterResult<RecordType>[] | null;
-  extra?: TableCurrentDataSource<RecordType> | null;
-}
-
-interface Options<DataType = any> extends AsyncOptions<DataType> {
+interface Options<R = any, P extends any[] = []> extends AsyncOptions<R, P> {
   defaultPageSize?: number;
   defaultTotal?: number;
+}
+
+type ParamFilters = Record<string, (string | number)[] | null> | null;
+type ParamSorter = SorterResult<Key> | SorterResult<Key>[] | null;
+type ParamExtra = TableCurrentDataSource<Key> | null;
+
+type ParamWithPagination<P = any> = [{
+  current: number;
+  pageSize: number;
+} & P, ParamFilters, ParamSorter, ParamExtra];
+
+type ResultWithPagination<R = any> = {
+  data: R[];
+  total?: number;
+  [key: string]: any;
 }
 
 // 显示数据总量
 const showTotal = (num: number) => `共 ${num} 条数据`;
 
-function usePagination<DataType extends ResponseDataType = any>(
-  asyncFn: AsyncFunction,
+function usePagination<R = any, P = any>(
+  asyncFn: AsyncFunction<ResultWithPagination<R>, ParamWithPagination<P>>,
   {
     defaultPageSize = 10,
     defaultTotal = 0,
     autoRun,
-    onSuccess = () => {},
+    onSuccess = () => { },
     ...restOptions
-  }: Options<DataType> = {}
+  }: Options<ResultWithPagination<R>, ParamWithPagination<P>> = {}
 ) {
-  const [data, setData] = useState<DataType["data"]>([]);
+  const [data, setData] = useState<ResultWithPagination<R>["data"]>([]);
 
   const pageRef = useRef({
     current: 1,
     pageSize: defaultPageSize || 10,
     total: defaultTotal || 0,
   }); // 分页
-  const paramsRef = useRef<ParamsRef>({
-    params: {},
+  const paramsRef = useRef<{
+    params: P;
+    filters: ParamFilters;
+    sorter: ParamSorter;
+    extra: ParamExtra;
+  }>({
+    params: {} as any,
     filters: null,
     sorter: null,
     extra: null,
   }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
-  const request = useAsync<DataType>(asyncFn, {
+  const request = useAsync<ResultWithPagination<R>, ParamWithPagination<P>>(asyncFn, {
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
@@ -63,7 +71,7 @@ function usePagination<DataType extends ResponseDataType = any>(
   });
 
   const run = useCallback(
-    (params?: any) => {
+    (params?: P) => {
       // 如果查询参数变化，重置参数和分页
       if (params) {
         paramsRef.current.params = params;

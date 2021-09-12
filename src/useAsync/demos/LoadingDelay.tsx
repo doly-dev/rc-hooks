@@ -7,8 +7,8 @@ import React from 'react';
 import { Spin, Button } from 'antd';
 import { useAsync } from 'rc-hooks';
 
-function getCurrentTime(): Promise<number> {
-  return new Promise(resolve => {
+function getCurrentTime() {
+  return new Promise<number>(resolve => {
     setTimeout(() => {
       resolve(new Date().getTime())
     }, 100)
@@ -16,9 +16,9 @@ function getCurrentTime(): Promise<number> {
 }
 
 export default () => {
-  const getTimeAction = useAsync<number>(getCurrentTime);
+  const getTimeAction = useAsync(getCurrentTime);
 
-  const withLoadingDelayAction = useAsync<number>(getCurrentTime, {
+  const withLoadingDelayAction = useAsync(getCurrentTime, {
     loadingDelay: 200
   });
 

@@ -7,16 +7,16 @@ import React from "react";
 import { Button, message } from 'antd';
 import { useAsync } from 'rc-hooks';
 
-function deleteUser(userId: string): Promise<{ success: boolean }> {
+function deleteUser(userId: string) {
   console.log(userId);
-  return new Promise(resolve => {
+  return new Promise<{ success: boolean }>(resolve => {
     setTimeout(() => {
       resolve({ success: true });
     }, 1000);
   });
 }
 
-function DeleteButton({ id, username }: { id: string; username: string; }) {
+const DeleteButton: React.FC<{ id: string; username: string; }> = ({ id, username }) => {
   const { run, loading } = useAsync(deleteUser, {
     autoRun: false,
     onSuccess: (result) => {

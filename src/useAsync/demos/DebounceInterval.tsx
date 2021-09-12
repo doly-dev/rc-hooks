@@ -8,9 +8,9 @@ import { Select } from 'antd';
 import { useAsync } from 'rc-hooks';
 import Mock from 'mockjs';
 
-function getEmail(search: string): Promise<string[]> {
+function getEmail(search: string) {
   console.log(search);
-  return new Promise((resolve) => {
+  return new Promise<string[]>((resolve) => {
     setTimeout(() => {
       resolve(Mock.mock({ 'data|5': ['@email'] }).data);
     }, 300);
@@ -20,7 +20,7 @@ function getEmail(search: string): Promise<string[]> {
 const { Option } = Select;
 
 export default () => {
-  const { data, loading, run, cancel } = useAsync<string[]>(getEmail, {
+  const { data, loading, run, cancel } = useAsync(getEmail, {
     debounceInterval: 500,
     autoRun: false
   });

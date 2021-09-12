@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 
 interface ScrollToLowerProps {
-  ref?: React.RefObject<HTMLElement | null> | null;
+  ref?: React.RefObject<HTMLElement>;
   threshold?: number;
   ready?: boolean;
   onLoad?: () => void;
@@ -11,7 +11,7 @@ const useScrollToLower = ({
   ref,
   threshold = 100,
   ready = false,
-  onLoad = () => {},
+  onLoad = () => { },
 }: ScrollToLowerProps = {}) => {
   const scrollMethod = useCallback(() => {
     if (!ready) {
@@ -22,7 +22,7 @@ const useScrollToLower = ({
       ref?.current?.scrollTop &&
       ref?.current?.clientHeight &&
       ref.current.scrollHeight - ref.current.scrollTop <=
-        ref.current.clientHeight + threshold
+      ref.current.clientHeight + threshold
     ) {
       onLoad();
     }
@@ -30,7 +30,7 @@ const useScrollToLower = ({
 
   useEffect(() => {
     if (!ref || !ref.current) {
-      return () => {};
+      return () => { };
     }
     const target = ref.current;
 

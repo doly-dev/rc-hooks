@@ -18,12 +18,25 @@ const userList = ({ pageSize }: {
   })
 )
 
+type Result = {
+  data: {
+    id: string;
+    name: string;
+    gender: 'male' | 'female';
+    email: string;
+    disabled: boolean;
+  }[],
+  total: number;
+  errCode: string;
+  errMsg: string;
+}
+
 export default function getUserList({ current, pageSize }: {
   current: number;
   pageSize: number;
   [x: string]: any;
 }) {
-  return new Promise(resolve => {
+  return new Promise<Result>(resolve => {
     setTimeout(() => {
       resolve(userList({
         pageNum: current,

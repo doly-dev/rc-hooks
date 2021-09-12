@@ -13,10 +13,7 @@ import useLoadMore from "./hooks/useLoadMore";
 import getUserList from "./services/getUserList";
 
 export default () => {
-  const { run, data, loading, loadingMore, done, loadMore } = useLoadMore<{
-    total: number;
-    data: { id: string; name: string }[];
-  }>(getUserList, {
+  const { run, data, loading, loadingMore, done, loadMore } = useLoadMore<{ id: string; name: string }>(getUserList, {
     defaultPageSize: 5,
     autoRun: false,
   });

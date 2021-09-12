@@ -20,7 +20,7 @@ export default () => {
     loadMore,
     done,
     pagination,
-  } = useLoadMore<{ data: { id: string; name: string }[] }>(getUserList, {
+  } = useLoadMore<{ id: string; name: string }>(getUserList, {
     ref: containerRef,
     autoRun: false,
   });

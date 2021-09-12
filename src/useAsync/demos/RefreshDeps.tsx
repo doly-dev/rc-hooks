@@ -20,8 +20,8 @@ const userSchool = (id: string) => {
   }
 };
 
-async function getUserSchool(userId: string): Promise<string> {
-  return new Promise((resolve) => {
+async function getUserSchool(userId: string) {
+  return new Promise<string>((resolve) => {
     setTimeout(() => {
       resolve(userSchool(userId));
     }, 1000);

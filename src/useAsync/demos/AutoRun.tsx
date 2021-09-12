@@ -7,9 +7,9 @@ import React, { useState } from 'react';
 import { Button, Input, message } from 'antd';
 import { useAsync } from 'rc-hooks';
 
-function changeUsername(username: string): Promise<{ success: boolean }> {
+function changeUsername(username: string) {
   console.log(username);
-  return new Promise((resolve) => {
+  return new Promise<{ success: boolean }>((resolve) => {
     setTimeout(() => {
       resolve({ success: true });
     }, 1000);
@@ -18,7 +18,7 @@ function changeUsername(username: string): Promise<{ success: boolean }> {
 
 export default () => {
   const [state, setState] = useState('');
-  const { loading, run } = useAsync<{ success: boolean; }>(changeUsername, {
+  const { loading, run } = useAsync(changeUsername, {
     autoRun: false,
     onSuccess: (result, params) => {
       if (result.success) {

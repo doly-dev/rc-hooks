@@ -11,8 +11,8 @@ import { Button, Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
 import Mock from 'mockjs';
 
-function getArticle(): Promise<{ data: string, time: number }> {
-  return new Promise((resolve) => {
+function getArticle() {
+  return new Promise<{ data: string, time: number }>((resolve) => {
     setTimeout(() => {
       resolve({
         data: Mock.mock('@paragraph'),

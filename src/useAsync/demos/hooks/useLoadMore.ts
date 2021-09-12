@@ -3,28 +3,33 @@ import { useAsync } from "rc-hooks";
 import type { AsyncOptions, AsyncFunction } from "rc-hooks/es/useAsync";
 import useScrollToBottomLoad from "./useScrollToBottomLoad";
 
-interface ResponseDataType extends Record<number | string, any> {
-  data: any[];
-  total?: number;
-}
-
-interface Options<DataType = any> extends AsyncOptions<DataType> {
+interface Options<R = any, P extends any[] = any> extends AsyncOptions<R, P> {
   defaultPageSize?: number;
   threshold?: number;
-  ref?: React.RefObject<HTMLDivElement | any> | null;
+  ref?: React.RefObject<HTMLDivElement>;
+}
+
+type ParamWithPagination<P = any> = {
+  current: number;
+  pageSize: number;
+} & P;
+
+type ResultWithPagination<R = any> = {
+  data: R[];
+  total?: number;
   [key: string]: any;
 }
 
-function useLoadMore<DataType extends ResponseDataType = any>(
-  asyncFn: AsyncFunction,
+function useLoadMore<R = any, P = any>(
+  asyncFn: AsyncFunction<ResultWithPagination<R>, [ParamWithPagination<P>]>,
   {
     defaultPageSize = 10,
     threshold = 100,
     ref,
     ...restOptions
-  }: Options<DataType> = {}
+  }: Options<ResultWithPagination<R>, [ParamWithPagination<P>]> = {}
 ) {
-  const [data, setData] = useState<DataType["data"]>([]);
+  const [data, setData] = useState<ResultWithPagination<R>['data']>([]);
   const [loadDone, setLoadDone] = useState(false); // 是否完成
 
   const pageRef = useRef({
@@ -32,12 +37,12 @@ function useLoadMore<DataType extends ResponseDataType = any>(
     pageSize: defaultPageSize,
     total: 0,
   }); // 分页
-  const paramsRef = useRef({}); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
+  const paramsRef = useRef<P>(); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
-  const request = useAsync<DataType>(asyncFn, {
+  const request = useAsync<ResultWithPagination<R>, [ParamWithPagination<P>]>(asyncFn, {
     ...restOptions,
     autoRun: false,
-    onSuccess: (res: DataType, params: any[]) => {
+    onSuccess: (res, params) => {
       // 1. 设置分页和数据
       pageRef.current.total = res.total as number;
       if (pageRef.current.current === 1) {
@@ -68,7 +73,7 @@ function useLoadMore<DataType extends ResponseDataType = any>(
   });
 
   const run = useCallback(
-    (params?: any) => {
+    (params?: P) => {
       if (params) {
         paramsRef.current = params;
         pageRef.current.current = 1;

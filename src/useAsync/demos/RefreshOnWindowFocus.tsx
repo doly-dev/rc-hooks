@@ -8,8 +8,8 @@ import { Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
 import Mock from 'mockjs';
 
-function getUsername(): Promise<string> {
-  return new Promise((resolve) => {
+function getUsername() {
+  return new Promise<string>((resolve) => {
     setTimeout(() => {
       resolve(Mock.mock('@name'));
     }, 1000);

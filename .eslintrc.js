@@ -35,6 +35,7 @@ module.exports = {
         "@typescript-eslint/no-empty-function": 0,
         "@typescript-eslint/explicit-module-boundary-types": 0,
         "@typescript-eslint/ban-types": 0,
+        "react/prop-types": 0,
         "react/display-name": 0,
         "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
         "react-hooks/exhaustive-deps": "warn" // 检查 effect 的依赖

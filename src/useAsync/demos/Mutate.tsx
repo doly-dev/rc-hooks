@@ -8,17 +8,17 @@ import { Button, Input, message } from 'antd';
 import { useAsync } from 'rc-hooks';
 import Mock from 'mockjs';
 
-function getUsername(): Promise<string> {
-  return new Promise((resolve) => {
+function getUsername() {
+  return new Promise<string>((resolve) => {
     setTimeout(() => {
       resolve(Mock.mock('@name'));
     }, 1000);
   });
 }
 
-function changeUsername(username: string): Promise<{ success: boolean }> {
+function changeUsername(username: string) {
   console.log(username);
-  return new Promise((resolve) => {
+  return new Promise<{ success: boolean }>((resolve) => {
     setTimeout(() => {
       resolve({ success: true });
     }, 1000);
@@ -27,12 +27,12 @@ function changeUsername(username: string): Promise<{ success: boolean }> {
 
 export default () => {
   const [state, setState] = useState('');
-  const { data, mutate } = useAsync<string>(getUsername, {
+  const { data, mutate } = useAsync(getUsername, {
     onSuccess: result => {
       setState(result);
     }
   });
-  const { loading, run } = useAsync<{ success: boolean; }>(changeUsername, {
+  const { loading, run } = useAsync(changeUsername, {
     autoRun: false,
     onSuccess: (result, params) => {
       if (result.success) {

@@ -9,7 +9,7 @@ import usePagination from './hooks/usePagination';
 import getUserList from './services/getUserList';
 
 export default () => {
-  const { data, loading, pagination, onTableChange } = usePagination<{ data: { name: string; email: string; }[] }>(getUserList);
+  const { data, loading, pagination, onTableChange } = usePagination(getUserList);
 
   return (
     <div>

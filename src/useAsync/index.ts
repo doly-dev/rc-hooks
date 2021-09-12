@@ -9,20 +9,20 @@ import limit from "../utils/limit";
 import subscribeFocus from "../utils/windowFocus";
 import subscribeVisible from "../utils/windowVisible";
 
-export type AsyncFunction = (...args: any[]) => Promise<any>;
+export type AsyncFunction<R = any, P extends any[] = any> = (...args: P) => Promise<R>;
 
-export type AsyncOptions<DataType = any> = Partial<{
+export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
   autoRun: boolean;
   refreshDeps: any[];
-  defaultParams: any[];
+  defaultParams: P;
   defaultLoading: boolean;
-  initialData: any;
+  initialData: R;
   cacheKey: string;
   cacheTime: number;
   persisted: boolean;
-  onSuccess: (data: DataType, param: any[]) => void;
-  onError: (error: Error, param: any[]) => void;
-  formatResult: (res: any) => DataType;
+  onSuccess: (data: R, param: P) => void;
+  onError: (error: Error, param: P) => void;
+  formatResult: <ResponseDataType = any>(res: ResponseDataType) => R;
   pollingInterval: number;
   pollingWhenHidden: boolean;
   refreshOnWindowFocus: boolean;
@@ -33,12 +33,14 @@ export type AsyncOptions<DataType = any> = Partial<{
 }>;
 
 // 空函数
-const noop = () => {};
+const noop = () => { };
 
 // 异步方法hooks
-function useAsync<DataType = any>(
-  asyncFn: AsyncFunction,
-  {
+function useAsync<R = any, P extends any[] = any>(
+  asyncFn: AsyncFunction<R, P>,
+  options: AsyncOptions<R, P> = {}
+) {
+  const {
     autoRun = true,
     refreshDeps = [],
     defaultParams = [],
@@ -57,16 +59,16 @@ function useAsync<DataType = any>(
     loadingDelay,
     debounceInterval,
     throttleInterval,
-  }: AsyncOptions<DataType> = {}
-) {
+  } = options;
+
   const [state, set] = useState<{
-    params: any[];
+    params: P;
     loading: boolean;
     error: null | Error;
-    data?: DataType;
+    data?: R;
   }>({
     // 参数兼容非array的情况
-    params: Array.isArray(defaultParams) ? defaultParams : [defaultParams],
+    params: (Array.isArray(defaultParams) ? defaultParams : [defaultParams]) as any,
     loading: defaultLoading,
     error: null,
     data: cacheKey ? getCache(cacheKey) : initialData,
@@ -80,11 +82,11 @@ function useAsync<DataType = any>(
   const unsubscribeRef = useRef<Function[]>([]); // 取消订阅集合
 
   // 持久化一些函数
-  const asyncFnPersist = usePersistFn<typeof asyncFn>(asyncFn);
+  const asyncFnPersist = usePersistFn(asyncFn);
   const onSuccessPersist = usePersistFn(onSuccess);
   const onErrorPersist = usePersistFn(onError);
 
-  const _run = useCallback((...args) => {
+  const _run: AsyncFunction<R, P> = useCallback((...args) => {
     // 取消轮询定时器
     if (pollingTimerRef.current) {
       clearTimeout(pollingTimerRef.current);
@@ -118,7 +120,7 @@ function useAsync<DataType = any>(
 
     const wrapperAsyncFn = () => {
       // fix: 同时多次调用run，并通过then处理时，前面调用的会返回undefined导致异常的问题
-      return new Promise<DataType>((resolve, reject) => {
+      return new Promise<R>((resolve, reject) => {
         // 有缓存数据，且开启持久缓存，不需要再次请求
         if (cacheData && persisted) {
           if (!unmountFlagRef.current && currentCount === counterRef.current) {
@@ -135,7 +137,7 @@ function useAsync<DataType = any>(
                 if (loadingDelayTimerRef.current) {
                   clearTimeout(loadingDelayTimerRef.current);
                 }
-                const fmtData: DataType =
+                const fmtData =
                   typeof formatResult === "function"
                     ? formatResult(data)
                     : data;
@@ -200,7 +202,7 @@ function useAsync<DataType = any>(
   );
 
   const run = useCallback(
-    (...args) => {
+    (...args: P) => {
       if (debounceRunRef.current) {
         debounceRunRef.current(...args);
         return Promise.resolve(null);
@@ -261,7 +263,7 @@ function useAsync<DataType = any>(
   }, [...refreshDeps]);
 
   // 突变
-  const mutate = (newData: DataType | ((oldData?: DataType) => DataType)) => {
+  const mutate = (newData: R | ((oldData?: R) => R)) => {
     if (typeof newData === "function") {
       set((s) => ({ ...s, data: (newData as Function)(state.data) }));
     } else {
@@ -273,7 +275,7 @@ function useAsync<DataType = any>(
     // 默认自动执行
     if (autoRun) {
       // 支持默认参数
-      run(...state.params);
+      run(...state.params as any);
     }
 
     const unsubscribeArr = unsubscribeRef.current;
