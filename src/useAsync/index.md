@@ -93,8 +93,13 @@ useEffect(() => {
 
 ## API
 
-```javascript
-const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(
+```typescript
+
+// R = data 类型
+// P = run 方法参数
+// FP = formatResult 方法参数，即 asyncFn 返回数据
+
+const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<R, P, FP>(
   asyncFn,
   {
     autoRun,
@@ -122,14 +127,14 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(
 
 | 参数 | 说明 | 类型 |
 | --- | --- | --- |
-| data | 异步函数的返回值，默认为 `undefined`。 | `any` |
-| error | 异步函数抛出的异常，默认为 `undefined` | `any` |
+| data | 异步函数的返回值，默认为 `undefined`。 | `R` |
+| error | 异步函数抛出的异常，默认为 `undefined` | `Error` |
 | loading | 异步函数正在执行 | `boolean` |
-| params | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `array` |
-| run | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args) => Promise` |
+| params | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `P` |
+| run | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args: P) => Promise<R \| null>` |
 | cancel | 取消当前请求。如果有轮询，停止。 | `() => void` |
-| refresh | 使用上一次的 `params`，重新执行异步函数。 | `() => Promise` |
-| mutate | 直接修改 `data` | `(newData) => void` / `((oldData) => newData) => void` |
+| refresh | 使用上一次的 `params`，重新执行异步函数。 | `() => Promise<R \| null>` |
+| mutate | 直接修改 `data` | `(newData: DataType \| undefined \| ((oldData) => newData)) => void` |
 
 ### Params
 
@@ -138,9 +143,9 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | autoRun | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
-| initialData | 默认的 `data`。 | `any` | - |
+| initialData | 默认的 `data`。 | `R` | - |
 | defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `array` | - |
-| formatResult | 格式化请求结果 | `(data) => any` | - |
+| formatResult | 格式化请求结果 | `(data: FP) => R` | - |
 | refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
 | onSuccess | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 | onError | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
@@ -149,7 +154,7 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(
 | persisted | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。 | `boolean` | `false` |
 | loadingDelay | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。 | `number` | - |
 | pollingInterval | 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run` | `number` | - |
-| pollingWhenHidden | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询 | `boolean` | true |
+| pollingWhenHidden | 在页面隐藏时，是否继续轮询。默认为 `true`，即不会停止轮询<br />如果设置为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询 | `boolean` | `true` |
 | refreshOnWindowFocus | 在屏幕重新获取焦点或重新显示时，是否重新发起请求。默认为 `false`，即不会重新发起请求。<br />如果设置为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。 | `boolean` | `false` |
 | focusTimespan | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。 | `number` | `5000` |
 | debounceInterval | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。 | `number` | - |
@@ -196,7 +201,7 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync(
 
 #### API
 
-```
+```typescript
 const {
   ...,
   onTableChange,
@@ -211,8 +216,8 @@ const {
 
 | 参数 | 说明 | 类型 |
 | --- | --- | --- |
-| onTableChange | 分页、排序、筛选变化时触发 | `function(pagination, filters, sorter, extra: { currentDataSource: [], action: 'paginate' \| 'sort' \| 'filter' })` |
-| pagination | 分页数据 `current` `pageSize` `total` `showTotal` `showSizeChanger` `showQuickJumper` |
+| onTableChange | 分页、排序、筛选变化时触发 | `(pagination, filters, sorter, extra)=>void` |
+| pagination | 分页数据 | `{current: number; pageSize:number; total: number; showTotal: (total: number, range: [number, number]) => React.ReactNode; showSizeChanger: boolean; showQuickJumper: boolean;}` |
 
 #### Params
 
@@ -239,7 +244,7 @@ const {
 
 #### API
 
-```
+```typescript
 const {
   ...,
   reload,

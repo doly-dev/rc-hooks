@@ -11,7 +11,7 @@ import subscribeVisible from "../utils/windowVisible";
 
 export type AsyncFunction<R = any, P extends any[] = any> = (...args: P) => Promise<R>;
 
-export type AsyncOptions<R = any, P extends any[] = any, FR = any> = Partial<{
+export type AsyncBaseOptions<R = any, P extends any[] = any> = Partial<{
   autoRun: boolean;
   refreshDeps: any[];
   defaultParams: P;
@@ -22,7 +22,6 @@ export type AsyncOptions<R = any, P extends any[] = any, FR = any> = Partial<{
   persisted: boolean;
   onSuccess: (data: R, param: P) => void;
   onError: (error: Error, param: P) => void;
-  formatResult: (res: FR) => R;
   pollingInterval: number;
   pollingWhenHidden: boolean;
   refreshOnWindowFocus: boolean;
@@ -30,15 +29,38 @@ export type AsyncOptions<R = any, P extends any[] = any, FR = any> = Partial<{
   loadingDelay: number;
   debounceInterval: number;
   throttleInterval: number;
-}>;
+}>
+
+export type AsyncOptions<R = any, P extends any[] = any, FP = any> = AsyncBaseOptions<R, P> & {
+  formatResult?: (res: FP) => R;
+};
+
+export type AsyncResult<R = any, P extends any[] = any> = {
+  run: (...args: P) => Promise<R> | Promise<null>;
+  cancel: () => void;
+  mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
+  refresh: () => Promise<R> | Promise<null>;
+  params: P;
+  loading: boolean;
+  error: null | Error;
+  data?: R | undefined;
+}
 
 // 空函数
 const noop = () => { };
 
 // 异步方法hooks
-function useAsync<R = any, P extends any[] = any, FR = any>(
+function useAsync<R = any, P extends any[] = any>(
   asyncFn: AsyncFunction<R, P>,
-  options: AsyncOptions<R, P, FR> = {}
+  options?: AsyncBaseOptions<R, P>
+): AsyncResult<R, P>;
+function useAsync<R = any, P extends any[] = any, FP = any>(
+  asyncFn: AsyncFunction<FP, P>,
+  options?: AsyncOptions<R, P, FP>
+): AsyncResult<R, P>;
+function useAsync<R = any, P extends any[] = any, FP = any>(
+  asyncFn: AsyncFunction<FP, P>,
+  options?: AsyncOptions<R, P, FP>
 ) {
   const {
     autoRun = true,
@@ -59,7 +81,7 @@ function useAsync<R = any, P extends any[] = any, FR = any>(
     loadingDelay,
     debounceInterval,
     throttleInterval,
-  } = options;
+  } = options || {};
 
   const [state, set] = useState<{
     params: P;
@@ -263,7 +285,7 @@ function useAsync<R = any, P extends any[] = any, FR = any>(
   }, [...refreshDeps]);
 
   // 突变
-  const mutate = (newData: R | ((oldData?: R) => R)) => {
+  const mutate = (newData: R | undefined | ((oldData: R) => R)) => {
     if (typeof newData === "function") {
       set((s) => ({ ...s, data: (newData as Function)(state.data) }));
     } else {

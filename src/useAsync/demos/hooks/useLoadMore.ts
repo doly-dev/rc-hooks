@@ -62,7 +62,7 @@ function useLoadMore<R = any, P = any>(
         restOptions.onSuccess(res, params);
       }
     },
-    onError: (error: Error, params: any[]) => {
+    onError: (error, params) => {
       if (pageRef.current.current > 1) {
         pageRef.current.current -= 1;
       }
