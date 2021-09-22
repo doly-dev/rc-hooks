@@ -18,7 +18,7 @@ legacy: /life-cycle/use-update-layout-effect
 
 ## API
 
-```javascript
+```typescript
 useUpdateLayoutEffect(effect: () => void, deps?: any[]);
 ```
 

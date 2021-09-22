@@ -27,7 +27,7 @@ legacy: /other/use-controllabel-value
 
 ## API
 
-```javascript
+```typescript
 const [state, setState] = useControllableValue(props: object, options?: Options);
 ```
 

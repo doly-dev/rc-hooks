@@ -22,7 +22,7 @@ legacy: /other/use-persist-fn
 
 ## API
 
-```javascript
+```typescript
 const fn = usePersistFn((fn: (...args: any) => any));
 ```
 

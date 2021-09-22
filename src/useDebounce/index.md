@@ -19,7 +19,7 @@ legacy: /side-effect/use-debounce
 
 ## API
 
-```javascript
+```typescript
 const debouncedValue = useDebounce(
   value: any,
   wait?: number,

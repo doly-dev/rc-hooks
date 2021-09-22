@@ -75,7 +75,7 @@ legacy: /async/use-async
 
 当某些 `state` 变化时，我们需要重新执行异步请求，一般我们会这样写代码：
 
-```javascript
+```typescript
 const [userId, setUserId] = useState("1");
 const { data, run, loading } = useRequest(() => getUserSchool(userId));
 useEffect(() => {

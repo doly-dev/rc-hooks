@@ -18,7 +18,7 @@ legacy: /life-cycle/use-update-effect
 
 ## API
 
-```javascript
+```typescript
 useUpdateEffect(effect: () => any, deps?: any[]);
 ```
 

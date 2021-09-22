@@ -18,7 +18,7 @@ legacy: /side-effect/use-throttle
 
 ## API
 
-```javascript
+```typescript
 const throttledValue = useThrottle(
   value: any,
   wait?: number,

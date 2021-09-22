@@ -22,7 +22,7 @@ legacy: /side-effect/use-debounce-fn
 
 ## API
 
-```javascript
+```typescript
 const { run, cancel } = useThrottleFn(
   fn: (...args: any) => any,
   wait?: number,

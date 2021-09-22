@@ -20,7 +20,7 @@ hide: true
 
 ## API
 
-```javascript
+```typescript
 const [rect, ref]: [DOMRect, React.RefObject<HTMLDivElement>] = useClientRect();
 ```
 

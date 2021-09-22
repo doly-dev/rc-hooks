@@ -18,6 +18,6 @@ legacy: /life-cycle/use-update
 
 ## API
 
-```javascript
+```typescript
 useUpdate();
 ```
