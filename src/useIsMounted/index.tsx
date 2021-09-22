@@ -1,5 +1,8 @@
 import { useRef, useEffect } from "react";
 
+/**
+ * @deprecated Please use `useUnmountedRef` or `useMountedRef`
+ */
 function useIsMounted() {
   const isMountedRef = useRef(false);
 
