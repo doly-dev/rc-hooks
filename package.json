@@ -1,6 +1,6 @@
 {
   "name": "rc-hooks",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "React Hooks Library.",
   "main": "lib/index.js",
   "module": "es/index.js",
