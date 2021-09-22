@@ -49,6 +49,7 @@ import { useAsync } from 'rc-hooks';
   - [useControllableValue] - 便于管理 `受控/非受控` 组件的状态
   - [usePersistFn] - 持久化 function
   - [usePrevious] - 保存上一次渲染时状态
+  - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
   - [useSize] - 获取并监听 dom 节点的宽高
 
 [useasync]: /async/use-async
@@ -65,6 +66,7 @@ import { useAsync } from 'rc-hooks';
 [useupdatelayouteffect]: /life-cycle/use-update-layout-effect
 [useprevious]: /other/use-previous
 [usepersistfn]: /other/use-persist-fn
+[usesafestate]: /other/use-safe-state
 [usesize]: /other/use-size
 [useclickaway]: /other/use-click-away
 [usecontrollablevalue]: /other/use-controllable-value
