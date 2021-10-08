@@ -41,23 +41,31 @@ const {
   loadMore,
   loadingMore,
   noMore
-} = useLoadMore(asyncFn, {
+} = useLoadMore(async ({ current }, prevData) => {
+  // current 当前页码
+  // prevData 之前数据
+
+  return {
+    list: any[],
+    ...
+  }
+}, {
   threshold,
   ref,
   isNoMore
 });
 ```
 
-除了以下介绍，其它和 [`useAsync`](/async/use-async) 一样。
+除了以下，其它和 [`useAsync`](/async/use-async) 一样。
 
 ### Result
 
-| 参数        | 说明                                  | 类型         |
-| ----------- | ------------------------------------- | ------------ |
-| loadMore    | 触发加载更多                          | `() => void` |
-| loadingMore | 是否正在加载更多，即不是首次加载中                    | `boolean`    |
-| noMore        | 没有更多                          | `boolean`    |
-| refresh        | 重置当前页码到第一页，并清除之前列表数据，发起请求                           | `()=>Promise<R \| null>`    |
+| 参数        | 说明                                                | 类型                     |
+| ----------- | --------------------------------------------------- | ------------------------ |
+| loadMore    | 触发加载更多。`asyncFn` 第一个参数 `current` 加 1   | `() => void`             |
+| loadingMore | 是否正在加载更多。即加载中并且 current 不等于 1     | `boolean`                |
+| noMore      | 是否没有更多                                        | `boolean`                |
+| refresh     | 重置当前页码到第一页，并清除之前列表数据 ，发起请求 | `()=>Promise<R \| null>` |
 
 ### Params
 

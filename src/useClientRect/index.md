@@ -10,6 +10,8 @@ hide: true
 
 # useClientRect
 
+<mark>即将废弃，请使用 [`useSize`](/other/use-size) 。</mark>
+
 获取元素的大小及其相对于视口的位置的 Hook。
 
 ## 代码演示

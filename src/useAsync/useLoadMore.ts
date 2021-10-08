@@ -9,17 +9,32 @@ export interface LoadMoreAsyncReturn<DataItem = any> {
   list: DataItem[];
 }
 
-export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [page: { current: number; }, res?: R];
+export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [
+  page: { current: number },
+  prevData?: R
+];
 
-export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any> extends Omit<AsyncBaseOptions<R, LoadMoreParams<R>>, 'cacheKey' | 'cacheTime' | 'persisted' | 'defaultParams' | 'pollingInterval' | 'pollingWhenHidden'> {
+export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
+  extends Omit<
+    AsyncBaseOptions<R, LoadMoreParams<R>>,
+    | 'cacheKey'
+    | 'cacheTime'
+    | 'persisted'
+    | 'defaultParams'
+    | 'pollingInterval'
+    | 'pollingWhenHidden'
+  > {
   threshold?: number;
   ref?: React.RefObject<HTMLElement | Window>;
   isNoMore?: (data?: R) => boolean;
 }
 
-export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any, FP = any> extends LoadMoreAsyncBaseOption<R>, Pick<AsyncOptions<R, LoadMoreParams<R>, FP>, 'formatResult'> { }
+export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any, FP = any>
+  extends LoadMoreAsyncBaseOption<R>,
+    Pick<AsyncOptions<R, LoadMoreParams<R>, FP>, 'formatResult'> {}
 
-export interface LoadMoreResult<R extends LoadMoreAsyncReturn = any, P extends any[] = any> extends Omit<AsyncResult<R, P>, 'run'> {
+export interface LoadMoreResult<R extends LoadMoreAsyncReturn = any, P extends any[] = any>
+  extends Omit<AsyncResult<R, P>, 'run'> {
   run: () => Promise<R | null>;
   loadMore: () => void;
   loadingMore: boolean;
@@ -75,10 +90,12 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     formatResult: res => {
       const fmtRes = (formatResult ? formatResult(res) : res) as R;
       resRef.current = fmtRes;
-      return pageRef.current.current === 1 ? fmtRes : {
-        ...fmtRes,
-        list: prevList.current.concat(fmtRes.list)
-      };
+      return pageRef.current.current === 1
+        ? fmtRes
+        : {
+            ...fmtRes,
+            list: prevList.current.concat(fmtRes.list)
+          };
     }
   } as LoadMoreAsyncOption<R, FP>);
 
@@ -110,11 +127,14 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     return run();
   }, [cancel, run]);
 
-  const mutate: LoadMoreResult<R, LoadMoreParams<R>>['mutate'] = React.useCallback((param) => {
-    const ret = typeof param === 'function' ? param(request.data as R) : param;
-    prevList.current = ret?.list || [];
-    request.mutate(ret);
-  }, [request]);
+  const mutate: LoadMoreResult<R, LoadMoreParams<R>>['mutate'] = React.useCallback(
+    param => {
+      const ret = typeof param === 'function' ? param(request.data as R) : param;
+      prevList.current = ret?.list || [];
+      request.mutate(ret);
+    },
+    [request]
+  );
 
   const scrollMethod = React.useCallback(() => {
     if (request.loading || !ref?.current) {

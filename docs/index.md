@@ -8,8 +8,7 @@ group:
 
 # rc-hooks
 
-[![npm][npm]][npm-url]
-![GitHub](https://img.shields.io/github/license/doly-dev/rc-hooks.svg)
+[![npm][npm]][npm-url] ![GitHub](https://img.shields.io/github/license/doly-dev/rc-hooks.svg)
 
 React Hooks Library.
 
@@ -39,7 +38,7 @@ import { useAsync } from 'rc-hooks';
   - [useThrottleFn] - 用来处理节流函数
 - LifeCycle
   - [useMount] - 只在组件 mount 时执行
-  - [useMountedRef] - 用于异步回调或dom操作中判断当前组件是否装载
+  - [useMountedRef] - 用于异步回调或 dom 操作中判断当前组件是否装载
   - [useUpdate] - 强制组件重新渲染
   - [useUnmount] - 只在组件 unmount 时执行
   - [useUnmountedRef] - 用于判断当前组件是否卸载
