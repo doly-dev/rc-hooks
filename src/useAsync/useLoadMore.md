@@ -1,0 +1,70 @@
+---
+title: useLoadMore
+group:
+  title: Async
+  path: /async
+  order: 1
+legacy: /async/use-load-more
+---
+
+# useLoadMore
+
+基于 [`useAsync`](/async/use-async) 扩展，用于管理`加载更多`的 Hook。
+
+**核心特性**
+
+- 自动管理列表数据，返回的 `data.list` 为异步函数返回的 `list` 合并数组。
+- `asyncFn` 参数为`当前页码`和 `data`。
+- `asyncFn` 必须返回的数据结构必须包含 `{ list: DataItem[] }`，如果不满足可以通过 `formatResult` 转换。
+- 设置 `ref` 和 `isNoMore` 可实现上拉自动加载更多功能。
+- `refreshDeps` 变化后，会重置`当前页码`为第一页，并触发异步方法。
+
+## 代码演示
+
+### 基础用法
+
+<code iframe="300" src="./demos/LoadMore1.tsx" />
+
+### 滚动底部自动加载
+
+<code src="./demos/LoadMore2.tsx" />
+
+### 根据 data 进行下一次请求
+
+<code src="./demos/LoadMore3.tsx" />
+
+## API
+
+```typescript
+const {
+  ...,
+  loadMore,
+  loadingMore,
+  noMore
+} = useLoadMore(asyncFn, {
+  threshold,
+  ref,
+  isNoMore
+});
+```
+
+除了以下介绍，其它和 [`useAsync`](/async/use-async) 一样。
+
+### Result
+
+| 参数        | 说明                                  | 类型         |
+| ----------- | ------------------------------------- | ------------ |
+| loadMore    | 触发加载更多                          | `() => void` |
+| loadingMore | 是否正在加载更多，即不是首次加载中                    | `boolean`    |
+| noMore        | 没有更多                          | `boolean`    |
+| refresh        | 重置当前页码到第一页，并清除之前列表数据，发起请求                           | `()=>Promise<R \| null>`    |
+
+### Params
+
+不支持 `'cacheKey' | 'cacheTime' | 'persisted' | 'defaultParams' | 'pollingInterval' | 'pollingWhenHidden'` 配置项
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| threshold | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
+| ref | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | - |
+| isNoMore | 判断是否没有更多数据 | `(data?: R) => boolean` | `()=>false` |

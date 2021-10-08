@@ -12,7 +12,7 @@ const userList = ({ pageSize }: {
       email: '@email',
       disabled: false
     }],
-    total: 25,
+    total: 15,
     errCode: "00",
     errMsg: ""
   })
@@ -31,10 +31,9 @@ type Result = {
   errMsg: string;
 }
 
-export default function getUserList({ current, pageSize }: {
+export default function getUserList({ current, pageSize = 5 }: {
   current: number;
-  pageSize: number;
-  [x: string]: any;
+  pageSize?: number;
 }) {
   return new Promise<Result>(resolve => {
     setTimeout(() => {

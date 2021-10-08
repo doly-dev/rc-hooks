@@ -1,33 +1,34 @@
 /**
  * title: 基本用法
- * desc: |
- *    首次加载需通过调用 `run`，并传入查询参数。
- *
- *    加载下一页 `loadMore` 或 重新加载 `reload` 会自动带入之前参数和分页。
  */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, Spin, List, Typography } from "antd";
-import useLoadMore from "./hooks/useLoadMore";
+import { useLoadMore } from 'rc-hooks';
 
 import getUserList from "./services/getUserList";
 
-export default () => {
-  const { run, data, loading, loadingMore, done, loadMore } = useLoadMore<{ id: string; name: string }>(getUserList, {
-    defaultPageSize: 5,
-    autoRun: false,
-  });
+type DataItem = { id: string; name: string }
 
-  useEffect(() => {
-    run({ someParams: 1 });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+type Result = {
+  list: DataItem[];
+  total: number;
+}
+
+export default () => {
+  const { data, loading, loadingMore, noMore, loadMore } = useLoadMore<Result>(({ current }) => getUserList({ current }), {
+    formatResult: res => ({
+      ...res,
+      list: res.data
+    }),
+    isNoMore: d => d.list.length >= d.total
+  });
 
   return (
     <div>
       <Spin spinning={loading && !loadingMore}>
         <List
-          dataSource={data}
+          dataSource={data?.list}
           renderItem={(item: { id: string; name: string }) => (
             <List.Item key={item.id}>
               <Typography.Text mark>[{item.id}]</Typography.Text> {item.name}
@@ -35,8 +36,8 @@ export default () => {
           )}
         />
       </Spin>
-      <Button onClick={loadMore} loading={loadingMore} disabled={done}>
-        click to load more
+      <Button onClick={loadMore} loading={loadingMore} disabled={noMore}>
+        {noMore ? 'No more data' : 'Click to load more'}
       </Button>
     </div>
   );

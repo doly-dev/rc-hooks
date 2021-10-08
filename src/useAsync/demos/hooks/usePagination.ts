@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useAsync } from "rc-hooks";
-import { AsyncOptions, AsyncFunction } from "rc-hooks/es/useAsync";
+import { AsyncOptions, AsyncFunction } from "rc-hooks";
 import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
 
 type Key = Record<number | string, any>;
@@ -36,7 +36,7 @@ function usePagination<R = any, P = any>(
     autoRun,
     onSuccess = () => { },
     ...restOptions
-  }: Options<ResultWithPagination<R>, ParamWithPagination<P>> = {}
+  }: Options<ResultWithPagination<R>, ParamWithPagination<P>> = ({} as any)
 ) {
   const [data, setData] = useState<ResultWithPagination<R>["data"]>([]);
 

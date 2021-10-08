@@ -1,5 +1,6 @@
 // async
-export { default as useAsync } from './useAsync';
+export * from './useAsync';
+export * from './useAsync/useLoadMore';
 
 // side effect
 export { default as useDebounceFn } from './useDebounceFn';

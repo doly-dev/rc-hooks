@@ -1,19 +1,38 @@
-/**
- * title: 上拉加载更多
- * desc: 如果 `options` 中存在 `ref` ，在滚动到底部时，自动触发 `loadMore` 。通过设置 `isNoMore`, 让 `useLoadMore` 知道何时停止。
- */
-
 import { Button, List } from "antd";
 import React, { useRef } from "react";
 import { useLoadMore } from 'rc-hooks';
 
-import getUserList from "./services/getUserList";
+interface Item {
+  id?: string;
+  name: string;
+}
 
-type DataItem = { id: string; name: string }
+interface Result {
+  list: Item[];
+  nextId?: string;
+}
 
-type Result = {
-  list: DataItem[];
-  total: number;
+const resultData = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> {
+  let start = 0;
+  if (nextId) {
+    start = resultData.findIndex((i) => i === nextId);
+  }
+  const end = start + limit;
+  const list = resultData.slice(start, end).map((id) => ({
+    id,
+    name: `project ${id} (server time: ${Date.now()})`,
+  }));
+  const nId = resultData.length >= end ? resultData[end] : undefined;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        list,
+        nextId: nId,
+      });
+    }, 1000);
+  });
 }
 
 export default () => {
@@ -25,15 +44,11 @@ export default () => {
     refresh,
     loadMore,
     noMore
-  } = useLoadMore<Result>(async ({ current }) => {
-    const res = await getUserList({ current, pageSize: 3 });
-    return {
-      total: res.total,
-      list: res.data
-    }
+  } = useLoadMore<Result>((_, prevRes) => {
+    return getLoadMoreList(prevRes?.nextId, 3);
   }, {
     ref: containerRef,
-    isNoMore: res => res.list.length >= res.total,
+    isNoMore: res => !res.nextId
   });
 
   const renderFooter = () => (
@@ -45,10 +60,6 @@ export default () => {
       )}
 
       {noMore && <span>No more data</span>}
-
-      <span style={{ float: "right", fontSize: 12 }}>
-        total: {data?.total}
-      </span>
     </div>
   );
 
@@ -68,7 +79,6 @@ export default () => {
           <List.Item>
             <List.Item.Meta
               title={<a>{item.name}</a>}
-              description="rc-hooks is a react hooks library"
             />
           </List.Item>
         )}
