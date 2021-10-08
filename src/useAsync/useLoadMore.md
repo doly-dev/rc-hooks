@@ -62,10 +62,10 @@ const {
 
 | 参数        | 说明                                                | 类型                     |
 | ----------- | --------------------------------------------------- | ------------------------ |
-| loadMore    | 触发加载更多。`asyncFn` 第一个参数 `current` 加 1   | `() => void`             |
-| loadingMore | 是否正在加载更多。即加载中并且 current 不等于 1     | `boolean`                |
+| loadMore    | 触发加载更多。页码加 1，并触发 `asynfFn`。          | `() => void`             |
+| loadingMore | 是否正在加载更多。即加载中并且 `current` 不等于 1   | `boolean`                |
 | noMore      | 是否没有更多                                        | `boolean`                |
-| refresh     | 重置当前页码到第一页，并清除之前列表数据 ，发起请求 | `()=>Promise<R \| null>` |
+| refresh     | 重置当前页码到第 1 页，并清除之前列表数据，发起请求 | `()=>Promise<R \| null>` |
 
 ### Params
 
