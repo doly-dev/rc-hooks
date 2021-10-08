@@ -34,7 +34,7 @@ describe('useDebounce', () => {
     expect(result.current.state).toBe(1);
     expect(result.current.debounceState).toBe(0);
 
-    await waitTime(300);
+    await waitTime(320);
     expect(result.current.state).toBe(1);
     expect(result.current.debounceState).toBe(1);
 
@@ -46,7 +46,7 @@ describe('useDebounce', () => {
     expect(result.current.state).toBe(2);
     expect(result.current.debounceState).toBe(1);
 
-    await waitTime(300);
+    await waitTime(320);
     expect(result.current.state).toBe(2);
     expect(result.current.debounceState).toBe(2);
   });
