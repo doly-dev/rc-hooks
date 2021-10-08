@@ -13,7 +13,7 @@ legacy: /life-cycle/use-mount
 
 ## 代码演示
 
-### 基本用法
+### 基础用法
 
 <code src="./demos/Demo1.tsx" />
 

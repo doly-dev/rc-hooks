@@ -13,7 +13,7 @@ legacy: /life-cycle/use-unmounted-ref
 
 ## 代码演示
 
-### 基本用法
+### 基础用法
 
 <code src="./demos/basic.tsx" />
 

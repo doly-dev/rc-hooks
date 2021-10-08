@@ -12,7 +12,7 @@ legacy: /other/use-safe-state
 
 ## 代码演示
 
-### 基本用法
+### 基础用法
 
 <code src="./demos/Demo1.tsx" />
 

@@ -1,5 +1,5 @@
 /**
- * title: 基本用法
+ * title: 基础用法
  * desc: 通过 usePersistFn, 函数引用永远不会变化。
  */
 

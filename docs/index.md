@@ -31,6 +31,7 @@ import { useAsync } from 'rc-hooks';
 
 - Async
   - [useAsync] - 管理异步函数
+  - [useLoadMore] - 管理加载更多
 - SideEffect
   - [useDebounce] - 用来处理防抖值
   - [useDebounceFn] - 用来处理防抖函数
@@ -53,6 +54,7 @@ import { useAsync } from 'rc-hooks';
   - [useSize] - 获取并监听 dom 节点的宽高
 
 [useasync]: /async/use-async
+[useloadmore]: /async/use-load-more
 [usedebounce]: /side-effect/use-debounce
 [usethrottle]: /side-effect/use-throttle
 [usedebouncefn]: /side-effect/use-debounce-fn

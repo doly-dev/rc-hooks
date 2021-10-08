@@ -25,6 +25,7 @@ import { useAsync } from 'rc-hooks';
 
 - Async
   - [useAsync] - 管理异步函数
+  - [useLoadMore] - 管理加载更多
 - SideEffect
   - [useDebounce] - 用来处理防抖值
   - [useDebounceFn] - 用来处理防抖函数
@@ -48,6 +49,7 @@ import { useAsync } from 'rc-hooks';
 
 [site]: https://doly-dev.github.io/rc-hooks/latest/index.html
 [useasync]: https://doly-dev.github.io/rc-hooks/latest/index.html#/async/use-async
+[useloadmore]: https://doly-dev.github.io/rc-hooks/latest/index.html#/async/use-load-more
 [usedebounce]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-debounce
 [usethrottle]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-throttle
 [usedebouncefn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-debounce-fn

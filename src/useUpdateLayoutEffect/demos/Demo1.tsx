@@ -1,5 +1,5 @@
 /**
- * title: 基本用法
+ * title: 基础用法
  * desc: 使用上与 useLayoutEffect 完全相同，只是它忽略了首次渲染，且只在依赖项更新时运行。
  */
 

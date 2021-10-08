@@ -1,5 +1,5 @@
 /**
- * title: 基本用法
+ * title: 基础用法
  * desc: debouncedValue 只会在输入结束 500ms 后变化。
  */
 

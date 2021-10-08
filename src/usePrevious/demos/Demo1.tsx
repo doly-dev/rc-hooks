@@ -1,5 +1,5 @@
 /**
- * title: 基本用法
+ * title: 基础用法
  * desc: 记录上次的 value 值
  */
 

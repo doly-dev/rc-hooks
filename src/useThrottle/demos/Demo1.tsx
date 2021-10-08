@@ -1,5 +1,5 @@
 /**
- * title: 基本用法
+ * title: 基础用法
  * desc: throttledValue 每隔 500ms 变化一次。
  */
 

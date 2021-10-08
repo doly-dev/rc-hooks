@@ -16,7 +16,7 @@ legacy: /other/use-persist-fn
 
 ## 代码演示
 
-### 基本用法
+### 基础用法
 
 <code src="./demos/Demo2.tsx" />
 
