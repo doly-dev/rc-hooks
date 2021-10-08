@@ -94,10 +94,9 @@ useEffect(() => {
 ## API
 
 ```typescript
-
 // R = data 类型
-// P = run 方法参数
-// FP = formatResult 方法参数，即 asyncFn 返回数据
+// P = asyncFn 和 run 方法参数
+// FP = formatResult 方法参数，即 asyncFn 返回值
 
 const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<R, P, FP>(
   asyncFn,

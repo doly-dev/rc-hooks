@@ -32,7 +32,7 @@ export type AsyncBaseOptions<R = any, P extends any[] = any> = Partial<{
 }>
 
 export type AsyncOptions<R = any, P extends any[] = any, FP = any> = AsyncBaseOptions<R, P> & {
-  formatResult?: (res: FP) => R;
+  formatResult: (res: FP) => R;
 };
 
 export type AsyncResult<R = any, P extends any[] = any> = {
@@ -50,17 +50,17 @@ export type AsyncResult<R = any, P extends any[] = any> = {
 const noop = () => { };
 
 // 异步方法hooks
-function useAsync<R = any, P extends any[] = any>(
+export function useAsync<R = any, P extends any[] = any>(
   asyncFn: AsyncFunction<R, P>,
   options?: AsyncBaseOptions<R, P>
 ): AsyncResult<R, P>;
-function useAsync<R = any, P extends any[] = any, FP = any>(
+export function useAsync<R = any, P extends any[] = any, FP = any>(
   asyncFn: AsyncFunction<FP, P>,
   options?: AsyncOptions<R, P, FP>
 ): AsyncResult<R, P>;
-function useAsync<R = any, P extends any[] = any, FP = any>(
+export function useAsync<R = any, P extends any[] = any, FP = any>(
   asyncFn: AsyncFunction<FP, P>,
-  options?: AsyncOptions<R, P, FP>
+  options?: AsyncBaseOptions<R, P> | AsyncOptions<R, P, FP>
 ) {
   const {
     autoRun = true,
@@ -81,7 +81,7 @@ function useAsync<R = any, P extends any[] = any, FP = any>(
     loadingDelay,
     debounceInterval,
     throttleInterval,
-  } = options || {};
+  } = (options || {}) as AsyncOptions<R, P, FP>;
 
   const [state, set] = useState<{
     params: P;
@@ -107,6 +107,8 @@ function useAsync<R = any, P extends any[] = any, FP = any>(
   const asyncFnPersist = usePersistFn(asyncFn);
   const onSuccessPersist = usePersistFn(onSuccess);
   const onErrorPersist = usePersistFn(onError);
+  const formatResultRef = useRef(formatResult);
+  formatResultRef.current = formatResult;
 
   const _run: AsyncFunction<R, P> = useCallback((...args) => {
     // 取消轮询定时器
@@ -160,8 +162,8 @@ function useAsync<R = any, P extends any[] = any, FP = any>(
                   clearTimeout(loadingDelayTimerRef.current);
                 }
                 const fmtData =
-                  typeof formatResult === "function"
-                    ? formatResult(data)
+                  typeof formatResultRef.current === "function"
+                    ? formatResultRef.current(data)
                     : data;
 
                 set((s) => ({
