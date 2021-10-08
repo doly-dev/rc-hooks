@@ -11,7 +11,7 @@ export interface LoadMoreAsyncReturn<DataItem = any> {
 
 export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [
   page: { current: number },
-  prevData?: R
+  currData?: R
 ];
 
 export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>

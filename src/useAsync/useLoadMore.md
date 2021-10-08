@@ -41,9 +41,9 @@ const {
   loadMore,
   loadingMore,
   noMore
-} = useLoadMore(async ({ current }, prevData) => {
+} = useLoadMore(async ({ current }, currData) => {
   // current 当前页码
-  // prevData 之前数据
+  // currData 当前数据
 
   return {
     list: any[],

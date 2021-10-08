@@ -1,5 +1,5 @@
-import { Button, List } from "antd";
-import React, { useRef } from "react";
+import { Button, List } from 'antd';
+import React, { useRef } from 'react';
 import { useLoadMore } from 'rc-hooks';
 
 interface Item {
@@ -17,19 +17,19 @@ const resultData = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> {
   let start = 0;
   if (nextId) {
-    start = resultData.findIndex((i) => i === nextId);
+    start = resultData.findIndex(i => i === nextId);
   }
   const end = start + limit;
-  const list = resultData.slice(start, end).map((id) => ({
+  const list = resultData.slice(start, end).map(id => ({
     id,
-    name: `project ${id} (server time: ${Date.now()})`,
+    name: `project ${id} (server time: ${Date.now()})`
   }));
   const nId = resultData.length >= end ? resultData[end] : undefined;
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve({
         list,
-        nextId: nId,
+        nextId: nId
       });
     }, 1000);
   });
@@ -37,25 +37,21 @@ export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> 
 
 export default () => {
   const containerRef = useRef(null);
-  const {
-    data,
-    loading,
-    loadingMore,
-    refresh,
-    loadMore,
-    noMore
-  } = useLoadMore<Result>(({ current }, prevRes) => {
-    return getLoadMoreList(current === 1 ? undefined : prevRes?.nextId, 3);
-  }, {
-    ref: containerRef,
-    isNoMore: res => !res.nextId
-  });
+  const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore<Result>(
+    ({ current }, currData) => {
+      return getLoadMoreList(current === 1 ? undefined : currData?.nextId, 3);
+    },
+    {
+      ref: containerRef,
+      isNoMore: res => !res.nextId
+    }
+  );
 
   const renderFooter = () => (
     <div>
       {!noMore && (
         <Button onClick={loadMore} loading={loadingMore}>
-          {loadingMore ? "Loading more" : "Click to load more"}
+          {loadingMore ? 'Loading more' : 'Click to load more'}
         </Button>
       )}
 
@@ -64,7 +60,7 @@ export default () => {
   );
 
   return (
-    <div ref={containerRef} style={{ height: 300, overflowY: "auto" }}>
+    <div ref={containerRef} style={{ height: 300, overflowY: 'auto' }}>
       <List
         header={
           <Button onClick={refresh} loading={loading}>
@@ -77,9 +73,7 @@ export default () => {
         dataSource={data?.list}
         renderItem={(item: { name: string }) => (
           <List.Item>
-            <List.Item.Meta
-              title={<a>{item.name}</a>}
-            />
+            <List.Item.Meta title={<a>{item.name}</a>} />
           </List.Item>
         )}
       />
