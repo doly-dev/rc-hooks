@@ -41,7 +41,6 @@ export default () => {
     data,
     loading,
     loadingMore,
-    refresh,
     loadMore,
     noMore
   } = useLoadMore<Result>((_, prevRes) => {
@@ -66,11 +65,6 @@ export default () => {
   return (
     <div ref={containerRef} style={{ height: 300, overflowY: "auto" }}>
       <List
-        header={
-          <Button onClick={refresh} loading={loading}>
-            {loading ? 'loading' : 'Reload'}
-          </Button>
-        }
         footer={renderFooter()}
         loading={loading && !loadingMore}
         bordered
