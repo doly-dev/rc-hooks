@@ -41,10 +41,11 @@ export default () => {
     data,
     loading,
     loadingMore,
+    refresh,
     loadMore,
     noMore
-  } = useLoadMore<Result>((_, prevRes) => {
-    return getLoadMoreList(prevRes?.nextId, 3);
+  } = useLoadMore<Result>(({ current }, prevRes) => {
+    return getLoadMoreList(current === 1 ? undefined : prevRes?.nextId, 3);
   }, {
     ref: containerRef,
     isNoMore: res => !res.nextId
@@ -65,6 +66,11 @@ export default () => {
   return (
     <div ref={containerRef} style={{ height: 300, overflowY: "auto" }}>
       <List
+        header={
+          <Button onClick={refresh} loading={loading}>
+            {loading ? 'loading' : 'Reload'}
+          </Button>
+        }
         footer={renderFooter()}
         loading={loading && !loadingMore}
         bordered

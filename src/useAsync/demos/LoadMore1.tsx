@@ -36,7 +36,7 @@ export default () => {
           )}
         />
       </Spin>
-      <Button onClick={loadMore} loading={loadingMore} disabled={noMore}>
+      <Button onClick={loadMore} loading={loadingMore} disabled={noMore || loading}>
         {noMore ? 'No more data' : 'Click to load more'}
       </Button>
     </div>
