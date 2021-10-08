@@ -34,11 +34,9 @@ describe('useDebounce', () => {
     expect(result.current.state).toBe(1);
     expect(result.current.debounceState).toBe(0);
 
-    await act(async () => {
-      await waitTime(300);
-      expect(result.current.state).toBe(1);
-      expect(result.current.debounceState).toBe(1);
-    });
+    await waitTime(300);
+    expect(result.current.state).toBe(1);
+    expect(result.current.debounceState).toBe(1);
 
     // again
     act(() => {
@@ -48,11 +46,9 @@ describe('useDebounce', () => {
     expect(result.current.state).toBe(2);
     expect(result.current.debounceState).toBe(1);
 
-    await act(async () => {
-      await waitTime(300);
-      expect(result.current.state).toBe(2);
-      expect(result.current.debounceState).toBe(2);
-    });
+    await waitTime(300);
+    expect(result.current.state).toBe(2);
+    expect(result.current.debounceState).toBe(2);
   });
 
 });
