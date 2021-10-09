@@ -46,7 +46,7 @@ const {
   // currData 当前数据
 
   return {
-    list: any[],
+    list,
     ...
   }
 }, {
@@ -69,7 +69,7 @@ const {
 
 ### Params
 
-不支持 `'cacheKey' | 'cacheTime' | 'persisted' | 'defaultParams' | 'pollingInterval' | 'pollingWhenHidden'` 配置项
+不支持 `'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'` 配置项
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |

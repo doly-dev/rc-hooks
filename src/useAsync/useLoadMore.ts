@@ -17,12 +17,7 @@ export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [
 export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
   extends Omit<
     AsyncBaseOptions<R, LoadMoreParams<R>>,
-    | 'cacheKey'
-    | 'cacheTime'
-    | 'persisted'
-    | 'defaultParams'
-    | 'pollingInterval'
-    | 'pollingWhenHidden'
+    'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
   threshold?: number;
   ref?: React.RefObject<HTMLElement | Window>;
@@ -66,10 +61,14 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
   const [noMore, setNoMore] = React.useState(false); // 标识没有更多
 
   const prevList = React.useRef<R['list']>(restOptions?.initialData?.list || []);
-  const pageRef = React.useRef({
-    current: 1 // 当前页码
-  });
-  const resRef = React.useRef<R | undefined>(restOptions?.initialData); // 返回值
+  const pageRef = React.useRef(
+    restOptions?.defaultParams?.[0] || {
+      current: 1 // 当前页码
+    }
+  );
+  const resRef = React.useRef<R | undefined>(
+    restOptions?.defaultParams?.[1] || restOptions?.initialData
+  ); // 返回值
   const loadMoreAsyncFn = usePersistFn(() => asyncFn(pageRef.current, resRef.current));
   const isNoMorePersist = usePersistFn(isNoMore);
 
