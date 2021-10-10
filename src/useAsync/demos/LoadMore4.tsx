@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useLoadMore, useDebounce } from 'rc-hooks';
 import Mockjs from 'mockjs';
-import './LoadMore4.less';
 
 function waitTime(time = 1000) {
   return new Promise(resolve => {
@@ -111,7 +110,7 @@ const Demo = () => {
         {orderTypes.map(item => (
           <a
             key={item.value}
-            className={order === item.value ? 'active' : ''}
+            style={order === item.value ? { color: 'red' } : {}}
             onClick={() => {
               setOrder(item.value);
             }}
