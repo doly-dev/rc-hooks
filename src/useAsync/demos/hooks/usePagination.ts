@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useAsync } from "rc-hooks";
-import { AsyncOptions, AsyncFunction } from "rc-hooks";
-import { SorterResult, TableCurrentDataSource } from "antd/es/table/interface";
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useAsync } from 'rc-hooks';
+import { AsyncBaseOptions, AsyncFunction } from 'rc-hooks';
+import { SorterResult, TableCurrentDataSource } from 'antd/es/table/interface';
 
 type Key = Record<number | string, any>;
 
-interface Options<R = any, P extends any[] = []> extends AsyncOptions<R, P> {
+interface Options<R = any, P extends any[] = []> extends AsyncBaseOptions<R, P> {
   defaultPageSize?: number;
   defaultTotal?: number;
 }
@@ -14,16 +14,21 @@ type ParamFilters = Record<string, (string | number)[] | null> | null;
 type ParamSorter = SorterResult<Key> | SorterResult<Key>[] | null;
 type ParamExtra = TableCurrentDataSource<Key> | null;
 
-type ParamWithPagination<P = any> = [{
-  current: number;
-  pageSize: number;
-} & P, ParamFilters, ParamSorter, ParamExtra];
+type ParamWithPagination<P = any> = [
+  {
+    current: number;
+    pageSize: number;
+  } & P,
+  ParamFilters,
+  ParamSorter,
+  ParamExtra
+];
 
 type ResultWithPagination<R = any> = {
   data: R[];
   total?: number;
   [key: string]: any;
-}
+};
 
 // 显示数据总量
 const showTotal = (num: number) => `共 ${num} 条数据`;
@@ -34,16 +39,16 @@ function usePagination<R = any, P = any>(
     defaultPageSize = 10,
     defaultTotal = 0,
     autoRun,
-    onSuccess = () => { },
+    onSuccess = () => {},
     ...restOptions
-  }: Options<ResultWithPagination<R>, ParamWithPagination<P>> = ({} as any)
+  }: Options<ResultWithPagination<R>, ParamWithPagination<P>> = {} as any
 ) {
-  const [data, setData] = useState<ResultWithPagination<R>["data"]>([]);
+  const [data, setData] = useState<ResultWithPagination<R>['data']>([]);
 
   const pageRef = useRef({
     current: 1,
     pageSize: defaultPageSize || 10,
-    total: defaultTotal || 0,
+    total: defaultTotal || 0
   }); // 分页
   const paramsRef = useRef<{
     params: P;
@@ -54,7 +59,7 @@ function usePagination<R = any, P = any>(
     params: {} as any,
     filters: null,
     sorter: null,
-    extra: null,
+    extra: null
   }); // 请求参数，这里不使用 useAsync 缓存params，因为里面可能包含了分页数据
 
   const request = useAsync<ResultWithPagination<R>, ParamWithPagination<P>>(asyncFn, {
@@ -64,10 +69,10 @@ function usePagination<R = any, P = any>(
       pageRef.current.total = res.total || 0;
       setData(res.data || []);
 
-      if (typeof onSuccess === "function") {
+      if (typeof onSuccess === 'function') {
         onSuccess(res, params);
       }
-    },
+    }
   });
 
   const run = useCallback(
@@ -80,12 +85,7 @@ function usePagination<R = any, P = any>(
       const { pageSize, current } = pageRef.current;
       const { params: paramsRet, filters, sorter, extra } = paramsRef.current;
 
-      return request.run(
-        { ...paramsRet, pageSize, current },
-        filters,
-        sorter,
-        extra
-      );
+      return request.run({ ...paramsRet, pageSize, current }, filters, sorter, extra);
     },
     [request]
   );
@@ -99,13 +99,13 @@ function usePagination<R = any, P = any>(
     (pagination?, filters?, sorter?, extra?) => {
       pageRef.current = {
         ...pageRef.current,
-        ...pagination,
+        ...pagination
       };
       paramsRef.current = {
         ...paramsRef.current,
         filters,
         sorter,
-        extra,
+        extra
       };
       return run();
     },
@@ -113,7 +113,7 @@ function usePagination<R = any, P = any>(
   );
 
   useEffect(() => {
-    if (typeof autoRun === "undefined" || autoRun) {
+    if (typeof autoRun === 'undefined' || autoRun) {
       run();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,8 +129,8 @@ function usePagination<R = any, P = any>(
       showTotal,
       showSizeChanger: true,
       showQuickJumper: true,
-      ...pageRef.current,
-    },
+      ...pageRef.current
+    }
   };
 }
 
