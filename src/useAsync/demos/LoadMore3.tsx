@@ -38,12 +38,12 @@ export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> 
 export default () => {
   const containerRef = useRef(null);
   const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore<Result>(
-    ({ current }, currData) => {
-      return getLoadMoreList(current === 1 ? undefined : currData?.nextId, 3);
+    ({ current }, prevResult) => {
+      return getLoadMoreList(current === 1 ? undefined : prevResult?.nextId, 3);
     },
     {
       ref: containerRef,
-      isNoMore: res => !res.nextId
+      isNoMore: prevResult => !prevResult.nextId
     }
   );
 

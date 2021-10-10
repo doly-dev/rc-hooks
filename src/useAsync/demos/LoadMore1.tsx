@@ -2,27 +2,30 @@
  * title: 基础用法
  */
 
-import React from "react";
-import { Button, Spin, List, Typography } from "antd";
+import React from 'react';
+import { Button, Spin, List, Typography } from 'antd';
 import { useLoadMore } from 'rc-hooks';
 
-import getUserList from "./services/getUserList";
+import getUserList from './services/getUserList';
 
-type DataItem = { id: string; name: string }
+type DataItem = { id: string; name: string };
 
 type Result = {
   list: DataItem[];
   total: number;
-}
+};
 
 export default () => {
-  const { data, loading, loadingMore, noMore, loadMore } = useLoadMore<Result>(({ current }) => getUserList({ current }), {
-    formatResult: res => ({
-      ...res,
-      list: res.data
-    }),
-    isNoMore: d => d.list.length >= d.total
-  });
+  const { data, loading, loadingMore, noMore, loadMore } = useLoadMore<Result>(
+    ({ current }) => getUserList({ current }),
+    {
+      formatResult: res => ({
+        ...res,
+        list: res.data
+      }),
+      isNoMore: prevResult => prevResult.list.length >= prevResult.total
+    }
+  );
 
   return (
     <div>

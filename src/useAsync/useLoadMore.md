@@ -33,23 +33,29 @@ legacy: /async/use-load-more
 
 <code src="./demos/LoadMore3.tsx" />
 
+### 搜索列表
+
+<code src="./demos/LoadMore4.tsx" />
+
 ## API
 
 ```typescript
+// current 当前页码
+// prevResult 上次请求返回数据
+// currData 当前数据
+
 const {
   ...,
   loadMore,
   loadingMore,
   noMore
-} = useLoadMore(async ({ current }, currData) => {
-  // current 当前页码
-  // currData 当前数据
-
+} = useLoadMore<R>(async ({ current }, prevResult) => {
   return {
     list,
     ...
   }
 }, {
+  ...,
   threshold,
   ref,
   isNoMore
@@ -75,4 +81,4 @@ const {
 | --- | --- | --- | --- |
 | threshold | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
 | ref | 容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | - |
-| isNoMore | 判断是否没有更多数据 | `(data?: R) => boolean` | `()=>false` |
+| isNoMore | 判断是否没有更多数据 | `(prevResult?: R, currData?: R) => boolean` | `()=>false` |

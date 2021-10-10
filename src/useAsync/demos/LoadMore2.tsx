@@ -3,57 +3,51 @@
  * desc: 如果 `options` 中存在 `ref` ，在滚动到底部时，自动触发 `loadMore` 。通过设置 `isNoMore`, 让 `useLoadMore` 知道何时停止。
  */
 
-import { Button, List } from "antd";
-import React, { useRef } from "react";
+import { Button, List } from 'antd';
+import React, { useRef } from 'react';
 import { useLoadMore } from 'rc-hooks';
 
-import getUserList from "./services/getUserList";
+import getUserList from './services/getUserList';
 
-type DataItem = { id: string; name: string }
+type DataItem = { id: string; name: string };
 
 type Result = {
   list: DataItem[];
   total: number;
-}
+};
 
 export default () => {
   const containerRef = useRef(null);
-  const {
-    data,
-    loading,
-    loadingMore,
-    refresh,
-    loadMore,
-    noMore
-  } = useLoadMore<Result>(async ({ current }) => {
-    const res = await getUserList({ current, pageSize: 3 });
-    return {
-      total: res.total,
-      list: res.data
+  const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore<Result>(
+    async ({ current }) => {
+      const res = await getUserList({ current, pageSize: 3 });
+      return {
+        total: res.total,
+        list: res.data
+      };
+    },
+    {
+      ref: containerRef,
+      isNoMore: (_, currData) => currData?.list.length >= currData?.total
     }
-  }, {
-    ref: containerRef,
-    isNoMore: res => res.list.length >= res.total,
-  });
+  );
 
   const renderFooter = () => (
     <div>
       {!noMore && (
         <Button onClick={loadMore} loading={loadingMore}>
-          {loadingMore ? "Loading more" : "Click to load more"}
+          {loadingMore ? 'Loading more' : 'Click to load more'}
         </Button>
       )}
 
       {noMore && <span>No more data</span>}
 
-      <span style={{ float: "right", fontSize: 12 }}>
-        total: {data?.total}
-      </span>
+      <span style={{ float: 'right', fontSize: 12 }}>total: {data?.total}</span>
     </div>
   );
 
   return (
-    <div ref={containerRef} style={{ height: 300, overflowY: "auto" }}>
+    <div ref={containerRef} style={{ height: 300, overflowY: 'auto' }}>
       <List
         header={
           <Button onClick={refresh} loading={loading}>

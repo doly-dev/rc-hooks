@@ -11,7 +11,7 @@ export interface LoadMoreAsyncReturn<DataItem = any> {
 
 export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [
   page: { current: number },
-  currData?: R
+  prevResult?: R
 ];
 
 export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
@@ -21,7 +21,7 @@ export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
   > {
   threshold?: number;
   ref?: React.RefObject<HTMLElement | Window>;
-  isNoMore?: (data?: R) => boolean;
+  isNoMore?: (prevResult?: R, currData?: R) => boolean;
 }
 
 export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any, FP = any>
@@ -76,7 +76,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     ...restOptions,
     autoRun: false,
     onSuccess: (res, params) => {
-      setNoMore(isNoMorePersist(res));
+      setNoMore(isNoMorePersist(resRef.current, res));
       prevList.current = res.list || [];
       restOptions?.onSuccess?.(res, params);
     },
@@ -118,14 +118,6 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     request.cancel();
   }, [request]);
 
-  const refresh = React.useCallback(() => {
-    setNoMore(false);
-    cancel();
-    pageRef.current.current = 1;
-    prevList.current = [];
-    return run();
-  }, [cancel, run]);
-
   const mutate: LoadMoreResult<R, LoadMoreParams<R>>['mutate'] = React.useCallback(
     param => {
       const ret = typeof param === 'function' ? param(request.data as R) : param;
@@ -134,6 +126,18 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     },
     [request]
   );
+
+  const refresh = React.useCallback(() => {
+    setNoMore(false);
+    cancel();
+    mutate(d => ({
+      ...d,
+      list: []
+    }));
+    resRef.current = undefined;
+    pageRef.current.current = 1;
+    return run();
+  }, [cancel, mutate, run]);
 
   const scrollMethod = React.useCallback(() => {
     if (request.loading || !ref?.current) {
