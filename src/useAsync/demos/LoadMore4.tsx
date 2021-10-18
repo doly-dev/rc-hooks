@@ -75,11 +75,14 @@ const Demo = () => {
   const debounceKeyword = useDebounce(keyword, 500);
   const ref = React.useRef();
 
-  const { data, loadMore, noMore, loading, loadingMore } = useLoadMore<Result>(
+  const { data, loadMore, noMore, loading, loadingMore } = useLoadMore<
+    Result & { prevListLen: number }
+  >(
     async ({ current }) => {
       if (!debounceKeyword) {
         return {
-          list: []
+          list: [],
+          prevListLen: 0
         };
       }
       return searchApi({
@@ -87,13 +90,14 @@ const Demo = () => {
         pageSize: DefaultPageSize,
         keyword: debounceKeyword,
         order
-      });
+      }).then(res => ({
+        ...res,
+        prevListLen: res?.list.length
+      }));
     },
     {
       ref,
-      isNoMore: prevResult => {
-        return prevResult?.list.length < DefaultPageSize;
-      },
+      isNoMore: result => result?.prevListLen < DefaultPageSize,
       refreshDeps: [debounceKeyword, order]
     }
   );

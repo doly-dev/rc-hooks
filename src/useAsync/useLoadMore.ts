@@ -1,7 +1,6 @@
 import * as React from 'react';
 import useAsync from '.';
 import type { AsyncBaseOptions, AsyncOptions, AsyncResult } from '.';
-import usePersistFn from '../usePersistFn';
 import useScrollToLower from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 
@@ -10,8 +9,8 @@ export interface LoadMoreAsyncReturn<DataItem = any> {
 }
 
 export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [
-  page: { current: number },
-  prevResult?: R
+  page: { current: number; data?: R; [key: string]: any },
+  ...args: any[]
 ];
 
 export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
@@ -21,7 +20,7 @@ export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
   > {
   threshold?: number;
   ref?: React.RefObject<HTMLElement | Window>;
-  isNoMore?: (prevResult?: R, currData?: R) => boolean;
+  isNoMore?: (data?: R) => boolean;
 }
 
 export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any, FP = any>
@@ -29,14 +28,12 @@ export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any, FP = a
     Pick<AsyncOptions<R, LoadMoreParams<R>, FP>, 'formatResult'> {}
 
 export interface LoadMoreResult<R extends LoadMoreAsyncReturn = any, P extends any[] = any>
-  extends Omit<AsyncResult<R, P>, 'run'> {
-  run: () => Promise<R | null>;
+  extends AsyncResult<R, P> {
   loadMore: () => void;
   loadingMore: boolean;
   noMore: boolean;
 }
 
-// 异步方法hooks
 export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   asyncFn: (...args: LoadMoreParams<R>) => Promise<R>,
   options?: LoadMoreAsyncBaseOption<R>
@@ -55,103 +52,100 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     isNoMore = () => false,
     refreshDeps = [],
     formatResult,
-    autoRun,
     ...restOptions
   } = (options || {}) as LoadMoreAsyncOption<R, FP>;
-  const [noMore, setNoMore] = React.useState(false); // 标识没有更多
 
-  const prevList = React.useRef<R['list']>(restOptions?.initialData?.list || []);
-  const pageRef = React.useRef(
-    restOptions?.defaultParams?.[0] || {
-      current: 1 // 当前页码
-    }
-  );
-  const resRef = React.useRef<R | undefined>(
-    restOptions?.defaultParams?.[1] || restOptions?.initialData
-  ); // 返回值
-  const loadMoreAsyncFn = usePersistFn(() => asyncFn(pageRef.current, resRef.current));
-  const isNoMorePersist = usePersistFn(isNoMore);
+  const dataGroup = React.useRef<R['list']>([]);
+  const currentPageRef = React.useRef(1); // 当前页码
 
   const {
-    run: reqRun,
-    loading: reqLoading,
+    run,
+    loading,
     cancel: reqCancel,
-    data: reqData,
+    data,
+    params,
     mutate: reqMutate,
     ...restAsyncReturn
-  } = useAsync<R, LoadMoreParams<R>, FP>(loadMoreAsyncFn, {
+  } = useAsync<R, LoadMoreParams<R>, FP>(asyncFn, {
+    defaultParams: [
+      {
+        current: currentPageRef.current,
+        data: options?.initialData
+      }
+    ],
     ...restOptions,
-    autoRun: false,
-    onSuccess: (res, params) => {
-      setNoMore(isNoMorePersist(resRef.current, res));
-      prevList.current = res.list || [];
-      restOptions?.onSuccess?.(res, params);
-    },
     onError: (err, params) => {
-      if (pageRef.current.current > 1) {
-        pageRef.current.current -= 1;
+      // 加载失败并且当前页码大于第一页，页码自减一
+      if (currentPageRef.current > 1) {
+        currentPageRef.current -= 1;
       }
       restOptions?.onError?.(err, params);
     },
-    formatResult: res => {
-      const fmtRes = (formatResult ? formatResult(res) : res) as R;
-      resRef.current = fmtRes;
-      return pageRef.current.current === 1
-        ? fmtRes
-        : {
-            ...fmtRes,
-            list: prevList.current.concat(fmtRes.list)
-          };
+    formatResult: (res, params) => {
+      const fmtRes = (formatResult ? formatResult(res, params) : res) as R;
+      dataGroup.current =
+        currentPageRef.current === 1 ? fmtRes.list : dataGroup.current.concat(fmtRes.list);
+      return {
+        ...fmtRes,
+        list: dataGroup.current
+      };
     }
   } as LoadMoreAsyncOption<R, FP>);
 
-  const run = React.useCallback(() => {
-    return reqRun(pageRef.current, resRef.current);
-  }, [reqRun]);
+  const noMore = isNoMore ? !loading && isNoMore(data) : false;
 
-  const loadMore = React.useCallback(() => {
-    if (reqLoading || noMore) {
-      return;
-    }
-    pageRef.current.current += 1;
-    run();
-  }, [noMore, reqLoading, run]);
+  const loadData = React.useCallback(() => {
+    const [, ...restParams] = params;
+    return run(
+      {
+        current: currentPageRef.current,
+        data
+      },
+      ...restParams
+    );
+  }, [data, params, run]);
 
   const cancel = React.useCallback(() => {
     // 加载中并且当前页码大于第一页，页码自减一
-    if (reqLoading && pageRef.current.current > 1) {
-      pageRef.current.current -= 1;
+    if (loading && currentPageRef.current > 1) {
+      currentPageRef.current -= 1;
     }
     reqCancel();
-  }, [reqCancel, reqLoading]);
+  }, [reqCancel, loading]);
+
+  const loadMore = React.useCallback(() => {
+    if (loading || noMore) {
+      return;
+    }
+    currentPageRef.current += 1;
+    loadData();
+  }, [loading, noMore, loadData]);
 
   const mutate: LoadMoreResult<R, LoadMoreParams<R>>['mutate'] = React.useCallback(
     param => {
-      const ret = typeof param === 'function' ? param(reqData as R) : param;
-      prevList.current = ret?.list || [];
-      reqMutate(ret);
+      const res = typeof param === 'function' ? param(data as R) : param;
+      dataGroup.current = res?.list || [];
+      reqMutate(res);
     },
-    [reqData, reqMutate]
+    [data, reqMutate]
   );
 
   const refresh = React.useCallback(() => {
-    setNoMore(false);
     cancel();
+    currentPageRef.current = 1;
     mutate(d => ({
       ...d,
       list: []
     }));
-    resRef.current = undefined;
-    pageRef.current.current = 1;
-    return run();
-  }, [cancel, mutate, run]);
+    return loadData();
+  }, [cancel, loadData, mutate]);
 
   const scrollMethod = React.useCallback(() => {
-    if (reqLoading || !ref?.current) {
+    if (loading || !ref?.current) {
       return;
     }
     return loadMore();
-  }, [loadMore, ref, reqLoading]);
+  }, [loadMore, ref, loading]);
 
   useScrollToLower({
     ref,
@@ -159,30 +153,24 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     onScrollLower: scrollMethod
   });
 
-  React.useEffect(() => {
-    if (typeof autoRun === 'undefined' || autoRun) {
-      run();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useUpdateEffect(() => {
-    if (typeof autoRun === 'undefined' || autoRun) {
+    if (options?.autoRun !== false) {
       refresh();
     }
   }, refreshDeps);
 
   return {
     ...restAsyncReturn,
-    loading: reqLoading,
-    data: reqData,
+    loading,
+    data,
     run,
     refresh,
     cancel,
     mutate,
+    params,
 
     loadMore,
-    loadingMore: reqLoading && pageRef.current.current > 1,
+    loadingMore: loading && currentPageRef.current > 1,
     noMore
   };
 }

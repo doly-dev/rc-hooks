@@ -14,10 +14,11 @@ legacy: /async/use-load-more
 **核心特性**
 
 - 自动管理列表数据，返回的 `data.list` 为异步函数返回的 `list` 合并数组。
-- `asyncFn` 参数为`当前页码`和 `data`。
-- `asyncFn` 必须返回的数据结构必须包含 `{ list: DataItem[] }`，如果不满足可以通过 `formatResult` 转换。
+- `asyncFn` 第一个参数为`current`和 `data`。
+- `asyncFn` 返回的数据结构必须包含 `{ list: DataItem[] }`，如果不满足可以通过 `formatResult` 转换。
 - 设置 `ref` 和 `isNoMore` 可实现上拉自动加载更多功能。
-- `refreshDeps` 变化后，会重置`当前页码`为第一页，并触发异步方法。
+- `refreshDeps` 变化后，会重置`current`为第一页，并触发异步方法。
+- 在`请求失败`或`取消请求`后，如果`current`大于 1，自动减 1。
 
 ## 代码演示
 
@@ -40,16 +41,12 @@ legacy: /async/use-load-more
 ## API
 
 ```typescript
-// current 当前页码
-// prevResult 上次请求返回数据
-// currData 当前数据
-
 const {
   ...,
   loadMore,
   loadingMore,
   noMore
-} = useLoadMore<R>(async ({ current }, prevResult) => {
+} = useLoadMore<R>(async ({ current, data }) => {
   return {
     list,
     ...
@@ -66,12 +63,12 @@ const {
 
 ### Result
 
-| 参数        | 说明                                                | 类型                     |
-| ----------- | --------------------------------------------------- | ------------------------ |
-| loadMore    | 触发加载更多。页码加 1，并触发 `asynfFn`。          | `() => void`             |
-| loadingMore | 是否正在加载更多。即加载中并且 `current` 不等于 1   | `boolean`                |
-| noMore      | 是否没有更多                                        | `boolean`                |
-| refresh     | 重置当前页码到第 1 页，并清除之前列表数据，发起请求 | `()=>Promise<R \| null>` |
+| 参数        | 说明                                                 | 类型                     |
+| ----------- | ---------------------------------------------------- | ------------------------ |
+| loadMore    | 触发加载更多。页码加 1，并触发 `asynfFn`。           | `() => void`             |
+| loadingMore | 是否正在加载更多。即加载中并且 `current` 不等于 1    | `boolean`                |
+| noMore      | 是否没有更多                                         | `boolean`                |
+| refresh     | 重置`current`到第 1 页，并清除之前列表数据，发起请求 | `()=>Promise<R \| null>` |
 
 ### Params
 

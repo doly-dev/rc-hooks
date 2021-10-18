@@ -28,7 +28,7 @@ export default () => {
     },
     {
       ref: containerRef,
-      isNoMore: (_, currData) => currData?.list.length >= currData?.total
+      isNoMore: result => result?.list.length >= result?.total
     }
   );
 

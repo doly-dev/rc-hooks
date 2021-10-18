@@ -23,7 +23,7 @@ export default () => {
         ...res,
         list: res.data
       }),
-      isNoMore: (prevResult, currData) => currData.list.length >= currData.total
+      isNoMore: result => result?.list.length >= result?.total
     }
   );
 
