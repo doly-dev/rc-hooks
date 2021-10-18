@@ -1,6 +1,7 @@
 // async
 export * from './useAsync';
 export * from './useAsync/useLoadMore';
+export * from './useAsync/usePagination';
 
 // side effect
 export { default as useDebounceFn } from './useDebounceFn';

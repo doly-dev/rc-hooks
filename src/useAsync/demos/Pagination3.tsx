@@ -4,21 +4,27 @@
 
 import React from 'react';
 import { Button, Table } from 'antd';
-import usePagination from './hooks/usePagination';
+import { usePagination } from 'rc-hooks';
 
 import getUserList from './services/getUserList';
 
 export default () => {
-  const { refresh, data, loading, pagination, onTableChange } = usePagination(getUserList);
+  const { refresh, tableProps } = usePagination(({ current, pageSize, ...rest }) => {
+    console.log(rest);
+    return getUserList({ current, pageSize }).then(res => ({
+      ...res,
+      list: res.data
+    }));
+  });
 
   const columns = [
     {
       title: 'name',
-      dataIndex: 'name',
+      dataIndex: 'name'
     },
     {
       title: 'email',
-      dataIndex: 'email',
+      dataIndex: 'email'
     },
     {
       title: 'id',
@@ -31,28 +37,22 @@ export default () => {
       filters: [
         {
           text: 'male',
-          value: 'male',
+          value: 'male'
         },
         {
           text: 'female',
-          value: 'female',
-        },
+          value: 'female'
+        }
       ]
-    },
+    }
   ];
 
   return (
     <div>
-      <Button onClick={refresh} style={{ marginBottom: 16 }}>刷新</Button>
-      <Table
-        dataSource={data || []}
-        columns={columns}
-        pagination={pagination}
-        onChange={onTableChange}
-        loading={loading}
-        rowKey="id"
-        bordered
-      />
+      <Button onClick={refresh} style={{ marginBottom: 16 }}>
+        刷新
+      </Button>
+      <Table {...tableProps} columns={columns} rowKey="id" bordered />
     </div>
   );
 };

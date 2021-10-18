@@ -158,71 +158,9 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 
 ## 扩展用法
 
-基于基础的 `useAsync`，我们可以进一步封装，实现更高级的定制需求。下面演示 `分页` 和 `加载更多` 两种场景，你可以参考代码，根据业务实现自己的封装。
-
-该场景以下面的 `请求参数` 和 `响应数据` 格式为示例
-
-请求参数：
-
-```typescript
-{
-  pageNum: number,
-  pageSize: number,
-  // ...other params
-}
-```
-
-响应数据：
-
-```typescript
-{
-  total: number,
-  data: []
-}
-```
-
 ### 分页
 
-- 自动管理分页数据
-- 缓存当前查询条件，自动携带当前查询条件触发请求
-- `run` 方法如果带有参数，表示修改了查询条件，将会重置当前页码为 `1`，并触发请求
-- `refresh` 自动带入当前参数并触发请求
-- `onTableChange` 分页、排序、筛选变化时触发
-
-#### usePagination
-
-<code src="./demos/Pagination1.tsx" />
-<code src="./demos/Pagination2.tsx" />
-<code src="./demos/Pagination3.tsx" />
-
-#### API
-
-```typescript
-const {
-  ...,
-  onTableChange,
-  pagination
-} = usePagination(asyncFn, {
-  defaultPageSize,
-  defaultTotal,
-});
-```
-
-#### Result
-
-| 参数 | 说明 | 类型 |
-| --- | --- | --- |
-| onTableChange | 分页、排序、筛选变化时触发 | `(pagination, filters, sorter, extra)=>void` |
-| pagination | 分页数据 | `{current: number; pageSize:number; total: number; showTotal: (total: number, range: [number, number]) => React.ReactNode; showSizeChanger: boolean; showQuickJumper: boolean;}` |
-
-#### Params
-
-将默认分页与默认参数提取出来，便于实现缓存。
-
-| 参数            | 说明           | 类型     | 默认值 |
-| --------------- | -------------- | -------- | ------ |
-| defaultPageSize | 默认每页的数量 | `number` | `10`   |
-| defaultTotal    | 默认数据总量   | `number` | `0`    |
+[点击查看 `usePagination`](/async/use-pagination)
 
 ### 加载更多
 
