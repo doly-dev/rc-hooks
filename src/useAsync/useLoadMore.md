@@ -78,5 +78,5 @@ const {
 | --- | --- | --- | --- |
 | threshold | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
 | ref | 滚动容器的 `ref` ，如果存在，则在滚动到底部时，自动触发 loadMore | `Ref<HTMLElement>` | - |
-| isNoMore | 判断是否没有更多数据 | `(prevResult?: R, currData?: R) => boolean` | `()=>false` |
+| isNoMore | 判断是否没有更多数据 | `(data?: R) => boolean` | - |
 | refreshDeps | 在 `autoRun = true` 时，refreshDeps 变化，会执行 refresh 。 | `any[]` |
