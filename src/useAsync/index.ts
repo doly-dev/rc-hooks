@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import debounce from "lodash.debounce";
-import throttle from "lodash.throttle";
-import usePersistFn from "../usePersistFn";
-import useUpdateEffect from "../useUpdateEffect";
-import { isDocumentVisible } from "../utils";
-import { getCache, setCache } from "../utils/cache";
-import limit from "../utils/limit";
-import subscribeFocus from "../utils/windowFocus";
-import subscribeVisible from "../utils/windowVisible";
+import { useState, useEffect, useCallback, useRef } from 'react';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
+import usePersistFn from '../usePersistFn';
+import useUpdateEffect from '../useUpdateEffect';
+import { isDocumentVisible } from '../utils';
+import { getCache, setCache } from '../utils/cache';
+import limit from '../utils/limit';
+import subscribeFocus from '../utils/windowFocus';
+import subscribeVisible from '../utils/windowVisible';
 
 export type AsyncFunction<R = any, P extends any[] = any> = (...args: P) => Promise<R>;
 
@@ -20,8 +20,8 @@ export type AsyncBaseOptions<R = any, P extends any[] = any> = Partial<{
   cacheKey: string;
   cacheTime: number;
   persisted: boolean;
-  onSuccess: (data: R, param: P) => void;
-  onError: (error: Error, param: P) => void;
+  onSuccess: (data: R, params: P) => void;
+  onError: (error: Error, params: P) => void;
   pollingInterval: number;
   pollingWhenHidden: boolean;
   refreshOnWindowFocus: boolean;
@@ -29,25 +29,25 @@ export type AsyncBaseOptions<R = any, P extends any[] = any> = Partial<{
   loadingDelay: number;
   debounceInterval: number;
   throttleInterval: number;
-}>
+}>;
 
 export type AsyncOptions<R = any, P extends any[] = any, FP = any> = AsyncBaseOptions<R, P> & {
-  formatResult: (res: FP) => R;
+  formatResult: (res: FP, params: P) => R;
 };
 
 export type AsyncResult<R = any, P extends any[] = any> = {
-  run: (...args: P) => Promise<R> | Promise<null>;
+  run: (...args: P) => Promise<R | null>;
   cancel: () => void;
   mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
-  refresh: () => Promise<R> | Promise<null>;
+  refresh: () => Promise<R | null>;
   params: P;
   loading: boolean;
   error: null | Error;
   data?: R | undefined;
-}
+};
 
 // 空函数
-const noop = () => { };
+const noop = () => {};
 
 // 异步方法hooks
 export function useAsync<R = any, P extends any[] = any>(
@@ -68,7 +68,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     defaultParams = [],
     defaultLoading = false,
     initialData,
-    cacheKey = "",
+    cacheKey = '',
     cacheTime = 5 * 60 * 1000,
     persisted = false,
     onSuccess = noop,
@@ -80,7 +80,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     focusTimespan = 5000,
     loadingDelay,
     debounceInterval,
-    throttleInterval,
+    throttleInterval
   } = (options || {}) as AsyncOptions<R, P, FP>;
 
   const [state, set] = useState<{
@@ -93,7 +93,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     params: (Array.isArray(defaultParams) ? defaultParams : [defaultParams]) as any,
     loading: defaultLoading,
     error: null,
-    data: cacheKey ? getCache(cacheKey) : initialData,
+    data: cacheKey ? getCache(cacheKey) : initialData
   });
   const counterRef = useRef(0); // 计数器用于判定，或多次执行，只取最后一次结果
   const pollingTimerRef = useRef<any>(null); // 轮询定时器
@@ -130,12 +130,12 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
 
     // 没有缓存数据 或 没有开启持久缓存，设置loading
     if (!cacheData || !persisted) {
-      set((s) => ({ ...s, loading: !loadingDelay, params: args }));
+      set(s => ({ ...s, loading: !loadingDelay, params: args }));
 
       // 设置延迟loading定时器
       if (loadingDelay) {
         loadingDelayTimerRef.current = setTimeout(() => {
-          set((s) => ({ ...s, loading: true }));
+          set(s => ({ ...s, loading: true }));
         }, loadingDelay);
       } else {
         loadingDelayTimerRef.current = null;
@@ -154,23 +154,20 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
         } else {
           asyncFnPersist(...args)
             .then((data: any) => {
-              if (
-                !unmountFlagRef.current &&
-                currentCount === counterRef.current
-              ) {
+              if (!unmountFlagRef.current && currentCount === counterRef.current) {
                 if (loadingDelayTimerRef.current) {
                   clearTimeout(loadingDelayTimerRef.current);
                 }
                 const fmtData =
-                  typeof formatResultRef.current === "function"
-                    ? formatResultRef.current(data)
+                  typeof formatResultRef.current === 'function'
+                    ? formatResultRef.current(data, args)
                     : data;
 
-                set((s) => ({
+                set(s => ({
                   ...s,
                   data: fmtData,
                   error: null,
-                  loading: false,
+                  loading: false
                 }));
 
                 if (cacheKey) {
@@ -182,15 +179,12 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
               }
             })
             .catch((error: Error) => {
-              if (
-                !unmountFlagRef.current &&
-                currentCount === counterRef.current
-              ) {
+              if (!unmountFlagRef.current && currentCount === counterRef.current) {
                 if (loadingDelayTimerRef.current) {
                   clearTimeout(loadingDelayTimerRef.current);
                 }
 
-                set((s) => ({ ...s, error, loading: false }));
+                set(s => ({ ...s, error, loading: false }));
                 onErrorPersist(error, args);
 
                 reject(error);
@@ -218,12 +212,8 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const debounceRunRef = useRef(
-    debounceInterval ? debounce(_run, debounceInterval) : undefined
-  );
-  const throttleRunRef = useRef(
-    throttleInterval ? throttle(_run, throttleInterval) : undefined
-  );
+  const debounceRunRef = useRef(debounceInterval ? debounce(_run, debounceInterval) : undefined);
+  const throttleRunRef = useRef(throttleInterval ? throttle(_run, throttleInterval) : undefined);
 
   const run = useCallback(
     (...args: P) => {
@@ -276,7 +266,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
 
     counterRef.current += 1;
 
-    set((s) => ({ ...s, loading: false }));
+    set(s => ({ ...s, loading: false }));
   }, []);
 
   // autoRun=true 时，refreshDeps 变化，将重新执行
@@ -288,10 +278,10 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
 
   // 突变
   const mutate = (newData: R | undefined | ((oldData: R) => R)) => {
-    if (typeof newData === "function") {
-      set((s) => ({ ...s, data: (newData as Function)(state.data) }));
+    if (typeof newData === 'function') {
+      set(s => ({ ...s, data: (newData as Function)(state.data) }));
     } else {
-      set((s) => ({ ...s, data: newData }));
+      set(s => ({ ...s, data: newData }));
     }
   };
 
@@ -299,7 +289,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     // 默认自动执行
     if (autoRun) {
       // 支持默认参数
-      run(...state.params as any);
+      run(...(state.params as any));
     }
 
     const unsubscribeArr = unsubscribeRef.current;
@@ -319,7 +309,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
       unmountFlagRef.current = true;
       cancel();
       // 取消订阅
-      unsubscribeArr.forEach((s) => s());
+      unsubscribeArr.forEach(s => s());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -329,7 +319,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     run,
     cancel,
     mutate,
-    refresh,
+    refresh
   };
 }
 
