@@ -27,3 +27,4 @@ export { default as useControllableValue } from './useControllableValue';
 export { default as usePrevious } from './usePrevious';
 export { default as usePersistFn } from './usePersistFn';
 export { default as useSafeState } from './useSafeState';
+export { default as useLimitList } from './useLimitList';
