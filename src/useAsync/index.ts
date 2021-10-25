@@ -43,7 +43,7 @@ export type AsyncResult<R = any, P extends any[] = any> = {
   params: P;
   loading: boolean;
   error: null | Error;
-  data?: R | undefined;
+  data?: R;
 };
 
 // 空函数
