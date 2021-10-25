@@ -1,6 +1,6 @@
 /**
- * title: 基础用法
- * desc: 当列表数量小于等于 3 时，不显示`显示更多`按钮
+ * title: 异步获取列表
+ * desc: 初始列表为空，当数据加载完成后，更新显示限制列表数量
  */
 import * as React from 'react';
 import { useLimitList, useAsync } from 'rc-hooks';

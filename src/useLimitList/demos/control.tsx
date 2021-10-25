@@ -1,3 +1,7 @@
+/**
+ * title: 可变列表
+ * desc: 当列表数据变化时，重置列表和limited
+ */
 import * as React from 'react';
 import { useLimitList } from 'rc-hooks';
 import Mockjs from 'mockjs';
