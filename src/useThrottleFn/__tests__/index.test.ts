@@ -1,67 +1,118 @@
-import { useState } from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import type { ThrottleSettings } from 'lodash';
 import { useThrottleFn } from '../..';
 
-function waitTime(time = 1000) {
-  return new Promise(resolve => {
-    setTimeout(resolve, time);
+const setUp = (wait = 300, options?: ThrottleSettings) =>
+  renderHook(() => {
+    const fn = jest.fn();
+    const { run, cancel, flush } = useThrottleFn(fn, wait, options);
+    return {
+      run,
+      fn,
+      cancel,
+      flush
+    };
   });
-}
-const setUp = (wait = 300, options?: ThrottleSettings) => renderHook(() => {
-  const [count, setCount] = useState(0);
-  const { run, cancel } = useThrottleFn((val) => setCount(x => x + val), wait, options);
-  return {
-    count,
-    addCount: run,
-    cancel
-  }
-});
 
 describe('useThrottleFn', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it('should be defined', () => {
     expect(useThrottleFn).toBeDefined();
   });
 
-  it('should work', async () => {
+  it('should call passed function after given amount of time', () => {
     const { result } = setUp();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalled();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    jest.advanceTimersByTime(100);
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    jest.advanceTimersByTime(100);
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    jest.advanceTimersByTime(100);
+    expect(result.current.fn).toHaveBeenCalledTimes(2);
+  });
 
-    act(() => {
-      result.current.addCount(1);
-    });
+  it('should cancel function call on unmount', () => {
+    const { result, unmount } = setUp();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalled();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    result.current.run();
+    unmount();
+    jest.advanceTimersByTime(300);
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+  });
 
-    expect(result.current.count).toBe(1);
+  it('should cancel', () => {
+    const { result } = setUp();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalled();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    result.current.run();
+    result.current.cancel();
+    jest.advanceTimersByTime(300);
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+  });
 
-    await act(async () => {
-      result.current.addCount(1);
-      expect(result.current.count).toBe(1);
-      await waitTime(300);
-      expect(result.current.count).toBe(2);
+  it('should multiple calls are executed only once', () => {
+    const { result } = setUp();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalled();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    result.current.run();
+    jest.advanceTimersByTime(300);
+    expect(result.current.fn).toHaveBeenCalledTimes(2);
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalledTimes(3);
+  });
 
-      result.current.addCount(1);
-      await waitTime(100);
-      expect(result.current.count).toBe(3);
-      result.current.addCount(1);
-      await waitTime(100);
-      expect(result.current.count).toBe(3);
-      result.current.addCount(1);
-      await waitTime(100);
-      expect(result.current.count).toBe(4);
-      await waitTime(300);
-      expect(result.current.count).toBe(4);
+  it('should multiple calls', () => {
+    const { result } = setUp();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalled();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    result.current.run();
+    jest.advanceTimersByTime(300);
+    expect(result.current.fn).toHaveBeenCalledTimes(2);
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalledTimes(3);
+    jest.advanceTimersByTime(300);
+    expect(result.current.fn).toHaveBeenCalledTimes(3);
+  });
 
-      result.current.addCount(1);
-      expect(result.current.count).toBe(5);
-      await waitTime(100);
-      result.current.addCount(1);
-      expect(result.current.count).toBe(5);
-      await waitTime(100);
-      result.current.addCount(1);
-      expect(result.current.count).toBe(5);
-      result.current.cancel();
-      await waitTime(300);
-      expect(result.current.count).toBe(5);
-    });
-
+  it('should flush', () => {
+    const { result } = setUp();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalled();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    result.current.run();
+    result.current.run();
+    result.current.run();
+    expect(result.current.fn).toHaveBeenCalledTimes(1);
+    result.current.flush();
+    expect(result.current.fn).toHaveBeenCalledTimes(2);
   });
 });

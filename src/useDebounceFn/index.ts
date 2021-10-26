@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
-import debounce from "lodash.debounce";
-import type { DebounceSettings } from "lodash";
+import { useRef } from 'react';
+import debounce from 'lodash.debounce';
+import type { DebounceSettings } from 'lodash';
+import useUnmount from '../useUnmount';
 
 function useDebounceFn<T extends (...args: any[]) => any>(
   fn: T,
@@ -9,18 +10,16 @@ function useDebounceFn<T extends (...args: any[]) => any>(
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceRun = useCallback(
-    debounce(((...args) => refFn.current(...args)) as T, wait, options),
-    []
-  );
+  const debounceRun = useRef(debounce(((...args) => refFn.current(...args)) as T, wait, options));
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => debounceRun.cancel, []);
+  useUnmount(() => {
+    debounceRun.current.cancel();
+  });
 
   return {
-    run: debounceRun,
-    cancel: debounceRun.cancel,
+    run: debounceRun.current,
+    cancel: debounceRun.current.cancel,
+    flush: debounceRun.current.flush
   };
 }
 

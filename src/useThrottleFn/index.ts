@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
-import throttle from "lodash.throttle";
-import type { ThrottleSettings } from "lodash";
+import { useRef } from 'react';
+import throttle from 'lodash.throttle';
+import type { ThrottleSettings } from 'lodash';
+import useUnmount from '../useUnmount';
 
 function useThrottleFn<T extends (...args: any[]) => any>(
   fn: T,
@@ -9,17 +10,16 @@ function useThrottleFn<T extends (...args: any[]) => any>(
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const throttleRun = useCallback(
-    throttle(((...args) => refFn.current(...args)) as T, wait, options),
-    []
-  );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => throttleRun.cancel, []);
+  const throttleRun = useRef(throttle(((...args) => refFn.current(...args)) as T, wait, options));
+
+  useUnmount(() => {
+    throttleRun.current.cancel();
+  });
 
   return {
-    run: throttleRun,
-    cancel: throttleRun.cancel,
+    run: throttleRun.current,
+    cancel: throttleRun.current.cancel,
+    flush: throttleRun.current.flush
   };
 }
 
