@@ -35,6 +35,15 @@ const umiConfig = {
 };
 
 if (process.env.NODE_ENV === 'production') {
+  umiConfig.headScripts = [
+    { src: 'https://www.googletagmanager.com/gtag/js?id=G-P755RQJZZ2', async: true },
+    {
+      content: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-P755RQJZZ2');
+    `}
+  ];
   umiConfig.chunks = ['vendors', 'umi'];
   umiConfig.chainWebpack = function (config, { webpack }) {
     config.merge({
