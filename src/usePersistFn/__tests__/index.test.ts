@@ -11,20 +11,23 @@ describe('usePersistFn', () => {
     const fn1 = jest.fn();
     const fn2 = jest.fn();
 
-    const { result, rerender } = renderHook((cb) => {
-      const [count, setCount] = useState(0);
+    const { result, rerender } = renderHook(
+      (cb) => {
+        const [count, setCount] = useState(0);
 
-      const add = () => setCount(x => x + 1);
+        const add = () => setCount((x) => x + 1);
 
-      const persistFn = usePersistFn(() => {
-        cb();
-        return count;
-      });
+        const persistFn = usePersistFn(() => {
+          cb();
+          return count;
+        });
 
-      return { add, persistFn, count };
-    }, {
-      initialProps: fn1
-    });
+        return { add, persistFn, count };
+      },
+      {
+        initialProps: fn1
+      }
+    );
 
     expect(result.current.count).toBe(0);
     expect(fn1).not.toHaveBeenCalled();

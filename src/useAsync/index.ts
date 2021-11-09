@@ -130,12 +130,12 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
 
     // 没有缓存数据 或 没有开启持久缓存，设置loading
     if (!cacheData || !persisted) {
-      set(s => ({ ...s, loading: !loadingDelay, params: args }));
+      set((s) => ({ ...s, loading: !loadingDelay, params: args }));
 
       // 设置延迟loading定时器
       if (loadingDelay) {
         loadingDelayTimerRef.current = setTimeout(() => {
-          set(s => ({ ...s, loading: true }));
+          set((s) => ({ ...s, loading: true }));
         }, loadingDelay);
       } else {
         loadingDelayTimerRef.current = null;
@@ -163,7 +163,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
                     ? formatResultRef.current(data, args)
                     : data;
 
-                set(s => ({
+                set((s) => ({
                   ...s,
                   data: fmtData,
                   error: null,
@@ -184,7 +184,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
                   clearTimeout(loadingDelayTimerRef.current);
                 }
 
-                set(s => ({ ...s, error, loading: false }));
+                set((s) => ({ ...s, error, loading: false }));
                 onErrorPersist(error, args);
 
                 reject(error);
@@ -266,7 +266,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
 
     counterRef.current += 1;
 
-    set(s => ({ ...s, loading: false }));
+    set((s) => ({ ...s, loading: false }));
   }, []);
 
   // autoRun=true 时，refreshDeps 变化，将重新执行
@@ -279,9 +279,9 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
   // 突变
   const mutate = (newData: R | undefined | ((oldData: R) => R)) => {
     if (typeof newData === 'function') {
-      set(s => ({ ...s, data: (newData as Function)(state.data) }));
+      set((s) => ({ ...s, data: (newData as Function)(state.data) }));
     } else {
-      set(s => ({ ...s, data: newData }));
+      set((s) => ({ ...s, data: newData }));
     }
   };
 
@@ -309,7 +309,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
       unmountFlagRef.current = true;
       cancel();
       // 取消订阅
-      unsubscribeArr.forEach(s => s());
+      unsubscribeArr.forEach((s) => s());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

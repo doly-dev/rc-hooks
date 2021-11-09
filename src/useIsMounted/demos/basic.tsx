@@ -12,7 +12,7 @@ const Demo: React.FC = () => {
   React.useEffect(() => {
     const timer = setInterval(() => {
       if (isMountedRef.current) {
-        setCount(n => n + 1);
+        setCount((n) => n + 1);
         return;
       }
       clearInterval(timer);
@@ -24,9 +24,7 @@ const Demo: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div>计数：{count}</div>
-  );
-}
+  return <div>计数：{count}</div>;
+};
 
 export default Demo;

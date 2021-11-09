@@ -19,11 +19,11 @@ export default () => {
   const { data, loading, loadingMore, noMore, loadMore } = useLoadMore<Result>(
     ({ current }) => getUserList({ current }),
     {
-      formatResult: res => ({
+      formatResult: (res) => ({
         ...res,
         list: res.data
       }),
-      isNoMore: result => result?.list.length >= result?.total
+      isNoMore: (result) => result?.list.length >= result?.total
     }
   );
 

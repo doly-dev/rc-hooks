@@ -19,11 +19,11 @@ export default () => {
   const { data, error, loading } = useAsync(getUsername);
 
   if (loading) {
-    return <div>loading...</div>
+    return <div>loading...</div>;
   }
 
   if (error) {
-    return <div>failed to load</div>
+    return <div>failed to load</div>;
   }
-  return <div>Username: {data}</div>
-}
+  return <div>Username: {data}</div>;
+};

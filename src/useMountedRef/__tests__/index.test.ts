@@ -20,5 +20,5 @@ describe('useMountedRef', () => {
       unmount();
       expect(result.current.mountedRef.current).toBe(false);
     });
-  })
-})
+  });
+});

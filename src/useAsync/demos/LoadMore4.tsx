@@ -3,7 +3,7 @@ import { useLoadMore, useDebounce } from 'rc-hooks';
 import Mockjs from 'mockjs';
 
 function waitTime(time = 1000) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
 }
@@ -90,14 +90,14 @@ const Demo = () => {
         pageSize: DefaultPageSize,
         keyword: debounceKeyword,
         order
-      }).then(res => ({
+      }).then((res) => ({
         ...res,
         prevListLen: res?.list.length
       }));
     },
     {
       ref,
-      isNoMore: result => result?.prevListLen < DefaultPageSize,
+      isNoMore: (result) => result?.prevListLen < DefaultPageSize,
       refreshDeps: [debounceKeyword, order]
     }
   );
@@ -108,10 +108,10 @@ const Demo = () => {
         type="text"
         placeholder="请输入搜索关键词"
         value={keyword}
-        onChange={e => setKeyword(e.target.value)}
+        onChange={(e) => setKeyword(e.target.value)}
       />
       <div className="orderList">
-        {orderTypes.map(item => (
+        {orderTypes.map((item) => (
           <a
             key={item.value}
             style={order === item.value ? { color: 'red' } : {}}
@@ -133,7 +133,7 @@ const Demo = () => {
         {debounceKeyword && data?.list?.length > 0 && (
           <div>
             <ol>
-              {data.list.map(item => (
+              {data.list.map((item) => (
                 <li key={item.text}>{item.text}</li>
               ))}
             </ol>

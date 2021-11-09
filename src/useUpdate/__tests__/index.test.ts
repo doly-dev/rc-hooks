@@ -27,4 +27,4 @@ describe('useUpdate', () => {
     act(() => result.current());
     expect(renders).toBe(3);
   });
-})
+});

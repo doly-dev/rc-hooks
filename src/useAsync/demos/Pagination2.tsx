@@ -45,7 +45,7 @@ export default () => {
     },
     {
       autoRun: false,
-      formatResult: res => ({
+      formatResult: (res) => ({
         ...res,
         list: res.data
       })
@@ -70,7 +70,7 @@ export default () => {
         {...formItemLayout}
         form={form}
         initialValues={{}}
-        onFinish={values => {
+        onFinish={(values) => {
           run({
             current: 1,
             pageSize: pagination.pageSize,

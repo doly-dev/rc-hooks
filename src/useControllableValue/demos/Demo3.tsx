@@ -2,11 +2,11 @@
  * title: 无value，有onChange的组件
  * desc: props 中有 onChange ，则在 state 变化时，就会触发 onChange
  */
-import * as React from "react";
-import { useControllableValue } from "rc-hooks";
+import * as React from 'react';
+import { useControllableValue } from 'rc-hooks';
 
 const ControllableComponent: React.FC<any> = (props: any) => {
-  const [state, setState] = useControllableValue(props, { defaultValue: "" });
+  const [state, setState] = useControllableValue(props, { defaultValue: '' });
 
   return (
     <input
@@ -19,7 +19,7 @@ const ControllableComponent: React.FC<any> = (props: any) => {
 };
 
 const Demo: React.FC = () => {
-  const [state, setState] = React.useState("");
+  const [state, setState] = React.useState('');
 
   return (
     <div>

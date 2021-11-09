@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 
 /**
  * @deprecated Please use `useUnmountedRef` or `useMountedRef`
@@ -11,7 +11,7 @@ function useIsMounted() {
 
     return () => {
       isMountedRef.current = false;
-    }
+    };
   }, []);
 
   return isMountedRef;

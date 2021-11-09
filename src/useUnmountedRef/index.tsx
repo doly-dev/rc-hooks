@@ -8,10 +8,10 @@ const useUnmountedRef = () => {
 
     return () => {
       unmountedRef.current = true;
-    }
+    };
   }, []);
 
   return unmountedRef;
-}
+};
 
 export default useUnmountedRef;

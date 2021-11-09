@@ -23,9 +23,11 @@ describe('useUpdateEffect', () => {
     let renders = 0;
     let mountState = 1;
 
-    const { rerender } = renderHook(() => useUpdateEffect(() => {
-      renders++;
-    }, [mountState]));
+    const { rerender } = renderHook(() =>
+      useUpdateEffect(() => {
+        renders++;
+      }, [mountState])
+    );
 
     expect(renders).toBe(0);
 

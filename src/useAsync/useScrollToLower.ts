@@ -1,5 +1,5 @@
-import { useEffect, useCallback } from "react";
-import usePersistFn from "../usePersistFn";
+import { useEffect, useCallback } from 'react';
+import usePersistFn from '../usePersistFn';
 import { getScrollHeight, getClientHeight, getScrollTop } from '../utils/dom';
 
 interface ScrollToLowerProps {
@@ -11,14 +11,17 @@ interface ScrollToLowerProps {
 const useScrollToLower = ({
   ref,
   threshold = 100,
-  onScrollLower = () => { },
+  onScrollLower = () => {}
 }: ScrollToLowerProps = {}) => {
   const onScrollLowerPersist = usePersistFn(onScrollLower);
   const scrollMethod = useCallback(() => {
     if (!ref?.current) {
       return;
     }
-    if (getScrollHeight(ref.current) - getScrollTop(ref.current) <= getClientHeight(ref.current) + threshold) {
+    if (
+      getScrollHeight(ref.current) - getScrollTop(ref.current) <=
+      getClientHeight(ref.current) + threshold
+    ) {
       onScrollLowerPersist();
     }
   }, [onScrollLowerPersist, ref, threshold]);
@@ -27,10 +30,10 @@ const useScrollToLower = ({
     const target = ref?.current;
 
     if (target) {
-      target.addEventListener("scroll", scrollMethod);
+      target.addEventListener('scroll', scrollMethod);
 
       return () => {
-        target.removeEventListener("scroll", scrollMethod);
+        target.removeEventListener('scroll', scrollMethod);
       };
     }
   }, [ref, scrollMethod]);

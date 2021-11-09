@@ -20,5 +20,5 @@ describe('useIsMounted', () => {
       unmount();
       expect(result.current.isMounted.current).toBe(false);
     });
-  })
-})
+  });
+});

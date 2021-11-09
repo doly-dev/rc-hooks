@@ -17,7 +17,7 @@ export default () => {
     <div>
       <Input
         value={value}
-        onChange={e => {
+        onChange={(e) => {
           setValue(e.target.value);
           run(e.target.value);
         }}

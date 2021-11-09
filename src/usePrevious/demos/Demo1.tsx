@@ -3,8 +3,8 @@
  * desc: 记录上次的 value 值
  */
 
-import React, { useState } from "react";
-import { usePrevious } from "rc-hooks";
+import React, { useState } from 'react';
+import { usePrevious } from 'rc-hooks';
 
 export default () => {
   const [value, setValue] = useState(0);
@@ -12,7 +12,7 @@ export default () => {
 
   const handleInput = (e: any) => {
     setValue(e.target.value);
-  }
+  };
 
   return (
     <>
@@ -21,4 +21,4 @@ export default () => {
       <input type="text" onInput={handleInput} />
     </>
   );
-}
+};

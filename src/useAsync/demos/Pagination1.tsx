@@ -15,7 +15,7 @@ export default () => {
       return getUserList({ current, pageSize });
     },
     {
-      formatResult: res => {
+      formatResult: (res) => {
         return {
           ...res,
           list: res.data
@@ -40,7 +40,7 @@ export default () => {
         showQuickJumper
         showSizeChanger
         onShowSizeChange={(current, pageSize) => pagination.changePageSize(pageSize)}
-        showTotal={total => `共 ${total} 条数据`}
+        showTotal={(total) => `共 ${total} 条数据`}
         style={{ marginTop: 16, textAlign: 'right' }}
       />
     </div>

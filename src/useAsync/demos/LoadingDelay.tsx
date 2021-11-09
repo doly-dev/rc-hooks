@@ -8,11 +8,11 @@ import { Spin, Button } from 'antd';
 import { useAsync } from 'rc-hooks';
 
 function getCurrentTime() {
-  return new Promise<number>(resolve => {
+  return new Promise<number>((resolve) => {
     setTimeout(() => {
-      resolve(new Date().getTime())
-    }, 100)
-  })
+      resolve(new Date().getTime());
+    }, 100);
+  });
 }
 
 export default () => {
@@ -25,19 +25,17 @@ export default () => {
   const trigger = () => {
     getTimeAction.run();
     withLoadingDelayAction.run();
-  }
+  };
 
   return (
     <div>
-      <p>loadingDelay can set delay loading, which can effectively prevent loading from flickering.</p>
-      <Button onClick={trigger}>
-        run
-      </Button>
+      <p>
+        loadingDelay can set delay loading, which can effectively prevent loading from flickering.
+      </p>
+      <Button onClick={trigger}>run</Button>
 
       <div style={{ margin: '24px 0', width: 300 }}>
-        <Spin spinning={getTimeAction.loading}>
-          Double Count: {getTimeAction.data}
-        </Spin>
+        <Spin spinning={getTimeAction.loading}>Double Count: {getTimeAction.data}</Spin>
       </div>
       <div>
         <Spin spinning={withLoadingDelayAction.loading}>

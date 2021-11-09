@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLimitList } from '../..';
 
 function sleep(delay = 1000) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 }

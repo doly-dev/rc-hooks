@@ -11,7 +11,7 @@ describe('useUnmountedRef', () => {
       const unmountedRef = useUnmountedRef();
       return {
         unmountedRef
-      }
+      };
     });
 
     expect(result.current.unmountedRef.current).toBe(false);
@@ -20,5 +20,5 @@ describe('useUnmountedRef', () => {
       unmount();
       expect(result.current.unmountedRef.current).toBe(true);
     });
-  })
-})
+  });
+});

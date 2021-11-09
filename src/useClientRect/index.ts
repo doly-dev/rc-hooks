@@ -1,6 +1,6 @@
-// ref: 
+// ref:
 //  https://zh-hans.reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 
 /**
  * @deprecated Please use `useSize`

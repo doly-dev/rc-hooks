@@ -24,7 +24,7 @@ const getCache = (key: CacheKey) => {
   }
 
   return data;
-}
+};
 
 const setCache = (key: CacheKey, data: any, cacheTime = defaultCacheTime) => {
   if (cache[key]) {
@@ -41,9 +41,6 @@ const setCache = (key: CacheKey, data: any, cacheTime = defaultCacheTime) => {
     cacheTime,
     startTime: new Date().getTime()
   };
-}
+};
 
-export {
-  getCache,
-  setCache
-}
+export { getCache, setCache };

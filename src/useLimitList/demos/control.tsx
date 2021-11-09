@@ -42,7 +42,7 @@ const Demo = () => {
           min={0}
           step={1}
           value={len}
-          onChange={e => setLen(Number(e.target.value))}
+          onChange={(e) => setLen(Number(e.target.value))}
         />
         <button type="button" onClick={() => setList(getList(len))}>
           确定
@@ -50,7 +50,7 @@ const Demo = () => {
       </div>
       <br />
       <ul>
-        {data.map(item => (
+        {data.map((item) => (
           <li key={item.id}>{`${item.id}.${item.name}`}</li>
         ))}
       </ul>

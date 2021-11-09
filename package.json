@@ -17,7 +17,6 @@
     "doc-version": "cross-env BUIDL_DOC_VERSION=true dumi build",
     "prettier": "prettier --write 'src/**/*.tsx' && prettier --write 'src/**/*.ts'",
     "lint-staged": "lint-staged",
-    "lint-staged:prettier": "prettier --write",
     "precommit": "lint-staged",
     "lint": "eslint src --ext ts,tsx",
     "lint:fix": "eslint src --ext ts,tsx --fix",
@@ -25,10 +24,8 @@
     "test": "jest --verbose"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,js,jsx}": [
-      "eslint",
-      "npm run lint-staged:prettier"
-    ]
+    "src/**/*.{ts,tsx,js,jsx}": "eslint",
+    "**/*.{js,jsx,ts,tsx,json,css,scss,sass,less,md}": "prettier --write"
   },
   "husky": {
     "hooks": {

@@ -24,7 +24,7 @@ const Demo = () => {
   return (
     <div>
       <ul>
-        {data.map(item => (
+        {data.map((item) => (
           <li key={item.id}>{`${item.id}.${item.name}`}</li>
         ))}
       </ul>

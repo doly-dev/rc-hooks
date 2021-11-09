@@ -12,12 +12,15 @@ const transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'si
 
 const defaultObserverOptions = {
   characterData: true, // 监视指定目标节点或子节点树中节点所包含的字符数据的变化
-  childList: true,  // 观察目标子节点的变化，是否有添加或者删除
+  childList: true, // 观察目标子节点的变化，是否有添加或者删除
   attributes: true, // 观察属性变动
-  subtree: true     // 观察后代节点，默认为 false
+  subtree: true // 观察后代节点，默认为 false
 };
 
-type CallbackType = (mutations: (Omit<MutationRecord, 'target'> & { target: HTMLElement | null; })[], observer: MutationObserver) => void;
+type CallbackType = (
+  mutations: (Omit<MutationRecord, 'target'> & { target: HTMLElement | null })[],
+  observer: MutationObserver
+) => void;
 
 class ResizeObserver {
   readonly observer;
@@ -34,24 +37,28 @@ class ResizeObserver {
 
   private refresh = () => {
     if (this.targetNode) {
-      this.callback([{
-        target: this.targetNode
-      }] as any, {} as any);
+      this.callback(
+        [
+          {
+            target: this.targetNode
+          }
+        ] as any,
+        {} as any
+      );
     }
-  }
+  };
 
   onTransitionEnd_ = ({ propertyName = '' }) => {
-    const isReflowProperty = transitionKeys.some(key => {
+    const isReflowProperty = transitionKeys.some((key) => {
       return propertyName.indexOf(key) > -1;
     });
 
     if (isReflowProperty) {
       this.throttleRefresh();
     }
-  }
+  };
 
   observe = (targetNode: HTMLElement, options?: MutationObserverInit) => {
-
     if (!isBrowser) {
       return;
     }
@@ -64,7 +71,7 @@ class ResizeObserver {
       ...defaultObserverOptions,
       ...options
     });
-  }
+  };
 
   disconnect = () => {
     if (!isBrowser) {
@@ -75,7 +82,7 @@ class ResizeObserver {
     document.removeEventListener('transitionend', this.onTransitionEnd_);
     window.removeEventListener('resize', this.throttleRefresh);
     this.observer.disconnect();
-  }
+  };
 }
 
 export default ResizeObserver;

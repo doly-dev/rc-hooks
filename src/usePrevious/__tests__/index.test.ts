@@ -6,11 +6,12 @@ describe('usePrevious', () => {
     expect(usePrevious).toBeDefined();
   });
 
-  const setUp = () => renderHook(({ state }) => usePrevious(state), {
-    initialProps: {
-      state: 0
-    }
-  });
+  const setUp = () =>
+    renderHook(({ state }) => usePrevious(state), {
+      initialProps: {
+        state: 0
+      }
+    });
 
   it('should return undefined on initial render', () => {
     const { result } = setUp();

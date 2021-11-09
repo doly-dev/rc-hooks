@@ -6,14 +6,15 @@ describe('useSafeState', () => {
     expect(useSafeState).toBeDefined();
   });
 
-  const setUp = (initialState) => renderHook(() => {
-    const [state, setState] = useSafeState(initialState);
+  const setUp = (initialState) =>
+    renderHook(() => {
+      const [state, setState] = useSafeState(initialState);
 
-    return {
-      state,
-      setState
-    }
-  });
+      return {
+        state,
+        setState
+      };
+    });
 
   it('initialState', () => {
     const { result } = setUp(0);
@@ -41,5 +42,4 @@ describe('useSafeState', () => {
 
     expect(result.current.state).toBe(0);
   });
-
-})
+});

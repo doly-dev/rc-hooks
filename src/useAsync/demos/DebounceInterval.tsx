@@ -37,7 +37,12 @@ export default () => {
         loading={loading}
         style={{ width: 300 }}
       >
-        {data && data.map(item => <Option key={item} value={item}>{item}</Option>)}
+        {data &&
+          data.map((item) => (
+            <Option key={item} value={item}>
+              {item}
+            </Option>
+          ))}
       </Select>
     </div>
   );

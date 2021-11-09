@@ -12,10 +12,15 @@ const Demo: React.FC = (props: any) => {
 
   return (
     <div>
-      <input type='text' value={state} onChange={e => setState(e.target.value)} placeholder='请输入' />
+      <input
+        type="text"
+        value={state}
+        onChange={(e) => setState(e.target.value)}
+        placeholder="请输入"
+      />
       <button onClick={() => setState('')}>清空</button>
     </div>
   );
-}
+};
 
 export default Demo;

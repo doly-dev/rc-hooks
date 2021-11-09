@@ -3,8 +3,8 @@
  * desc: 获取 h1 元素大小
  */
 
-import React, { useRef } from "react";
-import { useSize } from "rc-hooks";
+import React, { useRef } from 'react';
+import { useSize } from 'rc-hooks';
 
 export default () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,4 +16,4 @@ export default () => {
       <p>rect value: {JSON.stringify(size)}</p>
     </>
   );
-}
+};

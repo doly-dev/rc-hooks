@@ -13,31 +13,27 @@ function toCamel(str) {
 const globalVarName = toCamel(pkg.name);
 
 export default {
-  input: "./src/index.ts",
-  external: ["react"],
+  input: './src/index.ts',
+  external: ['react'],
   output: [
     {
       file: `dist/${globalVarName}.js`,
-      format: "umd",
+      format: 'umd',
       name: globalVarName,
       globals: {
-        react: "React"
+        react: 'React'
       }
     },
     {
       file: `dist/${globalVarName}.min.js`,
-      format: "umd",
+      format: 'umd',
       name: globalVarName,
       globals: {
-        react: "React"
+        react: 'React'
       },
       sourcemap: true,
       plugins: [terser()]
     }
   ],
-  plugins: [
-    resolve(),
-    commonjs(),
-    typescript()
-  ]
-}
+  plugins: [resolve(), commonjs(), typescript()]
+};

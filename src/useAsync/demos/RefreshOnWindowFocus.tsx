@@ -19,14 +19,16 @@ function getUsername() {
 export default () => {
   const { data, loading } = useAsync(getUsername, {
     refreshOnWindowFocus: true
-  })
+  });
 
   return (
     <div>
-      <p>You can try to click elsewhere and click back to try. (Or hide the page and show it again)</p>
+      <p>
+        You can try to click elsewhere and click back to try. (Or hide the page and show it again)
+      </p>
       <Spin spinning={loading}>
         <div>Username: {data}</div>
       </Spin>
     </div>
-  )
-}
+  );
+};

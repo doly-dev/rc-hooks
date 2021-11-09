@@ -10,8 +10,15 @@ const ControllableComponent: React.FC<any> = (props: any) => {
     defaultValue: ''
   });
 
-  return <input type='text' value={state} onChange={e => setState(e.target.value)} placeholder='请输入' />
-}
+  return (
+    <input
+      type="text"
+      value={state}
+      onChange={(e) => setState(e.target.value)}
+      placeholder="请输入"
+    />
+  );
+};
 
 const Demo: React.FC = () => {
   const [state, setState] = React.useState('');
@@ -22,6 +29,6 @@ const Demo: React.FC = () => {
       <button onClick={() => setState('')}>清空</button>
     </div>
   );
-}
+};
 
 export default Demo;

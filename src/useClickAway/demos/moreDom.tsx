@@ -10,7 +10,7 @@ const Demo: React.FC = () => {
   const ref = React.useRef<HTMLSpanElement>();
 
   useClickAway([ref, () => document.querySelector('#box2')], () => {
-    setCount(c => c + 1);
+    setCount((c) => c + 1);
   });
 
   return (
@@ -18,12 +18,12 @@ const Demo: React.FC = () => {
       <span ref={ref}>
         <button>box</button>
       </span>
-      <span id='box2' style={{ marginLeft: 20 }}>
+      <span id="box2" style={{ marginLeft: 20 }}>
         <button>box</button>
       </span>
       <p>count: {count}</p>
     </div>
   );
-}
+};
 
 export default Demo;

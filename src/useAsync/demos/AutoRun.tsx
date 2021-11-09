@@ -31,7 +31,7 @@ export default () => {
   return (
     <div>
       <Input
-        onChange={e => setState(e.target.value)}
+        onChange={(e) => setState(e.target.value)}
         value={state}
         placeholder="Please enter username"
         style={{ width: 240, marginRight: 16 }}

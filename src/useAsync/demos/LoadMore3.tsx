@@ -17,15 +17,15 @@ const resultData = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> {
   let start = 0;
   if (nextId) {
-    start = resultData.findIndex(i => i === nextId);
+    start = resultData.findIndex((i) => i === nextId);
   }
   const end = start + limit;
-  const list = resultData.slice(start, end).map(id => ({
+  const list = resultData.slice(start, end).map((id) => ({
     id,
     name: `project ${id} (server time: ${Date.now()})`
   }));
   const nId = resultData.length >= end ? resultData[end] : undefined;
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         list,
@@ -43,7 +43,7 @@ export default () => {
     },
     {
       ref: containerRef,
-      isNoMore: result => !result?.nextId
+      isNoMore: (result) => !result?.nextId
     }
   );
 

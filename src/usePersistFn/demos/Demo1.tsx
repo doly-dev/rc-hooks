@@ -1,8 +1,8 @@
-// ref: 
+// ref:
 // https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
-import React, { useState } from "react";
-import { Button } from "antd";
-import { usePersistFn } from "rc-hooks";
+import React, { useState } from 'react';
+import { Button } from 'antd';
+import { usePersistFn } from 'rc-hooks';
 
 export default function Form() {
   const [text, updateText] = useState('');
@@ -17,7 +17,7 @@ export default function Form() {
 
   return (
     <>
-      <input value={text} onChange={e => updateText(e.target.value)} />
+      <input value={text} onChange={(e) => updateText(e.target.value)} />
       <Button onClick={handleSubmit}>Alert</Button>
     </>
   );

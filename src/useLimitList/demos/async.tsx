@@ -7,7 +7,7 @@ import { useLimitList, useAsync } from 'rc-hooks';
 import Mockjs from 'mockjs';
 
 function sleep(delay = 1000) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 }
@@ -35,7 +35,7 @@ const Demo = () => {
   return (
     <div>
       <ul>
-        {data.map(item => (
+        {data.map((item) => (
           <li key={item.id}>{`${item.id}.${item.name}`}</li>
         ))}
       </ul>

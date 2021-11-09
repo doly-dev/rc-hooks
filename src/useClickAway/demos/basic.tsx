@@ -10,7 +10,7 @@ const Demo: React.FC = () => {
   const ref = React.useRef<HTMLSpanElement>();
 
   useClickAway(ref, () => {
-    setCount(c => c + 1);
+    setCount((c) => c + 1);
   });
 
   return (
@@ -21,6 +21,6 @@ const Demo: React.FC = () => {
       <p>count: {count}</p>
     </div>
   );
-}
+};
 
 export default Demo;

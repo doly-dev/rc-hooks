@@ -122,7 +122,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
   }, [loading, noMore, loadData]);
 
   const mutate: LoadMoreResult<R, LoadMoreParams<R>>['mutate'] = React.useCallback(
-    param => {
+    (param) => {
       const res = typeof param === 'function' ? param(data as R) : param;
       dataGroup.current = res?.list || [];
       reqMutate(res);
@@ -133,7 +133,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
   const refresh = React.useCallback(() => {
     cancel();
     currentPageRef.current = 1;
-    mutate(d => ({
+    mutate((d) => ({
       ...d,
       list: []
     }));

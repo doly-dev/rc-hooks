@@ -11,7 +11,7 @@ import getUserList from './services/getUserList';
 export default () => {
   const { refresh, tableProps } = usePagination(({ current, pageSize, ...rest }) => {
     console.log(rest);
-    return getUserList({ current, pageSize }).then(res => ({
+    return getUserList({ current, pageSize }).then((res) => ({
       ...res,
       list: res.data
     }));

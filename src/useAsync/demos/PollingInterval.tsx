@@ -25,7 +25,7 @@ export default () => {
   const { data, loading, run, cancel } = useAsync(getUsername, {
     pollingInterval: 1000,
     pollingWhenHidden: false
-  })
+  });
 
   return (
     <>
@@ -37,5 +37,5 @@ export default () => {
         <Button onClick={cancel}>stop</Button>
       </Button.Group>
     </>
-  )
-}
+  );
+};

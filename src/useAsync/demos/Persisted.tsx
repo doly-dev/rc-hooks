@@ -2,7 +2,7 @@
  * title: 持久化数据
  * desc: |
  *    如果有缓存数据，不再执行异步函数。
- * 
+ *
  *    需要配合 `cacheKey` `cacheTime` 使用。
  */
 import * as React from 'react';
@@ -11,13 +11,13 @@ import { useAsync } from 'rc-hooks';
 import Mock from 'mockjs';
 
 function getArticle() {
-  return new Promise<{ data: string, time: number }>((resolve) => {
+  return new Promise<{ data: string; time: number }>((resolve) => {
     setTimeout(() => {
       resolve({
         data: Mock.mock('@paragraph'),
         time: new Date().getTime()
-      })
-    }, 1000)
+      });
+    }, 1000);
   });
 }
 
@@ -31,13 +31,15 @@ const Demo: React.FC<{}> = () => {
   return (
     <div>
       <p>10秒内再次获取，直接从缓存中读取数据。</p>
-      <p><Button onClick={run}>获取数据</Button></p>
+      <p>
+        <Button onClick={run}>获取数据</Button>
+      </p>
       <Spin spinning={loading}>
         <p>Latest request time: {data?.time}</p>
         <p>{data?.data}</p>
       </Spin>
     </div>
   );
-}
+};
 
 export default Demo;

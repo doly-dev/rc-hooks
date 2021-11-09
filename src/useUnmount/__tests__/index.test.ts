@@ -40,7 +40,6 @@ describe('useUnmount', () => {
       initialProps: fn1
     });
 
-
     rerender(fn2);
     rerender(fn3);
     unmount();

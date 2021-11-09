@@ -6,30 +6,26 @@ const Counter = () => {
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setCount(n => n + 1);
+      setCount((n) => n + 1);
     }, 100);
 
     return () => {
       clearInterval(timer);
-    }
+    };
   }, [setCount]);
 
-  return (
-    <div>计数：{count}</div>
-  );
-}
+  return <div>计数：{count}</div>;
+};
 
 const Demo = () => {
   const [visible, setVisible] = useSafeState(true);
 
   return (
     <>
-      <button onClick={() => setVisible(x => !x)}>点击切换显示/隐藏</button>
-      {
-        visible && <Counter />
-      }
+      <button onClick={() => setVisible((x) => !x)}>点击切换显示/隐藏</button>
+      {visible && <Counter />}
     </>
   );
-}
+};
 
 export default Demo;

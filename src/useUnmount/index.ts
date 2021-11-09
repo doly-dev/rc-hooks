@@ -5,6 +5,6 @@ const useUnmount = (fn: () => any) => {
   fnRef.current = fn;
 
   useEffect(() => () => fnRef.current(), []);
-}
+};
 
 export default useUnmount;

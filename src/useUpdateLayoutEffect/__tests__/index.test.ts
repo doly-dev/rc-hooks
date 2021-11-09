@@ -23,9 +23,11 @@ describe('useUpdateLayoutEffect', () => {
     let renders = 0;
     let mountState = 1;
 
-    const { rerender } = renderHook(() => useUpdateLayoutEffect(() => {
-      renders++;
-    }, [mountState]));
+    const { rerender } = renderHook(() =>
+      useUpdateLayoutEffect(() => {
+        renders++;
+      }, [mountState])
+    );
 
     expect(renders).toBe(0);
 
