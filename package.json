@@ -21,16 +21,12 @@
     "lint": "eslint src --ext ts,tsx",
     "lint:fix": "npm run lint -- --fix",
     "commit": "cz",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": "eslint",
     "**/*.{js,jsx,ts,tsx,json,css,scss,sass,less,md}": "prettier -w"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "config": {
     "commitizen": {
@@ -67,8 +63,8 @@
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/cli": "^14.1.0",
+    "@commitlint/config-conventional": "^14.1.0",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
@@ -78,6 +74,7 @@
     "@types/lodash.debounce": "^4.0.6",
     "@types/lodash.throttle": "^4.1.6",
     "@types/mockjs": "^1.0.3",
+    "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
     "antd": "^4.1.0",
@@ -91,9 +88,9 @@
     "eslint": "^7.26.0",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "4",
+    "husky": "^7.0.0",
     "jest": "^27.0.4",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^12.0.2",
     "mockjs": "^1.1.0",
     "prettier": "^2.3.2",
     "react": "^16.13.1",
