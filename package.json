@@ -15,18 +15,17 @@
     "build:umd": "rm -rf dist && rollup -c",
     "doc": "dumi build",
     "doc-version": "cross-env BUIDL_DOC_VERSION=true dumi build",
-    "prettier": "prettier --write 'src/**/*.tsx' && prettier --write 'src/**/*.ts'",
+    "prettier": "prettier --write **/*",
     "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .ts,.tsx,.js,.jsx",
     "precommit": "lint-staged",
     "lint": "eslint src --ext ts,tsx",
-    "lint:fix": "eslint src --ext ts,tsx --fix",
+    "lint:fix": "npm run lint -- --fix",
     "commit": "cz",
     "test": "jest --verbose"
   },
   "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,ts,tsx,json,css,scss,sass,less,md}": "prettier --write"
+    "**/*.{ts,tsx,js,jsx}": "eslint",
+    "**/*.{js,jsx,ts,tsx,json,css,scss,sass,less,md}": "prettier -w"
   },
   "husky": {
     "hooks": {
