@@ -93,7 +93,7 @@ export function useAsync<R = any, P extends any[] = any, FP = any>(
     params: (Array.isArray(defaultParams) ? defaultParams : [defaultParams]) as any,
     loading: defaultLoading,
     error: null,
-    data: cacheKey ? getCache(cacheKey) : initialData
+    data: (cacheKey && getCache(cacheKey)) || initialData
   });
   const counterRef = useRef(0); // 计数器用于判定，或多次执行，只取最后一次结果
   const pollingTimerRef = useRef<any>(null); // 轮询定时器
