@@ -1,4 +1,4 @@
-import throttle from 'lodash.throttle';
+import throttle from 'lodash/throttle';
 import type { DebouncedFunc } from 'lodash';
 import isBrowser from '../utils/isBrowser';
 

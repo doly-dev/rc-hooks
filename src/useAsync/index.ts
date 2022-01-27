@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import debounce from 'lodash.debounce';
-import throttle from 'lodash.throttle';
+import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import { isDocumentVisible } from '../utils';
@@ -47,7 +47,7 @@ export type AsyncResult<R = any, P extends any[] = any> = {
 };
 
 // 空函数
-const noop = () => {};
+const noop = () => { };
 
 // 异步方法hooks
 export function useAsync<R = any, P extends any[] = any>(
