@@ -1,47 +1,6 @@
 import * as React from 'react';
 import { useLoadMore, useDebounce } from 'rc-hooks';
-import Mockjs from 'mockjs';
-
-function waitTime(time = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-}
-
-async function searchApi({
-  keyword,
-  order,
-  pageNum,
-  pageSize
-}: {
-  keyword: string;
-  order: number;
-  pageNum: number;
-  pageSize: number;
-}) {
-  await waitTime();
-  if (keyword && keyword.length <= 1) {
-    return {
-      list: []
-    };
-  }
-  if (pageNum < 3) {
-    return Mockjs.mock({
-      [`list|${pageSize}`]: [
-        {
-          text: `${keyword} ${order} ${pageNum} @id`
-        }
-      ]
-    });
-  }
-  return Mockjs.mock({
-    [`list|2`]: [
-      {
-        text: `${keyword} ${order} ${pageNum} @id`
-      }
-    ]
-  });
-}
+import search from './services/search';
 
 // 排序
 const orderTypes = [
@@ -85,7 +44,7 @@ const Demo = () => {
           prevListLen: 0
         };
       }
-      return searchApi({
+      return search({
         pageNum: current,
         pageSize: DefaultPageSize,
         keyword: debounceKeyword,
