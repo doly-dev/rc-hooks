@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import useThrottleFn from '../useThrottleFn';
-import type { ThrottleSettings } from 'lodash';
 
-function useThrottle<ValueType = any>(value: ValueType, wait = 0, options: ThrottleSettings = {}) {
+function useThrottle<ValueType = any>(
+  value: ValueType,
+  wait = 0,
+  options: Parameters<typeof useThrottleFn>[2] = {}
+) {
   const [state, setState] = useState(value);
 
   const { run } = useThrottleFn(setState, wait, options);

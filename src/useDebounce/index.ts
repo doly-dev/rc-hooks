@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import useDebounceFn from '../useDebounceFn';
-import type { DebounceSettings } from 'lodash';
 
-function useDebounce<ValueType = any>(value: ValueType, wait = 0, options: DebounceSettings = {}) {
+function useDebounce<ValueType = any>(
+  value: ValueType,
+  wait = 0,
+  options: Parameters<typeof useDebounceFn>[2] = {}
+) {
   const [state, setState] = useState(value);
   const { run } = useDebounceFn(setState, wait, options);
 

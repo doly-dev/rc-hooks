@@ -1,12 +1,11 @@
 import { useRef } from 'react';
-import throttle from 'lodash.throttle';
-import type { ThrottleSettings } from 'lodash';
+import throttle from 'lodash/throttle';
 import useUnmount from '../useUnmount';
 
 function useThrottleFn<T extends (...args: any[]) => any>(
   fn: T,
   wait = 0,
-  options: ThrottleSettings = {}
+  options: Parameters<typeof throttle>[2] = {}
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
