@@ -6,28 +6,19 @@
 import { Button, List } from 'antd';
 import React, { useRef } from 'react';
 import { useLoadMore } from 'rc-hooks';
-
 import getUserList from './services/getUserList';
 
-type DataItem = { id: string; name: string };
-
-type Result = {
-  list: DataItem[];
-  total: number;
-};
-
 export default () => {
-  const containerRef = useRef(null);
-  const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore<Result>(
-    async ({ current }) => {
-      const res = await getUserList({ current, pageSize: 3 });
-      return {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore(
+    ({ current }) => {
+      return getUserList({ current, pageSize: 3 }).then((res) => ({
         total: res.total,
         list: res.data
-      };
+      }));
     },
     {
-      ref: containerRef,
+      target: () => containerRef.current,
       isNoMore: (result) => result?.list.length >= result?.total
     }
   );

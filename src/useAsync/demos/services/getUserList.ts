@@ -1,7 +1,30 @@
 import Mock from 'mockjs';
+import waitTime from '../../../utils/waitTime';
 
-const userList = ({ pageSize }: { pageSize: number; [x: string]: any }) =>
-  Mock.mock({
+type DataItem = {
+  id: string;
+  name: string;
+  gender: 'male' | 'female';
+  email: string;
+  disabled: boolean;
+};
+
+type Result = {
+  data: DataItem[];
+  total: number;
+  errCode: string;
+  errMsg: string;
+};
+
+export default async function getUserList({
+  current,
+  pageSize = 5
+}: {
+  current: number;
+  pageSize?: number;
+}) {
+  await waitTime();
+  return Mock.mock({
     [`data|${pageSize}`]: [
       {
         id: '@guid',
@@ -14,36 +37,5 @@ const userList = ({ pageSize }: { pageSize: number; [x: string]: any }) =>
     total: 15,
     errCode: '00',
     errMsg: ''
-  });
-
-type Result = {
-  data: {
-    id: string;
-    name: string;
-    gender: 'male' | 'female';
-    email: string;
-    disabled: boolean;
-  }[];
-  total: number;
-  errCode: string;
-  errMsg: string;
-};
-
-export default function getUserList({
-  current,
-  pageSize = 5
-}: {
-  current: number;
-  pageSize?: number;
-}) {
-  return new Promise<Result>((resolve) => {
-    setTimeout(() => {
-      resolve(
-        userList({
-          pageNum: current,
-          pageSize
-        })
-      );
-    }, 1000);
-  });
+  }) as Result;
 }

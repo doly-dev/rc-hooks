@@ -36,14 +36,18 @@ export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> 
 }
 
 export default () => {
-  const containerRef = useRef(null);
-  const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore<Result>(
-    ({ current, data: result }) => {
-      return getLoadMoreList(current === 1 ? undefined : result?.nextId, 3);
+  const containerRef = useRef<HTMLDivElement>();
+  const currResult = useRef<Result>();
+  const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore(
+    ({ current }) => {
+      return getLoadMoreList(current === 1 ? undefined : currResult.current?.nextId, 3);
     },
     {
-      ref: containerRef,
-      isNoMore: (result) => !result?.nextId
+      target: () => containerRef.current,
+      isNoMore: (result) => !result?.nextId,
+      onSuccess(res) {
+        currResult.current = res;
+      }
     }
   );
 

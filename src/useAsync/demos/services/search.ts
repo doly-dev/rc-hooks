@@ -1,35 +1,30 @@
 import Mockjs from 'mockjs';
+import waitTime from '../../../utils/waitTime';
 
-function waitTime(time = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-}
+type DataItem = {
+  text: string;
+};
 
-export default async function search({
-  keyword,
-  order,
-  pageNum,
-  pageSize
-}: {
+type Result = {
+  list: DataItem[];
+};
+
+export default async function search(params: {
   keyword: string;
   order: number;
   pageNum: number;
   pageSize: number;
 }) {
-  await waitTime();
+  const { keyword, order, pageNum, pageSize } = params;
+  console.log(params);
 
-  if (!keyword) {
-    return {
-      list: []
-    };
-  }
+  await waitTime();
 
   return Mockjs.mock({
     [`list|${pageNum < 3 ? pageSize : pageSize - 1}`]: [
       {
-        text: `${keyword} ${order} ${pageNum} @id`
+        text: `keyword=${keyword} order=${order} pageNum=${pageNum} id=@id`
       }
     ]
-  });
+  }) as Result;
 }

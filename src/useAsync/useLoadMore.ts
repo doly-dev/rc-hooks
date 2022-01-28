@@ -1,31 +1,30 @@
 import * as React from 'react';
 import useAsync from '.';
-import type { AsyncBaseOptions, AsyncOptions, AsyncResult } from '.';
-import useScrollToLower from './useScrollToLower';
+import type { AsyncOptions, AsyncResult } from '.';
+import useScrollToLower, { TargetType } from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 
 export interface LoadMoreAsyncReturn<DataItem = any> {
   list: DataItem[];
+  [key: string]: any;
 }
 
-export type LoadMoreParams<R extends LoadMoreAsyncReturn = any> = [
-  page: { current: number; data?: R; [key: string]: any },
+export type LoadMoreParams = [
+  page: {
+    current: number;
+  },
   ...args: any[]
 ];
 
-export interface LoadMoreAsyncBaseOption<R extends LoadMoreAsyncReturn = any>
+export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any>
   extends Omit<
-    AsyncBaseOptions<R, LoadMoreParams<R>>,
+    AsyncOptions<R, LoadMoreParams>,
     'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
   threshold?: number;
-  ref?: React.RefObject<HTMLElement | Window>;
+  target?: TargetType;
   isNoMore?: (data?: R) => boolean;
 }
-
-export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any, FP = any>
-  extends LoadMoreAsyncBaseOption<R>,
-    Pick<AsyncOptions<R, LoadMoreParams<R>, FP>, 'formatResult'> {}
 
 export interface LoadMoreResult<R extends LoadMoreAsyncReturn = any, P extends any[] = any>
   extends AsyncResult<R, P> {
@@ -35,62 +34,51 @@ export interface LoadMoreResult<R extends LoadMoreAsyncReturn = any, P extends a
 }
 
 export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
-  asyncFn: (...args: LoadMoreParams<R>) => Promise<R>,
-  options?: LoadMoreAsyncBaseOption<R>
-): LoadMoreResult<R, LoadMoreParams<R>>;
-export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
-  asyncFn: (...args: LoadMoreParams<R>) => Promise<FP>,
-  options?: LoadMoreAsyncOption<R, FP>
-): LoadMoreResult<R, LoadMoreParams<R>>;
-export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
-  asyncFn: (...args: LoadMoreParams<R>) => Promise<FP>,
-  options?: LoadMoreAsyncOption<R, FP> | LoadMoreAsyncBaseOption<R>
+  asyncFn: (...args: LoadMoreParams) => Promise<R>,
+  options?: LoadMoreAsyncOption<R>
 ) {
   const {
     threshold = 100,
-    ref,
+    target,
     isNoMore = () => false,
     refreshDeps = [],
-    formatResult,
     ...restOptions
-  } = (options || {}) as LoadMoreAsyncOption<R, FP>;
+  } = (options || {}) as LoadMoreAsyncOption<R>;
 
-  const dataGroup = React.useRef<R['list']>([]);
+  const dataGroup = React.useRef<R['list']>([]); // 缓存之前请求的列表数据
   const currentPageRef = React.useRef(1); // 当前页码
 
   const {
     run,
+    data,
     loading,
     cancel: reqCancel,
-    data,
     params,
     mutate: reqMutate,
     ...restAsyncReturn
-  } = useAsync<R, LoadMoreParams<R>, FP>(asyncFn, {
+  } = useAsync<R, LoadMoreParams>(asyncFn, {
     defaultParams: [
       {
-        current: currentPageRef.current,
-        data: options?.initialData
+        current: currentPageRef.current
       }
     ],
     ...restOptions,
-    onError: (err, params) => {
+    onError(err, _params) {
       // 加载失败并且当前页码大于第一页，页码自减一
       if (currentPageRef.current > 1) {
         currentPageRef.current -= 1;
       }
-      restOptions?.onError?.(err, params);
+      restOptions?.onError?.(err, _params);
     },
-    formatResult: (res, params) => {
-      const fmtRes = (formatResult ? formatResult(res, params) : res) as R;
+    __INTERNAL_FORMAT__(res) {
       dataGroup.current =
-        currentPageRef.current === 1 ? fmtRes.list : dataGroup.current.concat(fmtRes.list);
+        currentPageRef.current === 1 ? res.list : dataGroup.current.concat(res.list);
       return {
-        ...fmtRes,
+        ...res,
         list: dataGroup.current
       };
     }
-  } as LoadMoreAsyncOption<R, FP>);
+  });
 
   const noMore = isNoMore ? !loading && isNoMore(data) : false;
 
@@ -98,12 +86,11 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     const [, ...restParams] = params;
     return run(
       {
-        current: currentPageRef.current,
-        data
+        current: currentPageRef.current
       },
       ...restParams
     );
-  }, [data, params, run]);
+  }, [params, run]);
 
   const cancel = React.useCallback(() => {
     // 加载中并且当前页码大于第一页，页码自减一
@@ -121,7 +108,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
     loadData();
   }, [loading, noMore, loadData]);
 
-  const mutate: LoadMoreResult<R, LoadMoreParams<R>>['mutate'] = React.useCallback(
+  const mutate: LoadMoreResult<R, LoadMoreParams>['mutate'] = React.useCallback(
     (param) => {
       const res = typeof param === 'function' ? param(data as R) : param;
       dataGroup.current = res?.list || [];
@@ -141,14 +128,14 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any, FP = any>(
   }, [cancel, loadData, mutate]);
 
   const scrollMethod = React.useCallback(() => {
-    if (loading || !ref?.current) {
+    if (loading || !target) {
       return;
     }
     return loadMore();
-  }, [loadMore, ref, loading]);
+  }, [loadMore, target, loading]);
 
   useScrollToLower({
-    ref,
+    target,
     threshold,
     onScrollLower: scrollMethod
   });

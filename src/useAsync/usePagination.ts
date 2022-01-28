@@ -1,11 +1,12 @@
 import * as React from 'react';
 import useAsync from '.';
-import type { AsyncBaseOptions, AsyncOptions, AsyncResult } from '.';
+import type { AsyncOptions, AsyncResult } from '.';
 import useUpdateEffect from '../useUpdateEffect';
 
 export interface PaginationAsyncReturn<DataItem = any> {
   list: DataItem[];
   total: number;
+  [key: string]: any;
 }
 
 export type PaginationParams = [
@@ -18,13 +19,9 @@ export type PaginationParams = [
 ];
 
 export interface PaginationAsyncBaseOption<R extends PaginationAsyncReturn = any>
-  extends AsyncBaseOptions<R, PaginationParams> {
+  extends AsyncOptions<R, PaginationParams> {
   defaultPageSize?: number;
 }
-
-export interface PaginationAsyncOption<R extends PaginationAsyncReturn = any, FP = any>
-  extends PaginationAsyncBaseOption<R>,
-    Pick<AsyncOptions<R, PaginationParams, FP>, 'formatResult'> {}
 
 export interface PaginationResult<R extends PaginationAsyncReturn = any, P extends any[] = any>
   extends AsyncResult<R, P> {
@@ -52,22 +49,10 @@ export interface PaginationResult<R extends PaginationAsyncReturn = any, P exten
 export function usePagination<R extends PaginationAsyncReturn = any>(
   asyncFn: (...args: PaginationParams) => Promise<R>,
   options?: PaginationAsyncBaseOption<R>
-): PaginationResult<R, PaginationParams>;
-export function usePagination<R extends PaginationAsyncReturn = any, FP = any>(
-  asyncFn: (...args: PaginationParams) => Promise<FP>,
-  options?: PaginationAsyncOption<R, FP>
-): PaginationResult<R, PaginationParams>;
-export function usePagination<R extends PaginationAsyncReturn = any, FP = any>(
-  asyncFn: (...args: PaginationParams) => Promise<FP>,
-  options?: PaginationAsyncOption<R, FP> | PaginationAsyncBaseOption<R>
 ) {
-  const {
-    defaultPageSize = 10,
-    refreshDeps = [],
-    ...restOptions
-  } = (options || {}) as PaginationAsyncOption<R, FP>;
+  const { defaultPageSize = 10, refreshDeps = [], ...restOptions } = options || {};
 
-  const { run, data, params, loading, ...restAsyncReturn } = useAsync<R, PaginationParams, FP>(
+  const { run, data, params, loading, ...restAsyncReturn } = useAsync<R, PaginationParams>(
     asyncFn,
     {
       defaultParams: [
@@ -77,7 +62,7 @@ export function usePagination<R extends PaginationAsyncReturn = any, FP = any>(
         }
       ],
       ...restOptions
-    } as PaginationAsyncOption<R, FP>
+    }
   );
 
   const { current, pageSize } = params && params[0] ? params[0] : ({} as PaginationParams[0]);

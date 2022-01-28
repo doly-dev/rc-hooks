@@ -5,24 +5,16 @@
 import React from 'react';
 import { List, Pagination } from 'antd';
 import { usePagination } from 'rc-hooks';
-
 import getUserList from './services/getUserList';
 
 export default () => {
-  const { data, loading, pagination } = usePagination(
-    ({ current, pageSize }) => {
-      // console.log(current, pageSize);
-      return getUserList({ current, pageSize });
-    },
-    {
-      formatResult: (res) => {
-        return {
-          ...res,
-          list: res.data
-        };
-      }
-    }
-  );
+  const { data, loading, pagination } = usePagination(({ current, pageSize }) => {
+    console.log(current, pageSize);
+    return getUserList({ current, pageSize }).then((res) => ({
+      list: res.data,
+      total: res.total
+    }));
+  });
 
   return (
     <div>

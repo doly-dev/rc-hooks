@@ -15,7 +15,7 @@ legacy: /async/use-pagination
 
 - 自动管理分页 `current` `pageSize`
 - `asyncFn` 第一个参数必定含有 `{ current, pageSize }`
-- `asyncFn` 返回的数据结构必须包含 `{ list: DataItem[], total: number; }`，如果不满足可以通过 `formatResult` 转换。
+- `asyncFn` 返回的数据结构必须包含 `{ list: DataItem[], total: number; }` 。
 - 额外返回 `pagination` 字段，包含所有分页信息，及操作分页的函数。
 - 额外返回 `tableProps` 字段，适配 `antd Table` 组件的数据结构，可以直接用在 `antd Table` 组件上。。
 - `refreshDeps` 变化后，会重置`current`为 1，并触发异步方法。

@@ -1,10 +1,8 @@
 import Mock from 'mockjs';
+import waitTime from '../../../utils/waitTime';
 
-export default function getEmail(search: string) {
+export default async function getEmail(search: string) {
   console.log(search);
-  return new Promise<{ data: string[] }>((resolve) => {
-    setTimeout(() => {
-      resolve(Mock.mock({ 'data|5': ['@email'] }).data);
-    }, 300);
-  });
+  await waitTime();
+  return Mock.mock({ 'data|5': ['@email'] }).data as string[];
 }

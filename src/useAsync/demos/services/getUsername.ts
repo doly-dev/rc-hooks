@@ -1,9 +1,7 @@
 import Mock from 'mockjs';
+import waitTime from '../../../utils/waitTime';
 
-export default function getUsername() {
-  return new Promise<string>((resolve) => {
-    setTimeout(() => {
-      resolve(Mock.mock('@name'));
-    }, 1000);
-  });
+export default async function getUsername() {
+  await waitTime();
+  return Mock.mock('@name') as string;
 }

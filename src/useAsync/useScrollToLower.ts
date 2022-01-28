@@ -2,41 +2,49 @@ import { useEffect, useCallback } from 'react';
 import usePersistFn from '../usePersistFn';
 import { getScrollHeight, getClientHeight, getScrollTop } from '../utils/dom';
 
+type ScrollElement = HTMLElement | Window;
+
+export type TargetType = ScrollElement | (() => ScrollElement);
+
+function getTarget(target: TargetType) {
+  if (typeof target === 'function') {
+    return target();
+  }
+  return target;
+}
+
 interface ScrollToLowerProps {
-  ref?: React.RefObject<HTMLElement | Window>;
+  target?: TargetType;
   threshold?: number;
   onScrollLower?: () => void;
 }
 
 const useScrollToLower = ({
-  ref,
+  target: outTarget,
   threshold = 100,
   onScrollLower = () => {}
 }: ScrollToLowerProps = {}) => {
   const onScrollLowerPersist = usePersistFn(onScrollLower);
   const scrollMethod = useCallback(() => {
-    if (!ref?.current) {
+    if (!outTarget) {
       return;
     }
-    if (
-      getScrollHeight(ref.current) - getScrollTop(ref.current) <=
-      getClientHeight(ref.current) + threshold
-    ) {
+    const target = getTarget(outTarget);
+    if (getScrollHeight(target) - getScrollTop(target) <= getClientHeight(target) + threshold) {
       onScrollLowerPersist();
     }
-  }, [onScrollLowerPersist, ref, threshold]);
+  }, [onScrollLowerPersist, outTarget, threshold]);
 
   useEffect(() => {
-    const target = ref?.current;
-
-    if (target) {
+    if (outTarget) {
+      const target = getTarget(outTarget);
       target.addEventListener('scroll', scrollMethod);
 
       return () => {
         target.removeEventListener('scroll', scrollMethod);
       };
     }
-  }, [ref, scrollMethod]);
+  }, [outTarget, scrollMethod]);
 };
 
 export default useScrollToLower;

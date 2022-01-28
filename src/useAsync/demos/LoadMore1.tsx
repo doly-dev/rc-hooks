@@ -5,24 +5,12 @@
 import React from 'react';
 import { Button, Spin, List, Typography } from 'antd';
 import { useLoadMore } from 'rc-hooks';
-
 import getUserList from './services/getUserList';
 
-type DataItem = { id: string; name: string };
-
-type Result = {
-  list: DataItem[];
-  total: number;
-};
-
 export default () => {
-  const { data, loading, loadingMore, noMore, loadMore } = useLoadMore<Result>(
-    ({ current }) => getUserList({ current }),
+  const { data, loading, loadingMore, noMore, loadMore } = useLoadMore(
+    ({ current }) => getUserList({ current }).then((res) => ({ total: res.total, list: res.data })),
     {
-      formatResult: (res) => ({
-        ...res,
-        list: res.data
-      }),
       isNoMore: (result) => result?.list.length >= result?.total
     }
   );

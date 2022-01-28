@@ -1,11 +1,11 @@
 /**
  * title: 查询表单和Ant Table
+ * desc: 试试切换排序、分页、表单项，查看控制台的请求参数。
  */
 
 import React, { useCallback } from 'react';
 import { Form, Input, Select, Button, Table } from 'antd';
 import { usePagination } from 'rc-hooks';
-
 import getUserList from './services/getUserList';
 import { useEffect } from 'react';
 
@@ -29,7 +29,8 @@ const columns = [
   },
   {
     title: 'id',
-    dataIndex: 'id'
+    dataIndex: 'id',
+    sorter: true
   },
   {
     title: 'gender',
@@ -38,21 +39,19 @@ const columns = [
 ];
 
 export default () => {
-  const { run, refresh, loading, pagination, tableProps } = usePagination(
+  const [form] = Form.useForm();
+  const { run, params, refresh, loading, pagination, tableProps } = usePagination(
     ({ current, pageSize, ...rest }) => {
-      console.log(rest);
-      return getUserList({ current, pageSize });
+      console.log({ current, pageSize, ...rest });
+      return getUserList({ current, pageSize }).then((res) => ({
+        list: res.data,
+        total: res.total
+      }));
     },
     {
-      autoRun: false,
-      formatResult: (res) => ({
-        ...res,
-        list: res.data
-      })
+      autoRun: false
     }
   );
-
-  const [form] = Form.useForm();
 
   const handleReset = useCallback(() => {
     form.resetFields();
@@ -72,9 +71,10 @@ export default () => {
         initialValues={{}}
         onFinish={(values) => {
           run({
+            ...params[0],
             current: 1,
             pageSize: pagination.pageSize,
-            ...values
+            search: values
           });
         }}
       >
@@ -99,7 +99,13 @@ export default () => {
           </Button>
         </Form.Item>
       </Form>
-      <Table {...tableProps} columns={columns} rowKey="id" bordered />
+      <Table
+        {...tableProps}
+        pagination={{ ...pagination, showSizeChanger: true, showQuickJumper: true }}
+        columns={columns}
+        rowKey="id"
+        bordered
+      />
     </div>
   );
 };

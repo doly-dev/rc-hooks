@@ -1,6 +1,14 @@
 type CacheKey = string | number;
 
-const cache: Record<CacheKey, any> = {};
+const cache: Record<
+  CacheKey,
+  {
+    data: any;
+    timer: NodeJS.Timeout;
+    cacheTime: number;
+    startTime: number;
+  }
+> = {};
 const defaultCacheTime = 5 * 60 * 1000; // 默认缓存5分钟
 
 const getCache = (key: CacheKey) => {
@@ -16,6 +24,7 @@ const getCache = (key: CacheKey) => {
   if (currentTime - startTime >= cacheTime) {
     if (currentCache.timer) {
       clearTimeout(currentCache.timer);
+      // @ts-ignore
       currentCache.timer = null;
       delete cache[key];
     }

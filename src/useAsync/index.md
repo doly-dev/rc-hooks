@@ -96,13 +96,11 @@ useEffect(() => {
 ```typescript
 // R = data 类型
 // P = asyncFn 和 run 方法参数
-// FP = formatResult 方法参数，即 asyncFn 返回值
 
-const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<R, P, FP>(asyncFn, {
+const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<R, P>(asyncFn, {
   autoRun,
   initialData,
   defaultParams,
-  formatResult,
   refreshDeps,
   onSuccess,
   onError,
@@ -141,7 +139,6 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 | autoRun | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
 | initialData | 默认的 `data`。 | `R` | - |
 | defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `array` | - |
-| formatResult | 格式化请求结果 | `(data: FP, params) => R` | - |
 | refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
 | onSuccess | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 | onError | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |

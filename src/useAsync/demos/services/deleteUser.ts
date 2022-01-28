@@ -1,8 +1,7 @@
-export default function deleteUser(userId: string) {
+import waitTime from '../../../utils/waitTime';
+
+export default async function deleteUser(userId: string) {
   console.log(userId);
-  return new Promise<{ success: boolean }>((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
+  await waitTime();
+  return { success: true };
 }

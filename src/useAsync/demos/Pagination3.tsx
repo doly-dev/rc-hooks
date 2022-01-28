@@ -5,15 +5,14 @@
 import React from 'react';
 import { Button, Table } from 'antd';
 import { usePagination } from 'rc-hooks';
-
 import getUserList from './services/getUserList';
 
 export default () => {
   const { refresh, tableProps } = usePagination(({ current, pageSize, ...rest }) => {
     console.log(rest);
     return getUserList({ current, pageSize }).then((res) => ({
-      ...res,
-      list: res.data
+      list: res.data,
+      total: res.total
     }));
   });
 

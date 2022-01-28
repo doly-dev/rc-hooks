@@ -1,12 +1,10 @@
 import Mock from 'mockjs';
+import waitTime from '../../../utils/waitTime';
 
-export default function getArticle() {
-  return new Promise<{ data: string; time: number }>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        data: Mock.mock('@paragraph'),
-        time: new Date().getTime()
-      });
-    }, 1000);
-  });
+export default async function getArticle() {
+  await waitTime();
+  return {
+    data: Mock.mock('@paragraph') as string,
+    time: new Date().getTime()
+  };
 }

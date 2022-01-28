@@ -1,8 +1,7 @@
-export default function changeUsername(username: string) {
+import waitTime from '../../../utils/waitTime';
+
+export default async function changeUsername(username: string) {
   console.log(username);
-  return new Promise<{ success: boolean }>((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
+  await waitTime();
+  return { success: true };
 }

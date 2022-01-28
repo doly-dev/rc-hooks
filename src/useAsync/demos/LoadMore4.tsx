@@ -20,42 +20,26 @@ const orderTypes = [
 
 const DefaultPageSize = 3;
 
-type DataItem = {
-  text: string;
-};
-
-type Result = {
-  list: DataItem[];
-};
-
 const Demo = () => {
   const [keyword, setKeyword] = React.useState('');
   const [order, setOrder] = React.useState(orderTypes[0].value);
   const debounceKeyword = useDebounce(keyword, 500);
-  const ref = React.useRef();
+  const containerRef = React.useRef<HTMLDivElement>();
 
-  const { data, loadMore, noMore, loading, loadingMore } = useLoadMore<
-    Result & { prevListLen: number }
-  >(
-    async ({ current }) => {
-      if (!debounceKeyword) {
-        return {
-          list: [],
-          prevListLen: 0
-        };
-      }
+  const { data, loadMore, noMore, loading, loadingMore } = useLoadMore(
+    ({ current }) => {
       return search({
         pageNum: current,
         pageSize: DefaultPageSize,
         keyword: debounceKeyword,
         order
       }).then((res) => ({
-        ...res,
-        prevListLen: res?.list.length
+        list: res.list,
+        prevListLen: res.list.length
       }));
     },
     {
-      ref,
+      target: () => containerRef.current,
       isNoMore: (result) => result?.prevListLen < DefaultPageSize,
       refreshDeps: [debounceKeyword, order]
     }
@@ -82,14 +66,10 @@ const Demo = () => {
           </a>
         ))}
       </div>
-      <div style={{ height: 150, overflowY: 'auto' }} ref={ref}>
+      <div style={{ height: 150, overflowY: 'auto' }} ref={containerRef}>
         {loading && !loadingMore && '搜索中...'}
-        {noMore &&
-          debounceKeyword &&
-          !loading &&
-          data?.list?.length <= 0 &&
-          `没有找到 “${debounceKeyword}” 相关数据`}
-        {debounceKeyword && data?.list?.length > 0 && (
+        {noMore && !loading && data?.list?.length <= 0 && `没有找到 “${debounceKeyword}” 相关数据`}
+        {data?.list?.length > 0 && (
           <div>
             <ol>
               {data.list.map((item) => (
