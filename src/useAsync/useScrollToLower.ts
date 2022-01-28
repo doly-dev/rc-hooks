@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 import usePersistFn from '../usePersistFn';
 import { getScrollHeight, getClientHeight, getScrollTop } from '../utils/dom';
 
-type ScrollElement = HTMLElement | Window;
+type ScrollElement = HTMLElement | Window | null | undefined;
 
 export type TargetType = ScrollElement | (() => ScrollElement);
 
@@ -30,6 +30,9 @@ const useScrollToLower = ({
       return;
     }
     const target = getTarget(outTarget);
+    if (!target) {
+      return;
+    }
     if (getScrollHeight(target) - getScrollTop(target) <= getClientHeight(target) + threshold) {
       onScrollLowerPersist();
     }
@@ -38,11 +41,13 @@ const useScrollToLower = ({
   useEffect(() => {
     if (outTarget) {
       const target = getTarget(outTarget);
-      target.addEventListener('scroll', scrollMethod);
+      if (target) {
+        target.addEventListener('scroll', scrollMethod);
 
-      return () => {
-        target.removeEventListener('scroll', scrollMethod);
-      };
+        return () => {
+          target.removeEventListener('scroll', scrollMethod);
+        };
+      }
     }
   }, [outTarget, scrollMethod]);
 };

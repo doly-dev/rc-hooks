@@ -1,9 +1,11 @@
 // from swr
 import { isDocumentVisible } from './index';
 
-const listeners: Function[] = [];
+type ListenerFunction = () => void;
 
-function subscribe(listener: () => void) {
+const listeners: ListenerFunction[] = [];
+
+function subscribe(listener: ListenerFunction) {
   listeners.push(listener);
   return function unsubscribe() {
     const index = listeners.indexOf(listener);

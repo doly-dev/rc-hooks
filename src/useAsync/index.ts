@@ -9,6 +9,7 @@ import limit from '../utils/limit';
 import subscribeFocus from '../utils/windowFocus';
 import subscribeVisible from '../utils/windowVisible';
 
+type VoidFunctionType = () => void;
 export type AsyncFunction<R = any, P extends any[] = any> = (...args: P) => Promise<R>;
 
 export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
@@ -37,7 +38,7 @@ export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
 
 export type AsyncResult<R = any, P extends any[] = any> = {
   run: (...args: P) => Promise<R | null>;
-  cancel: () => void;
+  cancel: VoidFunctionType;
   mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
   refresh: () => Promise<R | null>;
   params: P;
@@ -93,7 +94,7 @@ export function useAsync<R = any, P extends any[] = any>(
   const loadingDelayTimerRef = useRef<any>(null); // 延迟loading
   const unmountFlagRef = useRef(false); // 卸载标识
 
-  const unsubscribeRef = useRef<Function[]>([]); // 取消订阅集合
+  const unsubscribeRef = useRef<VoidFunctionType[]>([]); // 取消订阅集合
 
   // 持久化一些函数
   const asyncFnPersist = usePersistFn(asyncFn);
@@ -202,9 +203,8 @@ export function useAsync<R = any, P extends any[] = any>(
           }
         }
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [cacheKey, cacheTime, loadingDelay, persisted, pollingInterval, pollingWhenHidden]
+    [cacheKey, cacheTime, loadingDelay, persisted, pollingInterval, pollingWhenHidden] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const debounceRunRef = useRef(debounceInterval ? debounce(_run, debounceInterval) : undefined);
@@ -274,7 +274,8 @@ export function useAsync<R = any, P extends any[] = any>(
   // 突变
   const mutate = (newData: R | undefined | ((oldData: R) => R)) => {
     if (typeof newData === 'function') {
-      set((s) => ({ ...s, data: (newData as Function)(state.data) }));
+      // @ts-ignore
+      set((s) => ({ ...s, data: newData(state.data) }));
     } else {
       set((s) => ({ ...s, data: newData }));
     }
