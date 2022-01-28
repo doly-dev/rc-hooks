@@ -8,7 +8,9 @@ group:
 
 # rc-hooks
 
-[![npm][npm]][npm-url] ![GitHub](https://img.shields.io/github/license/doly-dev/rc-hooks.svg)
+> 当前文档的版本是 v1
+
+![GitHub](https://img.shields.io/github/license/doly-dev/rc-hooks.svg)
 
 React Hooks Library.
 
