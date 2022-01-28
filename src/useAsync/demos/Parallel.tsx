@@ -6,15 +6,7 @@
 import React from 'react';
 import { Button, message } from 'antd';
 import { useAsync } from 'rc-hooks';
-
-function deleteUser(userId: string) {
-  console.log(userId);
-  return new Promise<{ success: boolean }>((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
-}
+import deleteUser from './services/deleteUser';
 
 const DeleteButton: React.FC<{ id: string; username: string }> = ({ id, username }) => {
   const { run, loading } = useAsync(deleteUser, {
@@ -38,7 +30,7 @@ const DeleteButton: React.FC<{ id: string; username: string }> = ({ id, username
   );
 };
 
-export default () => {
+function Demo() {
   const users = [
     { id: '1', username: 'A' },
     { id: '2', username: 'B' },
@@ -57,4 +49,6 @@ export default () => {
       </ul>
     </div>
   );
-};
+}
+
+export default Demo;

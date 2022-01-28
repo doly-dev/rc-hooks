@@ -20,7 +20,7 @@ const orderTypes = [
 
 const DefaultPageSize = 3;
 
-const Demo = () => {
+function Demo() {
   const [keyword, setKeyword] = React.useState('');
   const [order, setOrder] = React.useState(orderTypes[0].value);
   const debounceKeyword = useDebounce(keyword, 500);
@@ -87,6 +87,6 @@ const Demo = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Demo;

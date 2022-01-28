@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { usePrevious } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [value, setValue] = useState(0);
   const prevValue = usePrevious(value);
 
@@ -21,4 +21,6 @@ export default () => {
       <input type="text" onInput={handleInput} />
     </>
   );
-};
+}
+
+export default Demo;

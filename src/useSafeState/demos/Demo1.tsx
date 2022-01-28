@@ -17,7 +17,7 @@ const Counter = () => {
   return <div>计数：{count}</div>;
 };
 
-const Demo = () => {
+function Demo() {
   const [visible, setVisible] = useSafeState(true);
 
   return (
@@ -26,6 +26,6 @@ const Demo = () => {
       {visible && <Counter />}
     </>
   );
-};
+}
 
 export default Demo;

@@ -7,7 +7,7 @@ import { Button } from 'antd';
 import React, { useLayoutEffect, useState } from 'react';
 import { useUpdateEffect } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [count, setCount] = useState(0);
   const [effectCount, setEffectCount] = useState(0);
   const [updateEffectCount, setUpdateEffectCount] = useState(0);
@@ -34,4 +34,6 @@ export default () => {
       </p>
     </div>
   );
-};
+}
+
+export default Demo;

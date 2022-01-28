@@ -6,7 +6,7 @@
 import React, { useRef } from 'react';
 import { useSize } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const ref = useRef<HTMLDivElement>(null);
   const size = useSize(ref);
 
@@ -16,4 +16,6 @@ export default () => {
       <p>rect value: {JSON.stringify(size)}</p>
     </>
   );
-};
+}
+
+export default Demo;

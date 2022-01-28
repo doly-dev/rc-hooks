@@ -3,11 +3,10 @@
  * desc: 试试切换排序、分页、表单项，查看控制台的请求参数。
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Form, Input, Select, Button, Table } from 'antd';
 import { usePagination } from 'rc-hooks';
 import getUserList from './services/getUserList';
-import { useEffect } from 'react';
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -38,7 +37,7 @@ const columns = [
   }
 ];
 
-export default () => {
+function Demo() {
   const [form] = Form.useForm();
   const { run, params, refresh, loading, pagination, tableProps } = usePagination(
     ({ current, pageSize, ...rest }) => {
@@ -108,4 +107,6 @@ export default () => {
       />
     </div>
   );
-};
+}
+
+export default Demo;

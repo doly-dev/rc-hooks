@@ -7,7 +7,7 @@ import { Input } from 'antd';
 import React, { useState } from 'react';
 import { useThrottle } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [value, setValue] = useState('');
   const throttledValue = useThrottle(value, 500);
 
@@ -22,4 +22,6 @@ export default () => {
       <p style={{ marginTop: 16 }}>throttledValue: {throttledValue}</p>
     </div>
   );
-};
+}
+
+export default Demo;

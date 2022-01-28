@@ -14,7 +14,7 @@ interface Result {
 
 const resultData = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> {
+async function getLoadMoreList(nextId: any, limit: any): Promise<Result> {
   let start = 0;
   if (nextId) {
     start = resultData.findIndex((i) => i === nextId);
@@ -35,7 +35,7 @@ export async function getLoadMoreList(nextId: any, limit: any): Promise<Result> 
   });
 }
 
-export default () => {
+function Demo() {
   const containerRef = useRef<HTMLDivElement>();
   const currResult = useRef<Result>();
   const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore(
@@ -83,4 +83,6 @@ export default () => {
       />
     </div>
   );
-};
+}
+
+export default Demo;

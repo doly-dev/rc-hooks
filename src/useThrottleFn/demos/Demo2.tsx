@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Button, Input } from 'antd';
 import { useThrottleFn } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [value, setValue] = useState('');
   const [throttleValue, setThrottleValue] = useState<string | undefined>();
 
@@ -31,4 +31,6 @@ export default () => {
       <p>throttleValue: {throttleValue}</p>
     </div>
   );
-};
+}
+
+export default Demo;

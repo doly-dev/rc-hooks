@@ -7,7 +7,26 @@ import React, { useState, useCallback, useRef } from 'react';
 import { Button, message } from 'antd';
 import { usePersistFn } from 'rc-hooks';
 
-export default () => {
+interface ExpensiveTreeProp {
+  showCount: () => void;
+}
+
+// some expensive component with React.memo
+const ExpensiveTree = React.memo(({ showCount }: ExpensiveTreeProp) => {
+  const renderCountRef = useRef(0);
+  renderCountRef.current += 1;
+
+  return (
+    <div>
+      <p>Render Count: {renderCountRef.current}</p>
+      <Button onClick={showCount}>showParentCount</Button>
+    </div>
+  );
+});
+
+ExpensiveTree.displayName = 'ExpensiveTree';
+
+function Demo() {
   const [count, setCount] = useState(0);
 
   const showCountPersistFn = usePersistFn(() => {
@@ -41,21 +60,6 @@ export default () => {
       </div>
     </>
   );
-};
-
-interface ExpensiveTreeProp {
-  showCount: () => void;
 }
 
-// some expensive component with React.memo
-const ExpensiveTree = React.memo(({ showCount }: ExpensiveTreeProp) => {
-  const renderCountRef = useRef(0);
-  renderCountRef.current += 1;
-
-  return (
-    <div>
-      <p>Render Count: {renderCountRef.current}</p>
-      <Button onClick={showCount}>showParentCount</Button>
-    </div>
-  );
-});
+export default Demo;

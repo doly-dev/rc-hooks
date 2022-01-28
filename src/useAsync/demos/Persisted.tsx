@@ -8,20 +8,9 @@
 import * as React from 'react';
 import { Button, Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
-import Mock from 'mockjs';
+import getArticle from './services/getArticle';
 
-function getArticle() {
-  return new Promise<{ data: string; time: number }>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        data: Mock.mock('@paragraph'),
-        time: new Date().getTime()
-      });
-    }, 1000);
-  });
-}
-
-const Demo: React.FC<{}> = () => {
+function Demo() {
   const { run, data, loading } = useAsync(getArticle, {
     cacheKey: 'persited-demo',
     cacheTime: 10 * 1000,
@@ -40,6 +29,6 @@ const Demo: React.FC<{}> = () => {
       </Spin>
     </div>
   );
-};
+}
 
 export default Demo;

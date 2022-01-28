@@ -8,7 +8,7 @@ import { Button, Input, message } from 'antd';
 import { useAsync } from 'rc-hooks';
 import changeUsername from './services/changeUsername';
 
-export default () => {
+function Demo() {
   const [state, setState] = useState('');
   const { loading, run } = useAsync(changeUsername, {
     autoRun: false,
@@ -33,4 +33,6 @@ export default () => {
       </Button>
     </div>
   );
-};
+}
+
+export default Demo;

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Button, Input } from 'antd';
 import { useDebounceFn } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [value, setValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState<string | undefined>();
 
@@ -31,4 +31,6 @@ export default () => {
       <p>DebouncedValue: {debouncedValue}</p>
     </div>
   );
-};
+}
+
+export default Demo;

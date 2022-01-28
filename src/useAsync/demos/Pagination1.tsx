@@ -7,7 +7,7 @@ import { List, Pagination } from 'antd';
 import { usePagination } from 'rc-hooks';
 import getUserList from './services/getUserList';
 
-export default () => {
+function Demo() {
   const { data, loading, pagination } = usePagination(({ current, pageSize }) => {
     console.log(current, pageSize);
     return getUserList({ current, pageSize }).then((res) => ({
@@ -37,4 +37,6 @@ export default () => {
       />
     </div>
   );
-};
+}
+
+export default Demo;

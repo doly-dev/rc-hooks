@@ -6,17 +6,9 @@
 import React from 'react';
 import { Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
-import Mock from 'mockjs';
+import getUsername from './services/getUsername';
 
-function getUsername() {
-  return new Promise<string>((resolve) => {
-    setTimeout(() => {
-      resolve(Mock.mock('@name'));
-    }, 1000);
-  });
-}
-
-export default () => {
+function Demo() {
   const { data, loading } = useAsync(getUsername, {
     refreshOnWindowFocus: true
   });
@@ -31,4 +23,6 @@ export default () => {
       </Spin>
     </div>
   );
-};
+}
+
+export default Demo;

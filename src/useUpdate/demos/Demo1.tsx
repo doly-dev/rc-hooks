@@ -7,7 +7,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { useUpdate } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const update = useUpdate();
 
   return (
@@ -18,4 +18,6 @@ export default () => {
       </Button>
     </>
   );
-};
+}
+
+export default Demo;

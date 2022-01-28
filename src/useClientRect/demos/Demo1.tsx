@@ -6,7 +6,7 @@
 import React from 'react';
 import { useClientRect } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [rect, ref] = useClientRect();
 
   return (
@@ -15,4 +15,6 @@ export default () => {
       {rect !== null && <p>rect value: {JSON.stringify(rect)}</p>}
     </>
   );
-};
+}
+
+export default Demo;

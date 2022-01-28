@@ -8,7 +8,7 @@ import { Spin, Button } from 'antd';
 import { useAsync } from 'rc-hooks';
 import getCurrentTime from './services/getCurrentTime';
 
-export default () => {
+function Demo() {
   const getTimeAction = useAsync(getCurrentTime);
 
   const withLoadingDelayAction = useAsync(getCurrentTime, {
@@ -37,4 +37,6 @@ export default () => {
       </div>
     </div>
   );
-};
+}
+
+export default Demo;

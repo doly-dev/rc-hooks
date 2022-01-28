@@ -7,7 +7,7 @@ import React from 'react';
 import { useAsync } from 'rc-hooks';
 import getUsername from './services/getUsername';
 
-export default () => {
+function Demo() {
   const { data, error, loading } = useAsync(getUsername);
 
   if (loading) {
@@ -18,4 +18,6 @@ export default () => {
     return <div>failed to load</div>;
   }
   return <div>Username: {data}</div>;
-};
+}
+
+export default Demo;

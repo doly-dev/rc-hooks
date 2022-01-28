@@ -11,17 +11,9 @@
 import React from 'react';
 import { Button, Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
-import Mock from 'mockjs';
+import getUsername from './services/getUsername';
 
-function getUsername() {
-  return new Promise<string>((resolve) => {
-    setTimeout(() => {
-      resolve(Mock.mock('@name'));
-    }, 1000);
-  });
-}
-
-export default () => {
+function Demo() {
   const { data, loading, run, cancel } = useAsync(getUsername, {
     pollingInterval: 1000,
     pollingWhenHidden: false
@@ -38,4 +30,6 @@ export default () => {
       </Button.Group>
     </>
   );
-};
+}
+
+export default Demo;

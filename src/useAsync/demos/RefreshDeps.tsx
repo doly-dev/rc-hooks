@@ -28,7 +28,7 @@ async function getUserSchool(userId: string) {
   });
 }
 
-export default () => {
+function Demo() {
   const [userId, setUserId] = useState('1');
   const { data, loading } = useAsync(() => getUserSchool(userId), {
     refreshDeps: [userId]
@@ -48,4 +48,6 @@ export default () => {
       <p>School: {loading ? 'loading' : data}</p>
     </div>
   );
-};
+}
+
+export default Demo;

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { useThrottleFn } from 'rc-hooks';
 
-export default () => {
+function Demo() {
   const [value, setValue] = useState(0);
   const { run } = useThrottleFn(setValue, 500);
 
@@ -23,4 +23,6 @@ export default () => {
       </Button>
     </div>
   );
-};
+}
+
+export default Demo;

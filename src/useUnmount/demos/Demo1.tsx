@@ -15,7 +15,7 @@ const MyComponent = () => {
   return <div>Hello World</div>;
 };
 
-export default () => {
+function Demo() {
   const [state, toggle] = useState(true);
 
   return (
@@ -24,4 +24,6 @@ export default () => {
       {state && <MyComponent />}
     </>
   );
-};
+}
+
+export default Demo;

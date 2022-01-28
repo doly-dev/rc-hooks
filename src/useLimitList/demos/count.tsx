@@ -15,7 +15,7 @@ const { list } = Mockjs.mock({
   ]
 }) as { list: { id: number; name: string }[] };
 
-const Demo = () => {
+function Demo() {
   const { data, limited, canLimit, toggle } = useLimitList(list, {
     count: 5,
     defaultLimited: false
@@ -35,6 +35,6 @@ const Demo = () => {
       )}
     </div>
   );
-};
+}
 
 export default Demo;

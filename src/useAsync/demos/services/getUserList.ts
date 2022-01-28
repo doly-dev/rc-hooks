@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Mock from 'mockjs';
 import waitTime from '../../../utils/waitTime';
 

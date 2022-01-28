@@ -7,7 +7,7 @@ import { Button, Spin, List, Typography } from 'antd';
 import { useLoadMore } from 'rc-hooks';
 import getUserList from './services/getUserList';
 
-export default () => {
+function Demo() {
   const { data, loading, loadingMore, noMore, loadMore } = useLoadMore(
     ({ current }) => getUserList({ current }).then((res) => ({ total: res.total, list: res.data })),
     {
@@ -32,4 +32,6 @@ export default () => {
       </Button>
     </div>
   );
-};
+}
+
+export default Demo;

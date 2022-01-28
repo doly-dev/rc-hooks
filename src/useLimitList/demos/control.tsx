@@ -28,7 +28,7 @@ const getList = (num: number) => {
   return list;
 };
 
-const Demo = () => {
+function Demo() {
   const [len, setLen] = React.useState(10);
   const [list, setList] = React.useState(() => getList(len));
   const { data, limited, canLimit, toggle } = useLimitList(list);
@@ -61,6 +61,6 @@ const Demo = () => {
       )}
     </div>
   );
-};
+}
 
 export default Demo;

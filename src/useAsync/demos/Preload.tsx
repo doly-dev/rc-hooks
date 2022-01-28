@@ -9,20 +9,21 @@
 import React, { useState } from 'react';
 import { Button, Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
-import Mock from 'mockjs';
+import getArticle from './services/getArticle';
 
-function getArticle() {
-  return new Promise<{ data: string; time: number }>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        data: Mock.mock('@paragraph'),
-        time: new Date().getTime()
-      });
-    }, 1000);
+const Article = () => {
+  const { data, loading } = useAsync(getArticle, {
+    cacheKey: 'article'
   });
-}
+  return (
+    <Spin spinning={!data && loading}>
+      <p>Latest request time: {data?.time}</p>
+      <p>{data?.data}</p>
+    </Spin>
+  );
+};
 
-export default () => {
+function Demo() {
   const [visible, setVisible] = useState(false);
   const { run } = useAsync(getArticle, {
     cacheKey: 'article',
@@ -39,16 +40,6 @@ export default () => {
       {visible && <Article />}
     </div>
   );
-};
+}
 
-const Article = () => {
-  const { data, loading } = useAsync(getArticle, {
-    cacheKey: 'article'
-  });
-  return (
-    <Spin spinning={!data && loading}>
-      <p>Latest request time: {data?.time}</p>
-      <p>{data?.data}</p>
-    </Spin>
-  );
-};
+export default Demo;

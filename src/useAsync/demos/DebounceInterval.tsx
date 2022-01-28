@@ -10,7 +10,7 @@ import getEmail from './services/getEmail';
 
 const { Option } = Select;
 
-export default () => {
+function Demo() {
   const { data, loading, run, cancel } = useAsync(getEmail, {
     debounceInterval: 500,
     autoRun: false
@@ -37,4 +37,6 @@ export default () => {
       </Select>
     </div>
   );
-};
+}
+
+export default Demo;

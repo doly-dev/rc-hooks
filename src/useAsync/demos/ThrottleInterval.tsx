@@ -6,20 +6,11 @@
 import React from 'react';
 import { Select } from 'antd';
 import { useAsync } from 'rc-hooks';
-import Mock from 'mockjs';
-
-function getEmail(search: string) {
-  console.log(search);
-  return new Promise<string[]>((resolve) => {
-    setTimeout(() => {
-      resolve(Mock.mock({ 'data|5': ['@email'] }).data);
-    }, 300);
-  });
-}
+import getEmail from './services/getEmail';
 
 const { Option } = Select;
 
-export default () => {
+function Demo() {
   const { data, loading, run, cancel } = useAsync(getEmail, {
     throttleInterval: 1000,
     autoRun: false
@@ -46,4 +37,6 @@ export default () => {
       </Select>
     </div>
   );
-};
+}
+
+export default Demo;

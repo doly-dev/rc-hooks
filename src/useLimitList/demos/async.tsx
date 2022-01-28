@@ -24,7 +24,7 @@ async function getList() {
   }) as { list: { id: number; name: string }[] };
 }
 
-const Demo = () => {
+function Demo() {
   const { data: asyncData, loading } = useAsync(getList);
   const { data, limited, canLimit, toggle } = useLimitList(asyncData?.list);
 
@@ -46,6 +46,6 @@ const Demo = () => {
       )}
     </div>
   );
-};
+}
 
 export default Demo;

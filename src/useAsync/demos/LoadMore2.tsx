@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { useLoadMore } from 'rc-hooks';
 import getUserList from './services/getUserList';
 
-export default () => {
+function Demo() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore(
     ({ current }) => {
@@ -60,4 +60,6 @@ export default () => {
       />
     </div>
   );
-};
+}
+
+export default Demo;
