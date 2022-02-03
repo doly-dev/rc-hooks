@@ -23,7 +23,7 @@ export default async function search(params: {
   return Mockjs.mock({
     [`list|${pageNum < 3 ? pageSize : pageSize - 1}`]: [
       {
-        text: `keyword=${keyword} order=${order} pageNum=${pageNum} id=@id`
+        text: `keyword='${keyword}' order=${order} pageNum=${pageNum} id=@guid`
       }
     ]
   }) as Result;

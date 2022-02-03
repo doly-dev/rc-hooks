@@ -48,7 +48,8 @@ function Demo() {
       }));
     },
     {
-      autoRun: false
+      autoRun: false,
+      defaultPageSize: 5
     }
   );
 
