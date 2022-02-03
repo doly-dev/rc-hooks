@@ -54,6 +54,7 @@
   },
   "homepage": "https://github.com/doly-dev/hooks#readme",
   "dependencies": {
+    "@types/lodash": "^4.14.178",
     "lodash": "^4.17.21",
     "tslib": "^2.2.0"
   },
@@ -70,7 +71,6 @@
     "@rollup/plugin-typescript": "^8.2.1",
     "@testing-library/react-hooks": "^7.0.0",
     "@types/jest": "^26.0.23",
-    "@types/lodash": "^4.14.178",
     "@types/mockjs": "^1.0.3",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
