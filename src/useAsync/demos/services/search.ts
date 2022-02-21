@@ -1,5 +1,5 @@
 import Mockjs from 'mockjs';
-import waitTime from '../../../utils/waitTime';
+import { waitTime } from 'util-helpers';
 
 type DataItem = {
   text: string;

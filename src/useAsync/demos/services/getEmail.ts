@@ -1,5 +1,5 @@
 import Mock from 'mockjs';
-import waitTime from '../../../utils/waitTime';
+import { waitTime } from 'util-helpers';
 
 export default async function getEmail(search: string) {
   console.log(search);

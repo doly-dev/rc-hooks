@@ -1,4 +1,4 @@
-import waitTime from '../../../utils/waitTime';
+import { waitTime } from 'util-helpers';
 
 export default async function getCurrentTime() {
   await waitTime();

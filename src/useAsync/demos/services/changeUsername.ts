@@ -1,4 +1,4 @@
-import waitTime from '../../../utils/waitTime';
+import { waitTime } from 'util-helpers';
 
 export default async function changeUsername(username: string) {
   console.log(username);

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Mock from 'mockjs';
-import waitTime from '../../../utils/waitTime';
+import { waitTime } from 'util-helpers';
 
 type DataItem = {
   id: string;
