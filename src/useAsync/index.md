@@ -94,9 +94,6 @@ useEffect(() => {
 ## API
 
 ```typescript
-// R = data 类型
-// P = asyncFn 和 run 方法参数
-
 const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<R, P>(asyncFn, {
   autoRun,
   initialData,
@@ -121,10 +118,10 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 
 | 参数 | 说明 | 类型 |
 | --- | --- | --- |
-| data | 异步函数的返回值，默认为 `undefined`。 | `R` |
+| data | 异步函数的返回值，默认为 `undefined`。 | `any` |
 | error | 异步函数抛出的异常，默认为 `undefined` | `Error` |
 | loading | 异步函数正在执行 | `boolean` |
-| params | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `P` |
+| params | 执行异步函数的参数数组。比如你触发了 `run(1, 2, 3)`，则 `params` 等于 `[1, 2, 3]` | `any[]` |
 | run | 手动触发异步函数。`debounce` 模式与 `throttle` 模式返回值为 `Promise<null>` | `(...args: P) => Promise<R \| null>` |
 | cancel | 取消当前请求。如果有轮询，停止。 | `() => void` |
 | refresh | 使用上一次的 `params`，重新执行异步函数。 | `() => Promise<R \| null>` |
@@ -137,8 +134,8 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | autoRun | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
-| initialData | 默认的 `data`。 | `R` | - |
-| defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `array` | - |
+| initialData | 默认的 `data`。 | `any` | - |
+| defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `any[]` | - |
 | refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
 | onSuccess | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 | onError | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
