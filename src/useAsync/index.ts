@@ -282,6 +282,8 @@ export function useAsync<R = any, P extends any[] = any>(
   };
 
   useEffect(() => {
+    unmountFlagRef.current = false;
+
     // 默认自动执行
     if (autoRun) {
       // 支持默认参数
