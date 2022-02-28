@@ -11,7 +11,7 @@ const cache: Record<
 > = {};
 const defaultCacheTime = 5 * 60 * 1000; // 默认缓存5分钟
 
-const getCache = (key: CacheKey) => {
+const getCache = <T = any>(key: CacheKey) => {
   const currentCache = cache[key];
 
   if (!currentCache) {
@@ -32,10 +32,10 @@ const getCache = (key: CacheKey) => {
     return;
   }
 
-  return data;
+  return data as T;
 };
 
-const setCache = (key: CacheKey, data: any, cacheTime = defaultCacheTime) => {
+const setCache = <T = any>(key: CacheKey, data: T, cacheTime = defaultCacheTime) => {
   if (cache[key]) {
     clearTimeout(cache[key].timer);
   }

@@ -120,7 +120,7 @@ export function useAsync<R = any, P extends any[] = any>(
       const currentCount = counterRef.current;
 
       // 缓存数据
-      const cacheData = cacheKey ? getCache(cacheKey) : undefined;
+      const cacheData = cacheKey ? getCache<R>(cacheKey) : undefined;
 
       // 没有缓存数据 或 没有开启持久缓存，设置loading
       if (!cacheData || !persisted) {
@@ -143,6 +143,13 @@ export function useAsync<R = any, P extends any[] = any>(
           if (cacheData && persisted) {
             if (!unmountFlagRef.current && currentCount === counterRef.current) {
               onSuccessPersist(cacheData, args);
+
+              set((s) => ({
+                ...s,
+                data: cacheData,
+                error: null,
+                loading: false
+              }));
               resolve(cacheData);
             }
           } else {
