@@ -273,10 +273,11 @@ export function useAsync<R = any, P extends any[] = any>(
 
   // autoRun=true 时，refreshDeps 变化，将重新执行
   useUpdateEffect(() => {
-    if (autoRun) {
+    // 区分 React.StrictMode 下触发
+    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
-  }, [...refreshDeps]);
+  }, refreshDeps);
 
   // 突变
   const mutate = (newData: R | undefined | ((oldData: R) => R)) => {

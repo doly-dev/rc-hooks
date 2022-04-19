@@ -130,7 +130,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
   );
 
   useUpdateEffect(() => {
-    if (options?.autoRun !== false) {
+    if (options?.autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       changeCurrent(1);
     }
   }, refreshDeps);

@@ -141,7 +141,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   });
 
   useUpdateEffect(() => {
-    if (options?.autoRun !== false) {
+    if (options?.autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
   }, refreshDeps);
