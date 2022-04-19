@@ -23,24 +23,32 @@ legacy: /side-effect/use-debounce-fn
 ## API
 
 ```typescript
-const { run, cancel } = useThrottleFn(
+const { run, cancel, flush } = useThrottleFn(
   fn: (...args: any) => any,
   wait?: number,
-  options?: object
+  options?: ThrottleSettings
 );
 ```
 
 ### Result
 
-| 参数   | 说明                           | 类型 |
-| ------ | ------------------------------ | ---- |
-| run    | 触发执行 fn，参数也会传递给 fn |
-| cancel | 取消当前节流                   |
+| 参数   | 说明                           | 类型                      |
+| ------ | ------------------------------ | ------------------------- |
+| run    | 触发执行 fn，参数也会传递给 fn | `(...args: any[]) => any` |
+| cancel | 取消当前节流                   | `() => void`              |
+| flush  | 立即调用节流函数               | `() => void`              |
 
 ### Params
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| fn | 需要节流的函数 | `function` | `() => {}` |
-| wait | 节流等待时间，单位为毫秒 | `number` | `0` |
-| options | [`lodash.throttle`](https://www.lodashjs.com/docs/latest#_throttlefunc-wait0-options) 的 `options` 配置项 | `object` | `{}` |
+| 参数    | 说明                     | 类型               | 默认值     |
+| ------- | ------------------------ | ------------------ | ---------- |
+| fn      | 需要节流的函数           | `function`         | `() => {}` |
+| wait    | 节流等待时间，单位为毫秒 | `number`           | `0`        |
+| options | 节流配置                 | `ThrottleSettings` | -          |
+
+### ThrottleSettings
+
+| 参数     | 说明           | 类型      | 默认值 |
+| -------- | -------------- | --------- | ------ |
+| leading  | 延迟开始前调用 | `boolean` | `true` |
+| trailing | 延迟结束后调用 | `boolean` | `true` |

@@ -23,14 +23,22 @@ legacy: /side-effect/use-debounce
 const debouncedValue = useDebounce(
   value: any,
   wait?: number,
-  options?: object
+  options?: DebounceSettings
 );
 ```
 
 ### Params
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| value | 需要防抖的值 | `any` | - |
-| wait | 防抖等待时间，单位为毫秒 | `number` | `0` |
-| options | [同 lodash.debounce 的 options 配置项](https://www.lodashjs.com/docs/latest#_debouncefunc-wait0-options) | `object` | `{}` |
+| 参数    | 说明                     | 类型               | 默认值 |
+| ------- | ------------------------ | ------------------ | ------ |
+| value   | 需要防抖的值             | `any`              | -      |
+| wait    | 防抖等待时间，单位为毫秒 | `number`           | `0`    |
+| options | 防抖配置                 | `DebounceSettings` | -      |
+
+### DebounceSettings
+
+| 参数     | 说明                     | 类型      | 默认值  |
+| -------- | ------------------------ | --------- | ------- |
+| leading  | 延迟开始前调用           | `boolean` | `false` |
+| maxWait  | 调用前允许延迟的最大时间 | `number`  | -       |
+| trailing | 延迟结束后调用           | `boolean` | `true`  |
