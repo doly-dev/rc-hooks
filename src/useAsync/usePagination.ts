@@ -117,7 +117,12 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
   );
 
   const changeTable = React.useCallback(
-    (pagination, filters, sorter, extra) => {
+    (
+      pagination: { current: number; pageSize: number } & Record<string, any>,
+      filters: any,
+      sorter: any,
+      extra: any
+    ) => {
       changePagination({
         current: pagination.current,
         pageSize: pagination.pageSize,
