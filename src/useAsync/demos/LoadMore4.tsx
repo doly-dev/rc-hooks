@@ -24,7 +24,7 @@ function Demo() {
   const [keyword, setKeyword] = React.useState('');
   const [order, setOrder] = React.useState(orderTypes[0].value);
   const debounceKeyword = useDebounce(keyword, 500);
-  const containerRef = React.useRef<HTMLDivElement>();
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   const { data, loadMore, noMore, loading, loadingMore } = useLoadMore(
     ({ current }) => {
@@ -40,7 +40,7 @@ function Demo() {
     },
     {
       target: () => containerRef.current,
-      isNoMore: (result) => result?.prevListLen < DefaultPageSize,
+      isNoMore: (result) => !!result?.prevListLen && result.prevListLen < DefaultPageSize,
       refreshDeps: [debounceKeyword, order]
     }
   );
@@ -68,8 +68,12 @@ function Demo() {
       </div>
       <div style={{ height: 150, overflowY: 'auto' }} ref={containerRef}>
         {loading && !loadingMore && '搜索中...'}
-        {noMore && !loading && data?.list?.length <= 0 && `没有找到 “${debounceKeyword}” 相关数据`}
-        {data?.list?.length > 0 && (
+        {noMore &&
+          !loading &&
+          data?.list &&
+          data.list.length <= 0 &&
+          `没有找到 “${debounceKeyword}” 相关数据`}
+        {data?.list && data.list.length > 0 && (
           <div>
             <ol>
               {data.list.map((item) => (

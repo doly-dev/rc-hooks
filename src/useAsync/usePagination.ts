@@ -71,7 +71,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
   const totalPage = Math.ceil(total / pageSize);
 
   const changePagination = React.useCallback(
-    (pagination: PaginationParams[0]) => {
+    (pagination: Partial<PaginationParams[0]>) => {
       const [oldParams, ...restParams] = params;
       run(
         {
@@ -118,14 +118,14 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
 
   const changeTable = React.useCallback(
     (
-      pagination: { current: number; pageSize: number } & Record<string, any>,
+      pagination: { current?: number; pageSize?: number } & Record<string, any>,
       filters: any,
       sorter: any,
       extra: any
     ) => {
       changePagination({
-        current: pagination.current,
-        pageSize: pagination.pageSize,
+        current: pagination?.current,
+        pageSize: pagination?.pageSize,
         filters,
         sorter,
         extra
@@ -135,7 +135,8 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
   );
 
   useUpdateEffect(() => {
-    if (options?.autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    const isAutoRun = typeof options?.autoRun === 'undefined' || options?.autoRun;
+    if (isAutoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       changeCurrent(1);
     }
   }, refreshDeps);

@@ -18,8 +18,8 @@ export type LoadMoreParams = [
 
 export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any>
   extends Omit<
-    AsyncOptions<R, LoadMoreParams>,
-    'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
+  AsyncOptions<R, LoadMoreParams>,
+  'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
   threshold?: number;
   target?: TargetType;
@@ -108,7 +108,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     loadData();
   }, [loading, noMore, loadData]);
 
-  const mutate: LoadMoreResult<R, LoadMoreParams>['mutate'] = React.useCallback(
+  const mutate: AsyncResult<R, LoadMoreParams>['mutate'] = React.useCallback(
     (param) => {
       const res = typeof param === 'function' ? param(data as R) : param;
       dataGroup.current = res?.list || [];
@@ -141,7 +141,8 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   });
 
   useUpdateEffect(() => {
-    if (options?.autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    const isAutoRun = typeof options?.autoRun === 'undefined' || options?.autoRun;
+    if (isAutoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
   }, refreshDeps);
