@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>async cache</title>
+</head>
+
+<body>
+  <script>
+    // 注意区分两种情况：
+    // 同一个实例的run执行多次，只运行最后一次？通过内部的counter
+    // 不同实例的run各执行一次，只运行一次，同时执行所有实例的成功回调？通过传入相同的cacheKey
+
+    const promiseCaches = {};
+
+    // 异步管理
+    // 处理多个同一个异步方法，内部处理异步状态，返回Promise
+    const runAsync = (async, key) => {
+      // 如果有缓存，标识有相同key的异步正在请求中
+      if (key && promiseCaches[key]) {
+        return promiseCaches[key];
+      }
+
+      if (key) {
+        promiseCaches[key] = async().then((res) => {
+          delete promiseCaches[key];
+          return res;
+        }).catch(err => {
+          delete promiseCaches[key];
+          return Promise.reject(err);
+        });
+
+        return promiseCaches[key];
+      }
+
+      return async();
+    }
+
+    const p1 = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('111');
+        }, 10000);
+      })
+    }
+
+    const p2 = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('222');
+        }, 5000);
+      })
+    }
+
+    runAsync(p1, 'a').then(res => {
+      console.log('p1: ', res);
+    });
+    runAsync(p2, 'a').then(res => {
+      console.log('p2: ', res);
+    });
+  </script>
+</body>
+
+</html>

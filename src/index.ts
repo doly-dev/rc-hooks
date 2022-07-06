@@ -1,5 +1,5 @@
 // async
-export * from './useAsync';
+export * from './useAsync/index2';
 export * from './useAsync/useLoadMore';
 export * from './useAsync/usePagination';
 
