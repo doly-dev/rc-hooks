@@ -12,7 +12,7 @@ const { Option } = Select;
 
 function Demo() {
   const { data, loading, run, cancel } = useAsync(getEmail, {
-    throttleInterval: 500,
+    throttleInterval: 1000,
     autoRun: false
   });
 

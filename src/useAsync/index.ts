@@ -116,7 +116,6 @@ export function useAsync<R = any, P extends any[] = any>(
       }
 
       // 确保返回最后结果，并且不会返回取消的结果
-      counterRef.current += 1;
       const currentCount = counterRef.current;
 
       // 缓存数据
@@ -229,6 +228,7 @@ export function useAsync<R = any, P extends any[] = any>(
         return Promise.resolve(null);
       }
 
+      counterRef.current += 1;
       return _run(...args);
     },
     [_run]
