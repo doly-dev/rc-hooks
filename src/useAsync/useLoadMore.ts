@@ -4,7 +4,7 @@ import type { AsyncOptions } from '.';
 import useScrollToLower, { TargetType } from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 
-export interface LoadMoreResult<DataItem = any> {
+export interface LoadMoreAsyncReturn<DataItem = any> {
   list: DataItem[];
   [key: string]: any;
 }
@@ -16,17 +16,17 @@ export type LoadMoreParams = [
   ...args: any[]
 ];
 
-export interface LoadMoreOptions<R extends LoadMoreResult = any>
+export interface LoadMoreOptions<R extends LoadMoreAsyncReturn = any>
   extends Omit<
-  AsyncOptions<R, LoadMoreParams>,
-  'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
+    AsyncOptions<R, LoadMoreParams>,
+    'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
   threshold?: number;
   target?: TargetType;
   isNoMore?: (data?: R) => boolean;
 }
 
-function useLoadMore<R extends LoadMoreResult = any>(
+function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   asyncFn: (...args: LoadMoreParams) => Promise<R>,
   options?: LoadMoreOptions<R>
 ) {
