@@ -15,7 +15,7 @@ function Demo() {
       total: res.total
     }));
   });
-
+  console.log(pagination);
   return (
     <div>
       <List
@@ -28,10 +28,13 @@ function Demo() {
         )}
       />
       <Pagination
-        {...pagination}
+        current={pagination.current}
+        pageSize={pagination.pageSize}
+        total={pagination.total}
+        onChange={pagination.onChange}
+        onShowSizeChange={pagination.onChange}
         showQuickJumper
         showSizeChanger
-        onShowSizeChange={(current, pageSize) => pagination.changePageSize(pageSize)}
         showTotal={(total) => `共 ${total} 条数据`}
         style={{ marginTop: 16, textAlign: 'right' }}
       />

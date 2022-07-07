@@ -1,10 +1,10 @@
 import * as React from 'react';
 import useAsync from '.';
-import type { AsyncOptions, AsyncResult } from '.';
+import type { AsyncOptions } from '.';
 import useScrollToLower, { TargetType } from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 
-export interface LoadMoreAsyncReturn<DataItem = any> {
+export interface LoadMoreResult<DataItem = any> {
   list: DataItem[];
   [key: string]: any;
 }
@@ -16,7 +16,7 @@ export type LoadMoreParams = [
   ...args: any[]
 ];
 
-export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any>
+export interface LoadMoreOptions<R extends LoadMoreResult = any>
   extends Omit<
   AsyncOptions<R, LoadMoreParams>,
   'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
@@ -26,16 +26,9 @@ export interface LoadMoreAsyncOption<R extends LoadMoreAsyncReturn = any>
   isNoMore?: (data?: R) => boolean;
 }
 
-export interface LoadMoreResult<R extends LoadMoreAsyncReturn = any, P extends any[] = any>
-  extends AsyncResult<R, P> {
-  loadMore: () => void;
-  loadingMore: boolean;
-  noMore: boolean;
-}
-
-export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
+function useLoadMore<R extends LoadMoreResult = any>(
   asyncFn: (...args: LoadMoreParams) => Promise<R>,
-  options?: LoadMoreAsyncOption<R>
+  options?: LoadMoreOptions<R>
 ) {
   const {
     threshold = 100,
@@ -43,7 +36,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     isNoMore = () => false,
     refreshDeps = [],
     ...restOptions
-  } = (options || {}) as LoadMoreAsyncOption<R>;
+  } = (options || {}) as LoadMoreOptions<R>;
 
   const dataGroup = React.useRef<R['list']>([]); // 缓存之前请求的列表数据
   const currentPageRef = React.useRef(1); // 当前页码
@@ -108,7 +101,7 @@ export function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     loadData();
   }, [loading, noMore, loadData]);
 
-  const mutate: AsyncResult<R, LoadMoreParams>['mutate'] = React.useCallback(
+  const mutate: typeof reqMutate = React.useCallback(
     (param) => {
       const res = typeof param === 'function' ? param(data as R) : param;
       dataGroup.current = res?.list || [];

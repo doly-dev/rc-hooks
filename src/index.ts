@@ -1,6 +1,10 @@
 // async
-export * from './useAsync/index2';
+export { default as useAsync } from './useAsync';
+export * from './useAsync';
+export { clearCache } from './utils/cache';
+export { default as useLoadMore } from './useAsync/useLoadMore';
 export * from './useAsync/useLoadMore';
+export { default as usePagination } from './useAsync/usePagination';
 export * from './useAsync/usePagination';
 
 // side effect

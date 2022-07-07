@@ -53,7 +53,7 @@ function Demo() {
 
   const renderFooter = () => (
     <div>
-      {!noMore && (
+      {!noMore && data?.list && data.list.length > 0 && (
         <Button onClick={loadMore} loading={loadingMore}>
           {loadingMore ? 'Loading more' : 'Click to load more'}
         </Button>

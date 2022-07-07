@@ -1,80 +1,61 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import debounce from 'lodash/debounce';
-import throttle from 'lodash/throttle';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
-import { isDocumentVisible } from '../utils';
-import { getCache, setCache } from '../utils/cache';
-import limit from '../utils/limit';
-import subscribeFocus from '../utils/windowFocus';
-import subscribeVisible from '../utils/windowVisible';
+import { getCache } from '../utils/cache';
+import AsyncCalss, { Options, AsyncFunction } from './Async';
 
-type VoidFunctionType = () => void;
-export type AsyncFunction<R = any, P extends any[] = any> = (...args: P) => Promise<R>;
+export type AsyncOptions<R = any, P extends any[] = any[]> = Partial<
+  {
+    autoRun: boolean;
+    refreshDeps: any[];
+    defaultParams: P;
+    loadingDelay: number;
+    /**
+     * @private 该API仅用于内部传递，请不要使用。
+     */
+    __INTERNAL_FORMAT__: (res: R, params: P) => R;
+    /** @deprecated */
+    defaultLoading: boolean;
+    /** @deprecated */
+    initialData: R;
+  } & Omit<Options<R, P>, 'formatResult'>
+>;
 
-export type AsyncOptions<R = any, P extends any[] = any> = Partial<{
-  autoRun: boolean;
-  refreshDeps: any[];
-  defaultParams: P;
-  defaultLoading: boolean;
-  /**
-   * @private 该API仅用于内部传递，请不要使用。
-   */
-  __INTERNAL_FORMAT__: (res: R, params: P) => R;
-  initialData: R;
-  cacheKey: string;
-  cacheTime: number;
-  persisted: boolean;
-  onSuccess: (data: R, params: P) => void;
-  onError: (error: Error, params: P) => void;
-  pollingInterval: number;
-  pollingWhenHidden: boolean;
-  refreshOnWindowFocus: boolean;
-  focusTimespan: number;
-  loadingDelay: number;
-  debounceInterval: number;
-  throttleInterval: number;
-}>;
-
-export type AsyncResult<R = any, P extends any[] = any> = {
-  run: (...args: P) => Promise<R | null>;
-  cancel: VoidFunctionType;
-  mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
-  refresh: () => Promise<R | null>;
-  params: P;
-  loading: boolean;
-  error: null | Error;
-  data?: R;
-};
+export type {
+  AsyncFunction
+}
 
 // 空函数
-const noop = () => {};
+const noop = () => { };
 
 // 异步方法hooks
-export function useAsync<R = any, P extends any[] = any>(
+function useAsync<R = any, P extends any[] = any[]>(
   asyncFn: AsyncFunction<R, P>,
   options?: AsyncOptions<R, P>
 ) {
   const {
     autoRun = true,
     refreshDeps = [],
-    defaultParams = [],
+    defaultParams,
+    loadingDelay,
+    __INTERNAL_FORMAT__,
     defaultLoading = false,
     initialData,
+
     cacheKey = '',
     cacheTime = 5 * 60 * 1000,
     persisted = false,
     onSuccess = noop,
     onError = noop,
-    __INTERNAL_FORMAT__,
+    onFinally = noop,
+    onBefore = noop,
     pollingInterval = 0,
     pollingWhenHidden = true,
     refreshOnWindowFocus = false,
     focusTimespan = 5000,
-    loadingDelay,
     debounceInterval,
     throttleInterval
-  } = (options || {}) as AsyncOptions<R, P>;
+  } = options || {};
 
   const [state, set] = useState<{
     params: P;
@@ -83,201 +64,156 @@ export function useAsync<R = any, P extends any[] = any>(
     data?: R;
   }>({
     // 参数兼容非array的情况
-    params: (Array.isArray(defaultParams) ? defaultParams : [defaultParams]) as any,
+    params: [] as unknown as P,
     loading: defaultLoading,
     error: null,
-    data: (cacheKey && getCache(cacheKey)) || initialData
+    data: cacheKey ? getCache<R>(cacheKey) : initialData
   });
-  const counterRef = useRef(0); // 计数器用于判定，或多次执行，只取最后一次结果
-  const pollingTimerRef = useRef<any>(null); // 轮询定时器
-  const pollingWhenVisibleFlagRef = useRef(false); // 视窗获取焦点标识
   const loadingDelayTimerRef = useRef<any>(null); // 延迟loading
-  const unmountFlagRef = useRef(false); // 卸载标识
-
-  const unsubscribeRef = useRef<VoidFunctionType[]>([]); // 取消订阅集合
 
   // 持久化一些函数
   const asyncFnPersist = usePersistFn(asyncFn);
   const onSuccessPersist = usePersistFn(onSuccess);
   const onErrorPersist = usePersistFn(onError);
-  const internalFormatRef = useRef(__INTERNAL_FORMAT__);
-  internalFormatRef.current = __INTERNAL_FORMAT__;
+  const onFinallyPersist = usePersistFn(onFinally);
+  const onBeforePersist = usePersistFn(onBefore);
 
-  const _run: AsyncFunction<R, P> = useCallback(
-    (...args) => {
-      // 取消轮询定时器
-      if (pollingTimerRef.current) {
-        clearTimeout(pollingTimerRef.current);
-      }
+  const internalFormatRef = useRef(__INTERNAL_FORMAT__);
+  if (internalFormatRef.current !== __INTERNAL_FORMAT__) {
+    internalFormatRef.current = __INTERNAL_FORMAT__;
+  }
+
+  // 异步执行前
+  const handleBefore = useCallback(
+    (p: P) => {
+      onBeforePersist(p);
 
       // 取消延迟loading
       if (loadingDelayTimerRef.current) {
         clearTimeout(loadingDelayTimerRef.current);
       }
 
-      // 确保返回最后结果，并且不会返回取消的结果
-      const currentCount = counterRef.current;
-
       // 缓存数据
       const cacheData = cacheKey ? getCache<R>(cacheKey) : undefined;
 
       // 没有缓存数据 或 没有开启持久缓存，设置loading
       if (!cacheData || !persisted) {
-        set((s) => ({ ...s, loading: !loadingDelay, params: args }));
+        set((s) => ({ ...s, loading: !loadingDelay, params: p }));
 
         // 设置延迟loading定时器
         if (loadingDelay) {
           loadingDelayTimerRef.current = setTimeout(() => {
             set((s) => ({ ...s, loading: true }));
           }, loadingDelay);
-        } else {
-          loadingDelayTimerRef.current = null;
         }
       }
-
-      const wrapperAsyncFn = () => {
-        // fix: 同时多次调用run，并通过then处理时，前面调用的会返回undefined导致异常的问题
-        return new Promise<R>((resolve, reject) => {
-          // 有缓存数据，且开启持久缓存，不需要再次请求
-          if (cacheData && persisted) {
-            if (!unmountFlagRef.current && currentCount === counterRef.current) {
-              onSuccessPersist(cacheData, args);
-
-              set((s) => ({
-                ...s,
-                data: cacheData,
-                error: null,
-                loading: false
-              }));
-              resolve(cacheData);
-            }
-          } else {
-            asyncFnPersist(...args)
-              .then((data) => {
-                if (!unmountFlagRef.current && currentCount === counterRef.current) {
-                  if (loadingDelayTimerRef.current) {
-                    clearTimeout(loadingDelayTimerRef.current);
-                  }
-                  const fmtData =
-                    typeof internalFormatRef.current === 'function'
-                      ? internalFormatRef.current(data, args)
-                      : data;
-
-                  set((s) => ({
-                    ...s,
-                    data: fmtData,
-                    error: null,
-                    loading: false
-                  }));
-
-                  if (cacheKey) {
-                    setCache(cacheKey, fmtData, cacheTime);
-                  }
-                  onSuccessPersist(fmtData, args);
-
-                  resolve(fmtData);
-                }
-              })
-              .catch((error: Error) => {
-                if (!unmountFlagRef.current && currentCount === counterRef.current) {
-                  if (loadingDelayTimerRef.current) {
-                    clearTimeout(loadingDelayTimerRef.current);
-                  }
-
-                  set((s) => ({ ...s, error, loading: false }));
-                  onErrorPersist(error, args);
-
-                  reject(error);
-                }
-              });
-          }
-        });
-      };
-
-      return wrapperAsyncFn().finally(() => {
-        if (!unmountFlagRef.current && currentCount === counterRef.current) {
-          // 轮询
-          if (pollingInterval) {
-            if (!isDocumentVisible() && !pollingWhenHidden) {
-              pollingWhenVisibleFlagRef.current = true;
-              return;
-            }
-
-            pollingTimerRef.current = setTimeout(() => {
-              run(...args);
-            }, pollingInterval);
-          }
-        }
-      });
     },
-    [cacheKey, cacheTime, loadingDelay, persisted, pollingInterval, pollingWhenHidden] // eslint-disable-line react-hooks/exhaustive-deps
+    [cacheKey, loadingDelay, onBeforePersist, persisted]
   );
 
-  const debounceRunRef = useRef(debounceInterval ? debounce(_run, debounceInterval) : undefined);
-  const throttleRunRef = useRef(throttleInterval ? throttle(_run, throttleInterval) : undefined);
-
-  const run = useCallback(
-    (...args: P) => {
-      if (debounceRunRef.current) {
-        debounceRunRef.current(...args);
-        return Promise.resolve(null);
+  // 异步执行成功后
+  const handleSuccess = useCallback(
+    (res: R, args: P) => {
+      if (loadingDelayTimerRef.current) {
+        clearTimeout(loadingDelayTimerRef.current);
       }
 
-      if (throttleRunRef.current) {
-        throttleRunRef.current(...args);
-        return Promise.resolve(null);
-      }
-
-      counterRef.current += 1;
-      return _run(...args);
+      set((s) => ({ ...s, data: res, error: null, loading: false }));
+      onSuccessPersist(res, args);
     },
-    [_run]
+    [onSuccessPersist]
   );
 
+  // 异步执行失败后
+  const handleError = useCallback(
+    (err: Error, args: P) => {
+      if (loadingDelayTimerRef.current) {
+        clearTimeout(loadingDelayTimerRef.current);
+      }
+
+      set((s) => ({ ...s, error: err, loading: false }));
+      onErrorPersist(err, args);
+    },
+    [onErrorPersist]
+  );
+
+  const asyncInstanceRef = useRef<any>();
+
+  if (!asyncInstanceRef.current) {
+    asyncInstanceRef.current = new AsyncCalss<R, P>(asyncFnPersist, {
+      cacheKey,
+      cacheTime,
+      persisted,
+      formatResult: internalFormatRef.current,
+      onSuccess: handleSuccess,
+      onError: handleError,
+      onFinally: onFinallyPersist,
+      onBefore: handleBefore,
+      debounceInterval,
+      throttleInterval,
+      pollingInterval,
+      pollingWhenHidden,
+      refreshOnWindowFocus,
+      focusTimespan
+    });
+  }
+
+  useUpdateEffect(() => {
+    asyncInstanceRef.current?.updateOptions({
+      cacheKey,
+      cacheTime,
+      persisted,
+      formatResult: internalFormatRef.current,
+      onSuccess: handleSuccess,
+      onError: handleError,
+      onFinally: onFinallyPersist,
+      onBefore: handleBefore,
+      debounceInterval,
+      throttleInterval,
+      pollingInterval,
+      pollingWhenHidden,
+      refreshOnWindowFocus,
+      focusTimespan
+    });
+  }, [
+    onSuccessPersist,
+    onErrorPersist,
+    cacheKey,
+    cacheTime,
+    persisted,
+    debounceInterval,
+    throttleInterval,
+    onFinallyPersist,
+    onBeforePersist,
+    pollingInterval,
+    pollingWhenHidden,
+    refreshOnWindowFocus,
+    focusTimespan,
+    handleSuccess,
+    handleError,
+    handleBefore
+  ]);
+
+  // 执行异步
+  const run = useCallback((...args: P) => {
+    return asyncInstanceRef.current?.run(...args);
+  }, []);
+
+  // 使用上一次执行异步的参数，重新执行
   const refresh = useCallback(() => {
-    return run(...state.params);
-  }, [run, state.params]);
-
-  const rePolling = useCallback(() => {
-    if (pollingWhenVisibleFlagRef.current) {
-      pollingWhenVisibleFlagRef.current = false;
-      refresh();
-    }
-  }, [refresh]);
+    return asyncInstanceRef.current?.refresh();
+  }, []);
 
   const cancel = useCallback(() => {
-    if (debounceRunRef.current) {
-      debounceRunRef.current.cancel();
-    }
-
-    if (throttleRunRef.current) {
-      throttleRunRef.current.cancel();
-    }
-
-    // 取消轮询定时器
-    if (pollingTimerRef.current) {
-      clearTimeout(pollingTimerRef.current);
-    }
+    asyncInstanceRef.current?.cancel();
 
     // 取消延迟loading
     if (loadingDelayTimerRef.current) {
       clearTimeout(loadingDelayTimerRef.current);
     }
 
-    pollingWhenVisibleFlagRef.current = false;
-
-    counterRef.current += 1;
-
     set((s) => ({ ...s, loading: false }));
   }, []);
-
-  // autoRun=true 时，refreshDeps 变化，将重新执行
-  useUpdateEffect(() => {
-    // 区分 React.StrictMode 下触发
-    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
-      refresh();
-    }
-  }, refreshDeps);
 
   // 突变
   const mutate = (newData: R | undefined | ((oldData: R) => R)) => {
@@ -289,33 +225,30 @@ export function useAsync<R = any, P extends any[] = any>(
     }
   };
 
-  useEffect(() => {
-    unmountFlagRef.current = false;
+  // autoRun=true 时，refreshDeps 变化，将重新执行
+  useUpdateEffect(() => {
+    // 区分 React.StrictMode 下触发
+    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+      refresh();
+    }
+  }, [autoRun, ...refreshDeps]);
 
+  useEffect(() => {
     // 默认自动执行
     if (autoRun) {
       // 支持默认参数
-      run(...(state.params as any));
+      const fmtDefaultParams = Array.isArray(defaultParams)
+        ? defaultParams
+        : ((typeof defaultParams !== 'undefined' ? [defaultParams] : []) as unknown as P);
+      run(...fmtDefaultParams);
     }
 
-    const unsubscribeArr = unsubscribeRef.current;
-
-    // 订阅页面显示时轮询
-    if (pollingInterval) {
-      unsubscribeArr.push(subscribeVisible(rePolling));
-    }
-
-    // 订阅屏幕聚焦时请求
-    if (refreshOnWindowFocus) {
-      const limitRefresh = limit(refresh, focusTimespan);
-      unsubscribeArr.push(subscribeFocus(limitRefresh));
-    }
+    // 如果销毁过，可以重新恢复异步实例
+    asyncInstanceRef.current?.resume();
 
     return () => {
-      unmountFlagRef.current = true;
       cancel();
-      // 取消订阅
-      unsubscribeArr.forEach((s) => s());
+      asyncInstanceRef.current?.destroy(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

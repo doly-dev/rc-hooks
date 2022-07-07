@@ -24,8 +24,8 @@ function Demo() {
   );
 
   const renderFooter = () => (
-    <div>
-      {!noMore && (
+    <div style={{ overflow: 'hidden' }}>
+      {!noMore && data?.list && data.list.length > 0 && (
         <Button onClick={loadMore} loading={loadingMore}>
           {loadingMore ? 'Loading more' : 'Click to load more'}
         </Button>

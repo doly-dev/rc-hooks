@@ -101,7 +101,7 @@ function Demo() {
       </Form>
       <Table
         {...tableProps}
-        pagination={{ ...pagination, showSizeChanger: true, showQuickJumper: true }}
+        pagination={{ ...tableProps.pagination, showSizeChanger: true, showQuickJumper: true }}
         columns={columns}
         rowKey="id"
         bordered

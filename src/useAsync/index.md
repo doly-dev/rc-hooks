@@ -17,6 +17,7 @@ legacy: /async/use-async
 - 手动请求
 - 缓存 & 预加载
 - 持久化数据
+- 共享异步
 - 屏幕聚焦重新请求
 - 轮询
 - 防抖
@@ -46,6 +47,12 @@ legacy: /async/use-async
 ### 持久化数据
 
 <code src="./demos/Persisted.tsx" />
+
+### 共享异步
+
+多个相同 `cacheKey` 的异步，同时触发中，只会执行第一个，后面执行的将共享第一个异步执行的结果。
+
+<code src="./demos/CacheKey.tsx" />
 
 ### 屏幕聚焦重新请求
 
@@ -137,7 +144,7 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 | refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
 | onSuccess | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 | onError | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
-| cacheKey | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。 | `string` | - |
+| cacheKey | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。<br/>如果多个相同 cacheKey 的异步同时触发中，将共享第一个异步结果。 | `string` | - |
 | cacheTime | 缓存时间，单位为毫秒。 | `number` | `5*60*1000` |
 | persisted | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。 | `boolean` | `false` |
 | loadingDelay | 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。 | `number` | - |
