@@ -142,8 +142,10 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 | autoRun | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
 | defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `any[]` | - |
 | refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
+| onBefore | 异步函数执行前触发，参数为 `params`。 | `(params) => void` | - |
 | onSuccess | 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。 | `(data, params) => void` | - |
 | onError | 异步函数报错时触发，参数为 `error` 和 `params` | `(error, parmams) => void` | - |
+| onFinally | 异步函数执行完成后触发 | `() => void` | - |
 | cacheKey | 缓存的键值，启用缓存机制。异步成功结果，将被缓存。<br/>如果多个相同 cacheKey 的异步同时触发中，将共享第一个异步结果。 | `string` | - |
 | cacheTime | 缓存时间，单位为毫秒。 | `number` | `5*60*1000` |
 | persisted | 持久化数据。当有缓存数据时，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。 | `boolean` | `false` |
