@@ -8,21 +8,24 @@ import getArticle from './services/getArticle';
 import { waitTime } from 'util-helpers';
 
 function Article() {
-  const { data, loading, run } = useAsync(async () => {
-    await waitTime(3000);
-    return getArticle();
-  }, {
-    cacheKey: 'article'
-  });
+  const { data, loading, run } = useAsync(
+    async () => {
+      await waitTime(3000);
+      return getArticle();
+    },
+    {
+      cacheKey: 'article'
+    }
+  );
 
   return (
     <div>
       <button onClick={run}>点击请求</button>
-      <p>loading: {loading ? 'true' : 'false'}</p>
-      <p>request time: {data?.time}</p>
+      <p>Background loading: {loading ? 'true' : 'false'}</p>
+      <p>Latest request time: {data?.time}</p>
       <p>{data?.data}</p>
     </div>
-  )
+  );
 }
 
 function Demo() {

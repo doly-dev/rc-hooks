@@ -44,6 +44,10 @@ legacy: /async/use-async
 
 <code src="./demos/Preload.tsx" />
 
+### 清理缓存
+
+<code src="./demos/ClearCache.tsx" />
+
 ### 持久化数据
 
 <code src="./demos/Persisted.tsx" />
@@ -156,6 +160,14 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 | focusTimespan | 屏幕重新聚焦，如果每次都重新发起请求，不是很好，我们需要有一个时间间隔，在当前时间间隔内，不会重新发起请求。需要配置 `refreshOnWindowFocus` 使用。 | `number` | `5000` |
 | debounceInterval | 防抖间隔, 单位为毫秒，设置后，请求进入防抖模式。 | `number` | - |
 | throttleInterval | 节流间隔, 单位为毫秒，设置后，请求进入节流模式。 | `number` | - |
+
+### clearCache
+
+清理缓存。如果不传参数，表示清理全部。
+
+```typescript
+clearCache(cacheKey?: string|string[]);
+```
 
 ## 扩展用法
 
