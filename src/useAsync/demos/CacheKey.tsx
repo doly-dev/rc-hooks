@@ -1,6 +1,6 @@
 /**
  * title: 共享异步
- * desc: 该特性如果配合持久化数据 `persisted` 使用，可以优化一下特殊场景的重复异步问题。例如，同一个页面中，多个不同组件同时加载国家列表，可以减少请求，并持久化数据。
+ * desc: 该特性如果配合持久化数据 `persisted` 使用，可以优化某些场景同时触发同一个异步请求的问题。例如，同一个页面中，不同组件都需要请求国家列表。使用 `persisted` `cacheKey` 能减少请求并持久化数据。
  */
 import * as React from 'react';
 import { useAsync } from 'rc-hooks';
