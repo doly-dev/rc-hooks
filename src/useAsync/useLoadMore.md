@@ -75,8 +75,8 @@ const {
 不支持 `'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'` 配置项
 
 | 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | threshold | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
-| target | 内容的滚动容器，如果存在，则在滚动到底部时，自动触发 loadMore | `HTMLElement | Window | (()=>HTMLElement | Window)` | - |
+| target | 内容的滚动容器，如果存在，则在滚动到底部时，自动触发 loadMore | `HTMLElement \| Window \| (()=>HTMLElement \| Window)` | - |
 | isNoMore | 判断是否没有更多数据 | `(data?: R) => boolean` | - |
 | refreshDeps | 在 `autoRun = true` 时，refreshDeps 变化，会执行 refresh 。 | `any[]` |
