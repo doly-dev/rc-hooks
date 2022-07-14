@@ -65,6 +65,10 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     [params, run]
   );
 
+  const refresh = React.useCallback(() => {
+    changePagination({ current, pageSize });
+  }, [changePagination, current, pageSize]);
+
   const onChange = React.useCallback(
     (c: number, p: number) => {
       let toCurrent = c <= 0 ? 1 : c;
@@ -126,6 +130,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     ...restAsyncReturn,
     data,
     run,
+    refresh,
     loading,
     params,
 

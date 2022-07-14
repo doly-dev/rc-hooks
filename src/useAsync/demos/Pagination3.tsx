@@ -9,13 +9,18 @@ import { usePagination } from 'rc-hooks';
 import getUserList from './services/getUserList';
 
 function Demo() {
-  const { refresh, tableProps } = usePagination(({ current, pageSize, ...rest }) => {
-    console.log(rest);
-    return getUserList({ current, pageSize }).then((res) => ({
-      list: res.data,
-      total: res.total
-    }));
-  });
+  const { refresh, tableProps } = usePagination(
+    ({ current, pageSize, ...rest }) => {
+      console.log(rest);
+      return getUserList({ current, pageSize }).then((res) => ({
+        list: res.data,
+        total: res.total
+      }));
+    },
+    {
+      // autoRun: false
+    }
+  );
 
   const columns = [
     {
