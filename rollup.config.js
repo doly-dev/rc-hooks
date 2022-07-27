@@ -35,5 +35,5 @@ export default {
       plugins: [terser()]
     }
   ],
-  plugins: [resolve(), commonjs(), typescript()]
+  plugins: [resolve(), commonjs(), typescript({ compilerOptions: { target: 'ES3' } })]
 };
