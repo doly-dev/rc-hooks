@@ -13,6 +13,7 @@ on:
       - .fatherrc.ts
       - .umirc.js
       - .github/**
+      - README.md
 
 jobs:
   build-and-deploy:

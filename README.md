@@ -31,6 +31,10 @@ import { useAsync } from 'rc-hooks';
   - [useDebounceFn] - 用来处理防抖函数
   - [useThrottle] - 用来处理节流值
   - [useThrottleFn] - 用来处理节流函数
+- State
+  - [useMergeState] - 管理 object 类型 state ，内部使用展开操作符进行合并
+  - [usePrevious] - 保存上一次渲染时状态
+  - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
 - LifeCycle
   - [useMount] - 只在组件 mount 时执行
   - [useMountedRef] - 用于异步回调或 dom 操作中判断当前组件是否装载
@@ -44,8 +48,6 @@ import { useAsync } from 'rc-hooks';
   - [useControllableValue] - 便于管理 `受控/非受控` 状态
   - [useLimitList] - 管理列表展示数量
   - [usePersistFn] - 持久化 function
-  - [usePrevious] - 保存上一次渲染时状态
-  - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
   - [useSize] - 获取并监听 dom 节点的宽高
 
 [site]: https://doly-dev.github.io/rc-hooks/latest/index.html
@@ -56,6 +58,9 @@ import { useAsync } from 'rc-hooks';
 [usethrottle]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-throttle
 [usedebouncefn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-debounce-fn
 [usethrottlefn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-throttle-fn
+[usemergestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-merge-state
+[useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-previous
+[usesafestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-safe-state
 [usemount]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-mount
 [usemountedref]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-mounted-ref
 [useupdate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-update
@@ -63,11 +68,9 @@ import { useAsync } from 'rc-hooks';
 [useunmountedref]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-unmounted-ref
 [useupdateeffect]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-update-effect
 [useupdatelayouteffect]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-update-layout-effect
-[useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-previous
 [usepersistfn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-persist-fn
 [useclickaway]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-click-away
 [usesize]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-size
-[usesafestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-safe-state
 [usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-controllable-value
 [uselimitlist]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-limit-list
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
