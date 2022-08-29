@@ -5,15 +5,10 @@
 import * as React from 'react';
 import { useLimitList, useAsync } from 'rc-hooks';
 import Mockjs from 'mockjs';
-
-function sleep(delay = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
+import { waitTime } from 'util-helpers';
 
 async function getList() {
-  await sleep();
+  await waitTime();
   return Mockjs.mock({
     'list|4-10': [
       {

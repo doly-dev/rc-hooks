@@ -1,12 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { useEffect, useState } from 'react';
+import { waitTime } from 'util-helpers';
 import { useLimitList } from '../..';
-
-function sleep(delay = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
 
 describe('useLimitList', () => {
   it('should be defined', () => {
@@ -20,7 +15,7 @@ describe('useLimitList', () => {
     });
 
     expect(result.current.canLimit).toBe(false);
-    expect(result.current.limited).toBe(false);
+    expect(result.current.limited).toBe(true);
     expect(result.current.data).toEqual(list);
 
     act(() => {
@@ -28,7 +23,7 @@ describe('useLimitList', () => {
     });
 
     expect(result.current.canLimit).toBe(false);
-    expect(result.current.limited).toBe(false);
+    expect(result.current.limited).toBe(true);
     expect(result.current.data).toEqual(list);
   });
 
@@ -53,12 +48,18 @@ describe('useLimitList', () => {
 
   it('change count and defaultLimited', () => {
     const list = [1, 2, 3, 4];
-    const defaultCount = 1;
     const { result } = renderHook(() => {
-      return useLimitList(list, {
-        count: defaultCount,
+      const [count, setCount] = useState(1);
+
+      const limitResult = useLimitList(list, {
+        count: count,
         defaultLimited: false
       });
+
+      return {
+        ...limitResult,
+        setCount
+      }
     });
 
     expect(result.current.canLimit).toBe(true);
@@ -71,13 +72,22 @@ describe('useLimitList', () => {
 
     expect(result.current.canLimit).toBe(true);
     expect(result.current.limited).toBe(true);
-    expect(result.current.data.length).toBe(defaultCount);
+    expect(result.current.data.length).toBe(1);
+
+    act(() => {
+      result.current.setCount(3);
+    });
+
+    expect(result.current.canLimit).toBe(true);
+    expect(result.current.limited).toBe(true);
+    expect(result.current.data.length).toBe(3);
+
   });
 
   it('async list', async () => {
     const { result } = renderHook(() => {
       const getList = async () => {
-        await sleep();
+        await waitTime(1000);
         return [1, 2, 3, 4];
       };
       const [list, setList] = useState<number[]>([]);
@@ -90,11 +100,11 @@ describe('useLimitList', () => {
     });
 
     expect(result.current.canLimit).toBe(false);
-    expect(result.current.limited).toBe(false);
+    expect(result.current.limited).toBe(true);
     expect(result.current.data.length).toBe(0);
 
     await act(async () => {
-      await sleep();
+      await waitTime(1000);
     });
 
     expect(result.current.canLimit).toBe(true);

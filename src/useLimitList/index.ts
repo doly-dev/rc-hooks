@@ -1,54 +1,44 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type Options = {
   count?: number;
   defaultLimited?: boolean;
 };
 
-function useLimitList<T extends any[] = any[]>(
-  list: T,
-  options?: Options
-): {
-  canLimit: boolean;
-  limited: boolean;
-  data: T extends (infer R)[] ? R[] : any[];
-  toggle: () => void;
-};
-function useLimitList(list: any[], options: Options = {}) {
+function useLimitList(list: any[] = [], options: Options = {}) {
   const { count = 3, defaultLimited = true } = options || {};
+  const limitedRef = useRef(defaultLimited);
 
-  const safeList = useRef(list);
-  safeList.current = Array.isArray(list) ? list : [];
-  const safeCount = useMemo(() => (count < 0 ? 0 : Math.ceil(count)), [count]);
+  const safeList = useMemo(() => Array.isArray(list) ? list : [], [list]);
+  const safeCount = useMemo(() => count > 0 ? Math.ceil(count) : 0, [count]);
 
   // 是否可以限制数量
-  const canLimit = safeList.current.length > safeCount;
+  const canLimit = useMemo(() => safeList.length > safeCount, [safeCount, safeList.length]);
 
   // 限制后的值
   const [data, setData] = useState(() => {
     if (canLimit && defaultLimited) {
-      return safeList.current.slice(0, safeCount);
+      return safeList.slice(0, safeCount);
     }
-    return safeList.current;
+    return safeList;
   });
 
-  // 是否限制数量
-  const limited = canLimit && data.length !== safeList.current.length;
-
   // 切换限制/不限制数量
-  const toggle = useCallback(() => {
-    setData(limited ? safeList.current : safeList.current.slice(0, safeCount));
-  }, [safeCount, limited]);
+  const toggle = () => {
+    if (canLimit) {
+      limitedRef.current = !limitedRef.current;
+    }
+    setData(limitedRef.current ? safeList.slice(0, safeCount) : safeList);
+  };
 
-  // 修改list 或 safeCount后，触发更新
+  // 修改 list 或 count 后，触发更新
   useEffect(() => {
-    setData(limited ? safeList.current.slice(0, safeCount) : safeList.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [safeCount, list]);
+    setData(limitedRef.current ? safeList.slice(0, safeCount) : safeList);
+  }, [safeCount, safeList]);
 
   return {
     canLimit,
-    limited,
+    limited: limitedRef.current,
     data,
     toggle
   };
