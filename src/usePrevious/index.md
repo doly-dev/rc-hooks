@@ -1,9 +1,10 @@
 ---
 title: usePrevious
 group:
-  title: Other
-  path: /other
-legacy: /other/use-previous
+  order: 2
+  title: State
+  path: /state
+legacy: /state/use-previous
 ---
 
 # usePrevious

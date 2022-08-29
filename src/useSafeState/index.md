@@ -1,9 +1,10 @@
 ---
 title: useSafeState
 group:
-  title: Other
-  path: /other
-legacy: /other/use-safe-state
+  order: 2
+  title: State
+  path: /state
+legacy: /state/use-safe-state
 ---
 
 # useSafeState

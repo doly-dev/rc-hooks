@@ -26,9 +26,10 @@ export { default as useUpdateLayoutEffect } from './useUpdateLayoutEffect';
 // other
 export { default as useClientRect } from './useClientRect';
 export { default as useClickAway } from './useClickAway';
-export { default as useSize } from './useSize';
 export { default as useControllableValue } from './useControllableValue';
+export { default as useLimitList } from './useLimitList';
+export { default as useMergeState } from './useMergeState';
 export { default as usePrevious } from './usePrevious';
 export { default as usePersistFn } from './usePersistFn';
 export { default as useSafeState } from './useSafeState';
-export { default as useLimitList } from './useLimitList';
+export { default as useSize } from './useSize';
