@@ -1,27 +1,21 @@
 import * as React from 'react';
 import useUnmountedRef from '../useUnmountedRef';
 
-function useSafeState<S>(initialState: S | (() => S)): [S, React.Dispatch<React.SetStateAction<S>>];
-function useSafeState<S = undefined>(): [
-  S | undefined,
-  React.Dispatch<React.SetStateAction<S | undefined>>
-];
-
-function useSafeState(initialState?: any) {
+function useSafeState<S>(initialState?: S | (() => S)) {
   const unmountedRef = useUnmountedRef();
   const [state, setState] = React.useState(initialState);
 
   const setCurrentState = React.useCallback(
-    (s: any) => {
+    (nextState: S | (() => S)) => {
       if (unmountedRef.current) {
         return;
       }
-      setState(s);
+      setState(nextState);
     },
     [unmountedRef]
   );
 
-  return [state, setCurrentState];
+  return [state, setCurrentState] as const;
 }
 
 export default useSafeState;
