@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useIsMounted } from '../..';
 
 describe('useIsMounted', () => {
@@ -18,7 +18,7 @@ describe('useIsMounted', () => {
 
     act(() => {
       unmount();
-      expect(result.current.isMounted.current).toBe(false);
     });
+    expect(result.current.isMounted.current).toBe(false);
   });
 });

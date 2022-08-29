@@ -12,7 +12,8 @@ const Counter = () => {
     return () => {
       clearInterval(timer);
     };
-  }, [setCount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <div>计数：{count}</div>;
 };

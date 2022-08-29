@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useUnmountedRef } from '../..';
 
 describe('useUnmountedRef', () => {
@@ -18,7 +18,7 @@ describe('useUnmountedRef', () => {
 
     act(() => {
       unmount();
-      expect(result.current.unmountedRef.current).toBe(true);
     });
+    expect(result.current.unmountedRef.current).toBe(true);
   });
 });

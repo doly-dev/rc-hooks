@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useDebounce } from '../..';
 
 describe('useDebounce', () => {
