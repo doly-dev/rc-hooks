@@ -12,6 +12,7 @@ on:
       - src/**
       - .fatherrc.ts
       - .umirc.js
+      - .github/**
 
 jobs:
   build-and-deploy:
@@ -22,14 +23,14 @@ jobs:
         with:
           persist-credentials: false
       - name: Install
-        run: npm install
+        run: yarn
       - name: Test
-        run: npm test
+        run: yarn test
       - name: Build package
-        run: npm run build
+        run: yarn build
       - name: Build latest docs
         if: ${{github.ref == 'refs/heads/master'}}
-        run: npm run doc
+        run: yarn doc
       - name: Deploy latest docs
         if: ${{github.ref == 'refs/heads/master'}}
         uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -40,7 +41,7 @@ jobs:
           TARGET_FOLDER: latest
       - name: Build version docs
         if: ${{github.ref != 'refs/heads/master'}}
-        run: npm run doc-version
+        run: yarn doc-version
       - name: Deploy version docs
         if: ${{github.ref != 'refs/heads/master'}}
         uses: JamesIves/github-pages-deploy-action@releases/v3
