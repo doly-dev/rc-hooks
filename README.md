@@ -1,3 +1,11 @@
+---
+title: Introduction
+group:
+  title: Introduction
+  path: /
+  order: 0
+---
+
 # rc-hooks
 
 [![npm][npm]][npm-url] ![GitHub](https://img.shields.io/github/license/doly-dev/rc-hooks.svg)
