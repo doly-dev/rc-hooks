@@ -19,7 +19,7 @@ legacy: /life-cycle/use-unmount
 ## API
 
 ```typescript
-useUnmount((fn: () => void));
+useUnmount(fn: () => void);
 ```
 
 ### Params

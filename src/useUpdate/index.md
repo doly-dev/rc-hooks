@@ -19,5 +19,5 @@ legacy: /life-cycle/use-update
 ## API
 
 ```typescript
-useUpdate();
+const update = useUpdate();
 ```

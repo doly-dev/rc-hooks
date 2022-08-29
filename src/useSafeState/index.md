@@ -19,7 +19,7 @@ legacy: /other/use-safe-state
 ## API
 
 ```typescript
-const [state, setState] = useSafeState((initialState?));
+const [state, setState] = useSafeState(initialState?);
 ```
 
 和 React.useState 一样。

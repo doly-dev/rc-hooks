@@ -33,10 +33,10 @@ const [state, setState] = useControllableValue(props: object, options?: Options)
 
 ### Result
 
-| 参数     | 说明       | 类型                 |
-| -------- | ---------- | -------------------- |
-| state    | 状态值     | -                    |
-| setState | 修改状态值 | `(value: any)=>void` |
+| 参数     | 说明       | 类型                   |
+| -------- | ---------- | ---------------------- |
+| state    | 状态值     | -                      |
+| setState | 修改状态值 | `(value: any) => void` |
 
 ### Params
 

@@ -20,7 +20,7 @@ legacy: /life-cycle/use-mount
 ## API
 
 ```typescript
-useMount((fn: () => void));
+useMount(fn: () => void);
 ```
 
 ### Params

@@ -20,9 +20,7 @@ legacy: /other/use-size
 ## API
 
 ```typescript
-const size = useSize(
-  (ref: (() => HTMLElement) | HTMLElement | MutableRefObject<HTMLElement>)
-);
+const size = useSize(ref: (() => HTMLElement) | HTMLElement | MutableRefObject<HTMLElement>);
 ```
 
 ### Result

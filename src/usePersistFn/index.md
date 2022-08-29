@@ -23,7 +23,7 @@ legacy: /other/use-persist-fn
 ## API
 
 ```typescript
-const fn = usePersistFn((fn: (...args: any) => any));
+const fn = usePersistFn(fn: (...args: any) => any);
 ```
 
 ### Result

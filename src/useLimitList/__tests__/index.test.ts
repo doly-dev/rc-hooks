@@ -80,7 +80,7 @@ describe('useLimitList', () => {
         await sleep();
         return [1, 2, 3, 4];
       };
-      const [list, setList] = useState([]);
+      const [list, setList] = useState<number[]>([]);
 
       useEffect(() => {
         getList().then(setList);
