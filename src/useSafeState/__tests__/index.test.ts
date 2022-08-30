@@ -42,4 +42,17 @@ describe('useSafeState', () => {
 
     expect(result.current.state).toBe(0);
   });
+
+  it('type', () => {
+    const { result, unmount } = renderHook(() => {
+      return useSafeState(0);
+    });
+
+    unmount();
+    act(() => {
+      result.current[1](5);
+    });
+
+    expect(result.current[0]).toBe(0);
+  });
 });
