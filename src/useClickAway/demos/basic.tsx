@@ -7,7 +7,7 @@ import { useClickAway } from 'rc-hooks';
 
 const Demo: React.FC = () => {
   const [count, setCount] = React.useState(0);
-  const ref = React.useRef<HTMLSpanElement>();
+  const ref = React.useRef<HTMLSpanElement>(null);
 
   useClickAway(ref, () => {
     setCount((c) => c + 1);

@@ -5,7 +5,7 @@ export type RefType<T = HTMLElement> =
   | null
   | (() => T | null)
   | T
-  | MutableRefObject<T>;
+  | MutableRefObject<T | undefined>;
 
 function getRef(ref: RefType) {
   if (typeof ref === 'function') {
