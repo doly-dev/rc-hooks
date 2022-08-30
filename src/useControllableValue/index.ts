@@ -1,7 +1,11 @@
-import { useCallback, useState } from 'react';
+import { SetStateAction, useCallback, useState } from 'react';
 import useUpdateEffect from '../useUpdateEffect';
 
-type Props = Record<string | number, any>;
+type Props<T> = {
+  value?: T;
+  defaultValue?: T;
+  [key: string]: any;
+};
 
 type Options<T> = Partial<{
   defaultValue: T;
@@ -10,7 +14,7 @@ type Options<T> = Partial<{
   trigger: string;
 }>;
 
-function useControllableValue<T = any>(props: Props = {}, options: Options<T> = {}) {
+function useControllableValue<T = any>(props: Props<T> = {}, options: Options<T> = {}) {
   const {
     defaultValue,
     defaultValuePropName = 'defaultValue',
@@ -37,7 +41,7 @@ function useControllableValue<T = any>(props: Props = {}, options: Options<T> = 
   }, [value, hasValueProp]);
 
   const handleSetState = useCallback(
-    (v: T, ...args: any[]) => {
+    (v: SetStateAction<T>, ...args: any[]): any => {
       if (!hasValueProp) {
         setState(v);
       }
