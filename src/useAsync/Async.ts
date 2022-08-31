@@ -18,10 +18,10 @@ const promiseCache: {
 
 // 运行异步方法 ，支持缓存 Promise
 // 处理多个 key 的 Promise ，只执行第一个，返回Promise
-const runAsyncCache = (async: () => Promise<any>, key?: string) => {
+const runAsyncCache = <T extends ((...args: any[]) => Promise<any>) = (() => Promise<any>)>(async: T, key?: string) => {
   // 如果有缓存，标识有相同key的异步正在请求中
   if (key && promiseCache[key]) {
-    return promiseCache[key];
+    return promiseCache[key] as ReturnType<T>;
   }
 
   if (key) {
@@ -35,10 +35,10 @@ const runAsyncCache = (async: () => Promise<any>, key?: string) => {
         return Promise.reject(err);
       });
 
-    return promiseCache[key];
+    return promiseCache[key] as ReturnType<T>;
   }
 
-  return async();
+  return async() as ReturnType<T>;
 };
 
 type InternalOptions<R = any, P extends any[] = any[]> = {
@@ -201,7 +201,7 @@ class Async<R = any, P extends any[] = any[]> {
 
       // 没有持久化的缓存数据，如果有缓存key将共享异步返回的Promise
       runAsyncCache(() => this.async(...args), cacheKey)
-        ?.then((res) => {
+        .then((res) => {
           if (count === this.counter) {
             const fmtRes = typeof formatResult === 'function' ? formatResult(res, args) : res;
             if (cacheKey) {
