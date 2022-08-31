@@ -35,6 +35,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     target,
     isNoMore = () => false,
     refreshDeps = [],
+    autoRun = true,
     ...restOptions
   } = (options || {}) as LoadMoreOptions<R>;
 
@@ -55,6 +56,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
         current: currentPageRef.current
       }
     ],
+    autoRun,
     ...restOptions,
     onError(err, _params) {
       // 加载失败并且当前页码大于第一页，页码自减一
@@ -134,8 +136,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   });
 
   useUpdateEffect(() => {
-    const isAutoRun = typeof options?.autoRun === 'undefined' || options?.autoRun;
-    if (isAutoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
   }, refreshDeps);

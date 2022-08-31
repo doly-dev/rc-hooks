@@ -1,4 +1,4 @@
-import { useLoadMore } from '../..';
+import useLoadMore from '..';
 
 describe('useLoadMore', () => {
   it('should be defined', () => {

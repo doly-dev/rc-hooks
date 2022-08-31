@@ -137,7 +137,8 @@ function useAsync<R = any, P extends any[] = any[]>(
     [onErrorPersist]
   );
 
-  const asyncInstanceRef = useRef<any>();
+  // @ts-ignore
+  const asyncInstanceRef: React.MutableRefObject<AsyncCalss<R, P>> = useRef();
 
   if (!asyncInstanceRef.current) {
     asyncInstanceRef.current = new AsyncCalss<R, P>(asyncFnPersist, {
@@ -159,7 +160,7 @@ function useAsync<R = any, P extends any[] = any[]>(
   }
 
   useUpdateEffect(() => {
-    asyncInstanceRef.current?.updateOptions({
+    asyncInstanceRef.current.updateOptions({
       cacheKey,
       cacheTime,
       persisted,
@@ -196,16 +197,16 @@ function useAsync<R = any, P extends any[] = any[]>(
 
   // 执行异步
   const run = useCallback((...args: P) => {
-    return asyncInstanceRef.current?.run(...args);
+    return asyncInstanceRef.current.run(...args);
   }, []);
 
   // 使用上一次执行异步的参数，重新执行
   const refresh = useCallback(() => {
-    return asyncInstanceRef.current?.refresh();
+    return asyncInstanceRef.current.refresh();
   }, []);
 
   const cancel = useCallback(() => {
-    asyncInstanceRef.current?.cancel();
+    asyncInstanceRef.current.cancel();
 
     // 取消延迟loading
     if (loadingDelayTimerRef.current) {
@@ -244,11 +245,11 @@ function useAsync<R = any, P extends any[] = any[]>(
     }
 
     // 如果销毁过，可以重新恢复异步实例
-    asyncInstanceRef.current?.resume();
+    asyncInstanceRef.current.resume();
 
     return () => {
       cancel();
-      asyncInstanceRef.current?.destroy(false);
+      asyncInstanceRef.current.destroy(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

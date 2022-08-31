@@ -31,6 +31,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     defaultPageSize = 10,
     refreshDeps = [],
     defaultParams: defaultParamsProp,
+    autoRun = true,
     ...restOptions
   } = options || {};
 
@@ -43,6 +44,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     asyncFn,
     {
       defaultParams,
+      autoRun,
       ...restOptions
     }
   );
@@ -120,8 +122,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
   );
 
   useUpdateEffect(() => {
-    const isAutoRun = typeof options?.autoRun === 'undefined' || options?.autoRun;
-    if (isAutoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       changeCurrent(1);
     }
   }, refreshDeps);
