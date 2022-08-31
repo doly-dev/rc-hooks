@@ -10,6 +10,8 @@ legacy: /life-cycle/use-update
 
 强制组件重新渲染的 Hook。
 
+内部使用了 useSafeState ，调用时如果组件已经卸载则不会触发。
+
 ## 代码演示
 
 ### 基础用法
