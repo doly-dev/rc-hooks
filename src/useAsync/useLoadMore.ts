@@ -18,8 +18,8 @@ export type LoadMoreParams = [
 
 export interface LoadMoreOptions<R extends LoadMoreAsyncReturn = any>
   extends Omit<
-    AsyncOptions<R, LoadMoreParams>,
-    'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
+  AsyncOptions<R, LoadMoreParams>,
+  'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
   threshold?: number;
   target?: TargetType;
@@ -76,16 +76,16 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   });
 
   const noMore = isNoMore ? !loading && isNoMore(data) : false;
+  const [firstParams, ...restParams] = params || [];
 
   const loadData = React.useCallback(() => {
-    const [, ...restParams] = params;
     return run(
       {
         current: currentPageRef.current
       },
       ...restParams
     );
-  }, [params, run]);
+  }, [restParams, run]);
 
   const cancel = React.useCallback(() => {
     // 加载中并且当前页码大于第一页，页码自减一
@@ -149,7 +149,10 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     refresh,
     cancel,
     mutate,
-    params,
+    params: [
+      { ...firstParams, current: currentPageRef.current },
+      ...restParams
+    ],
 
     loadMore,
     loadingMore: loading && currentPageRef.current > 1,
