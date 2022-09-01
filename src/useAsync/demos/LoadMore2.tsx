@@ -19,7 +19,7 @@ function Demo() {
     },
     {
       target: () => containerRef.current,
-      isNoMore: (result) => !!result?.list && result.list.length >= result?.total
+      isNoMore: (result) => !!result && result.list.length >= result.total
     }
   );
 

@@ -11,7 +11,7 @@ function Demo() {
   const { data, loading, loadingMore, noMore, loadMore } = useLoadMore(
     ({ current }) => getUserList({ current }).then((res) => ({ total: res.total, list: res.data })),
     {
-      isNoMore: (result) => !!result?.list && result.list.length >= result?.total
+      isNoMore: (result) => !!result && result.list.length >= result.total
     }
   );
 
