@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { renderHook, act } from '@testing-library/react';
 import type { ThrottleSettings } from 'lodash';
-import { useThrottle } from '../..';
+import useThrottle from '..';
 
 const setUp = (wait = 300, options?: ThrottleSettings) =>
   renderHook(() => {
@@ -25,10 +25,6 @@ describe('useThrottle', () => {
 
   afterAll(() => {
     jest.useRealTimers();
-  });
-
-  it('should be defined', () => {
-    expect(useThrottle).toBeDefined();
   });
 
   it('should work', () => {

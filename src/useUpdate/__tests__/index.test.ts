@@ -2,10 +2,6 @@ import { renderHook, act } from '@testing-library/react';
 import useUpdate from '..';
 
 describe('useUpdate', () => {
-  it('should be defined', () => {
-    expect(useUpdate).toBeDefined();
-  });
-
   it('should return a function', () => {
     const { result } = renderHook(() => useUpdate());
 

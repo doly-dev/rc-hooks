@@ -1,11 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useUpdateLayoutEffect } from '../..';
+import useUpdateLayoutEffect from '..';
 
 describe('useUpdateLayoutEffect', () => {
-  it('should be defined', () => {
-    expect(useUpdateLayoutEffect).toBeDefined();
-  });
-
   it('should run effect on update', () => {
     const effect = jest.fn();
     const { rerender } = renderHook(() => useUpdateLayoutEffect(effect));

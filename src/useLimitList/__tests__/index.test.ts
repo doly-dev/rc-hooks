@@ -1,13 +1,9 @@
 import { renderHook, act } from '@testing-library/react';
 import { useEffect, useState } from 'react';
 import { waitTime } from 'util-helpers';
-import { useLimitList } from '../..';
+import useLimitList from '..';
 
 describe('useLimitList', () => {
-  it('should be defined', () => {
-    expect(useLimitList).toBeDefined();
-  });
-
   it('not limited', () => {
     const list = [1, 2, 3];
     const { result } = renderHook(() => {

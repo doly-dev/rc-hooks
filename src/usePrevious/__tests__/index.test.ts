@@ -1,11 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { usePrevious } from '../..';
+import usePrevious from '..';
 
 describe('usePrevious', () => {
-  it('should be defined', () => {
-    expect(usePrevious).toBeDefined();
-  });
-
   const setUp = () =>
     renderHook(({ state }) => usePrevious(state), {
       initialProps: {

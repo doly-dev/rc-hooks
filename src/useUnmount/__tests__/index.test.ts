@@ -2,10 +2,6 @@ import { renderHook } from '@testing-library/react';
 import useUnmount from '..';
 
 describe('useUnmount', () => {
-  it('should be defined', () => {
-    expect(useUnmount).toBeDefined();
-  });
-
   it('should not call provided callback on re-renders', () => {
     const fn = jest.fn();
     const { rerender, unmount } = renderHook(() => useUnmount(fn));

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import type { ThrottleSettings } from 'lodash';
-import { useThrottleFn } from '../..';
+import useThrottleFn from '..';
 
 const setUp = (wait = 300, options?: ThrottleSettings) =>
   renderHook(() => {
@@ -25,10 +25,6 @@ describe('useThrottleFn', () => {
 
   afterAll(() => {
     jest.useRealTimers();
-  });
-
-  it('should be defined', () => {
-    expect(useThrottleFn).toBeDefined();
   });
 
   it('should call passed function after given amount of time', () => {

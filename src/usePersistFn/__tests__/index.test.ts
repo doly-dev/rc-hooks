@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { usePersistFn } from '../..';
+import usePersistFn from '..';
 
 describe('usePersistFn', () => {
-  it('should be defined', () => {
-    expect(usePersistFn).toBeDefined();
-  });
-
   it('should work', () => {
     const fn1 = jest.fn();
     const fn2 = jest.fn();

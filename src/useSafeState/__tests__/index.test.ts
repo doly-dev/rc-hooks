@@ -1,11 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
-import { useSafeState } from '../..';
+import useSafeState from '..';
 
 describe('useSafeState', () => {
-  it('should be defined', () => {
-    expect(useSafeState).toBeDefined();
-  });
-
   const setUp = (initialState) =>
     renderHook(() => {
       const [state, setState] = useSafeState(initialState);

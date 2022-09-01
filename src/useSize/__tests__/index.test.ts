@@ -13,10 +13,6 @@ jest.mock('../ResizeObserver', () => {
 });
 
 describe('useSize', () => {
-  it('should be defined', () => {
-    expect(useSize).toBeDefined();
-  });
-
   it('target is null', () => {
     const { result } = renderHook(() => {
       return useSize(null);

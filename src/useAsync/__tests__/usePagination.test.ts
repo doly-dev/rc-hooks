@@ -7,10 +7,6 @@ describe('usePagination', () => {
     jest.useFakeTimers();
   });
 
-  it('should be defined', () => {
-    expect(usePagination).toBeDefined();
-  });
-
   it('work', async () => {
     const { result } = renderHook(() => usePagination(({ current, pageSize }) => {
       return getList({

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import type { DebounceSettings } from 'lodash';
-import { useDebounceFn } from '../..';
+import useDebounceFn from '..';
 
 const setUp = (wait = 300, options?: DebounceSettings) =>
   renderHook(() => {
@@ -25,10 +25,6 @@ describe('useDebounceFn', () => {
 
   afterAll(() => {
     jest.useRealTimers();
-  });
-
-  it('should be defined', () => {
-    expect(useDebounceFn).toBeDefined();
   });
 
   it('should call passed function after given amount of time', () => {

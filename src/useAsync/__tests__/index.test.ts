@@ -16,10 +16,6 @@ describe('useAsync', () => {
     jest.useFakeTimers();
   });
 
-  it('should be defined', () => {
-    expect(useAsync).toBeDefined();
-  });
-
   it('autoRun and success, error, finally callback', async () => {
     const errorCallback = jest.fn();
     const successCallback = jest.fn();

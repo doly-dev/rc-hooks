@@ -7,10 +7,6 @@ describe('useLoadMore', () => {
     jest.useFakeTimers();
   });
 
-  it('should be defined', () => {
-    expect(useLoadMore).toBeDefined();
-  });
-
   it('work', async () => {
     const { result } = renderHook(() => useLoadMore(({ current }) => {
       return getList({ current, pageSize: 5 }).then(res => ({

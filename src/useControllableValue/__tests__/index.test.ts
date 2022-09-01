@@ -1,11 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
-import { useControllableValue } from '../..';
+import useControllableValue from '..';
 
 describe('useControllableValue', () => {
-  it('should be defined', () => {
-    expect(useControllableValue).toBeDefined();
-  });
-
   it('deufaltValue should work', () => {
     const { result } = renderHook(() => useControllableValue({ defaultValue: 1 }));
     expect(result.current[0]).toBe(1);

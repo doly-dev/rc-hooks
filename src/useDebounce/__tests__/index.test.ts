@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { useDebounce } from '../..';
+import useDebounce from '..';
 
 describe('useDebounce', () => {
   beforeEach(() => {
@@ -13,10 +13,6 @@ describe('useDebounce', () => {
 
   afterAll(() => {
     jest.useRealTimers();
-  });
-
-  it('should be defined', () => {
-    expect(useDebounce).toBeDefined();
   });
 
   it('should work', async () => {

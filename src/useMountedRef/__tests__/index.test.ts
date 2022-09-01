@@ -1,11 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
-import { useMountedRef } from '../..';
+import useMountedRef from '..';
 
 describe('useMountedRef', () => {
-  it('should be defined', () => {
-    expect(useMountedRef).toBeDefined();
-  });
-
   it('work', () => {
     const { unmount, result } = renderHook(() => {
       const mountedRef = useMountedRef();

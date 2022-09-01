@@ -1,4 +1,4 @@
-import { useClientRect } from '../..';
+import useClientRect from '..';
 
 describe('useClientRect', () => {
   it('should be defined', () => {

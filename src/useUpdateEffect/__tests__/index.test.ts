@@ -1,11 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useUpdateEffect } from '../..';
+import useUpdateEffect from '..';
 
 describe('useUpdateEffect', () => {
-  it('should be defined', () => {
-    expect(useUpdateEffect).toBeDefined();
-  });
-
   it('should run effect on update', () => {
     const effect = jest.fn();
     const { rerender } = renderHook(() => useUpdateEffect(effect));

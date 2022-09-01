@@ -1,11 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
-import { useMergeState } from '../..';
+import useMergeState from '..';
 
 describe('useMergeState', () => {
-  it('should be defined', () => {
-    expect(useMergeState).toBeDefined();
-  });
-
   it('work', () => {
     const { result } = renderHook(() => {
       return useMergeState({
