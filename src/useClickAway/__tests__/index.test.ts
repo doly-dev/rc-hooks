@@ -17,10 +17,6 @@ describe('useClickAway', () => {
     document.body.removeChild(dom2);
   });
 
-  // it('should be defined', () => {
-  //   expect(useClickAway).toBeDefined();
-  // });
-
   it('dom click', () => {
     let count = 0;
     const { rerender, unmount } = renderHook((dom: HTMLDivElement) => {
