@@ -193,8 +193,12 @@ class Async<R = any, P extends any[] = any[]> {
         const cacheData = getCache<R>(cacheKey);
         // 有缓存数据
         if (cacheData && count === this.counter) {
-          onSuccess?.(cacheData, args);
-          resolve(cacheData);
+          Promise.resolve().then(() => {
+            onSuccess?.(cacheData, args);
+            resolve(cacheData);
+          }).finally(() => {
+            onFinally?.();
+          });
           return;
         }
       }
