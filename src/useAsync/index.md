@@ -166,6 +166,8 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 清理缓存。如果不传参数，表示清理全部。
 
 ```typescript
+import { clearCache } from 'rc-hooks';
+
 clearCache(cacheKey?: string|string[]);
 ```
 
