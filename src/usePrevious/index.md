@@ -11,13 +11,15 @@ legacy: /state/use-previous
 
 保存上一次渲染时状态的 Hook。
 
-> 参考 [如何获取上一轮的 props 或 state？](https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state)
-
 ## 代码演示
 
 ### 基础用法
 
 <code src="./demos/Demo1.tsx" />
+
+### 不受其他状态更新影响
+
+<code src="./demos/Demo2.tsx" />
 
 ## API
 

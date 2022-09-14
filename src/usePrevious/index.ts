@@ -1,11 +1,15 @@
-// ref:
-//  https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-get-the-previous-props-or-state
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
+import useMountedRef from '../useMountedRef';
 
 export default function usePrevious<T>(state: T) {
-  const ref = useRef<T>();
-  useEffect(() => {
-    ref.current = state;
-  });
-  return ref.current;
+  const mountedRef = useMountedRef();
+  const prevRef = useRef<T>();
+  const curRef = useRef(state);
+
+  if (mountedRef.current && curRef.current !== state) {
+    prevRef.current = curRef.current;
+    curRef.current = state;
+  }
+
+  return prevRef.current;
 }
