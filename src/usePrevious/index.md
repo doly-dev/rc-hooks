@@ -9,7 +9,7 @@ legacy: /state/use-previous
 
 # usePrevious
 
-保存上一次渲染时状态的 Hook。
+保存上一次状态的 Hook。
 
 ## 代码演示
 

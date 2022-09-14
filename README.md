@@ -33,7 +33,7 @@ import { useAsync } from 'rc-hooks';
   - [useThrottleFn] - 用来处理节流函数
 - State
   - [useMergeState] - 管理 object 类型 state ，内部使用展开操作符进行合并
-  - [usePrevious] - 保存上一次渲染时状态
+  - [usePrevious] - 保存上一次状态
   - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
 - LifeCycle
   - [useMount] - 只在组件 mount 时执行
