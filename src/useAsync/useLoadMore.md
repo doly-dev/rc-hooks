@@ -38,6 +38,10 @@ legacy: /async/use-load-more
 
 <code src="./demos/LoadMore4.tsx" />
 
+### 修改列表
+
+<code iframe="300" src="./demos/LoadMore5.tsx" />
+
 ## API
 
 ```typescript
