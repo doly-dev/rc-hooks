@@ -23,6 +23,7 @@ function Demo() {
       if (index !== -1) {
         return {
           ...d,
+          total: d.total - 1,
           list: newList
         }
       }
