@@ -14,10 +14,11 @@ export { default as useThrottleFn } from './useThrottleFn';
 export { default as useThrottle } from './useThrottle';
 
 // State
+export { default as useLatest } from './useLatest';
+export { default as useLimitList } from './useLimitList';
 export { default as useMergeState } from './useMergeState';
 export { default as usePrevious } from './usePrevious';
 export { default as useSafeState } from './useSafeState';
-export { default as useLatest } from './useLatest';
 
 // LifeCycle
 export { default as useMount } from './useMount';
@@ -33,6 +34,5 @@ export { default as useUpdateLayoutEffect } from './useUpdateLayoutEffect';
 export { default as useClientRect } from './useClientRect';
 export { default as useClickAway } from './useClickAway';
 export { default as useControllableValue } from './useControllableValue';
-export { default as useLimitList } from './useLimitList';
 export { default as usePersistFn } from './usePersistFn';
 export { default as useSize } from './useSize';

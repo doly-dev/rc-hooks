@@ -1,9 +1,9 @@
 ---
 title: useLimitList
 group:
-  title: Other
-  path: /other
-legacy: /other/use-limit-list
+  title: State
+  path: /state
+legacy: /state/use-limit-list
 ---
 
 # useLimitList

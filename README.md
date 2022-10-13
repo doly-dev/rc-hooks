@@ -63,6 +63,7 @@ import { useAsync } from 'rc-hooks';
 [useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-previous
 [usesafestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-safe-state
 [uselatest]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-latest
+[uselimitlist]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-limit-list
 [usemount]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-mount
 [usemountedref]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-mounted-ref
 [useupdate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-update
@@ -74,6 +75,5 @@ import { useAsync } from 'rc-hooks';
 [useclickaway]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-click-away
 [usesize]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-size
 [usecontrollablevalue]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-controllable-value
-[uselimitlist]: https://doly-dev.github.io/rc-hooks/latest/index.html#/other/use-limit-list
 [npm]: https://img.shields.io/npm/v/rc-hooks.svg
 [npm-url]: https://npmjs.com/package/rc-hooks
