@@ -5,7 +5,9 @@ const MajorVersionNumber = pkg.version.split('.')[0];
 const versionSiteRoot = `refs/heads/v${MajorVersionNumber}`;
 const version = BUIDL_DOC_VERSION ? versionSiteRoot : 'latest';
 
-const serverRootDirect = process.env.NODE_ENV === 'production' ? '/rc-hooks/' : '/';
+const isDev = process.env.NODE_ENV === 'development';
+
+const serverRootDirect = !isDev ? '/rc-hooks/' : '/';
 const outputPath = 'site';
 const publicPath = serverRootDirect + version + '/';
 
@@ -31,10 +33,20 @@ const umiConfig = {
   publicPath,
   outputPath,
   hash: true,
-  locales: [['zh-CN', '中文'], ['en-US', 'English']]
+  locales: [['zh-CN', '中文'], ['en-US', 'English']],
+  // esbuild: !isDev,
+  nodeModulesTransform: {
+    type: isDev ? 'none' : 'all'
+  },
+  targets: {
+    ie: 11,
+  },
+  polyfill: {
+    imports: ['element-remove', 'core-js']
+  },
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (!isDev) {
   umiConfig.headScripts = [
     { src: 'https://www.googletagmanager.com/gtag/js?id=G-P755RQJZZ2', async: true },
     {

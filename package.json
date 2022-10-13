@@ -83,6 +83,7 @@
     "dayjs": "^1.11.5",
     "dumi": "^1.1.47",
     "dumi-theme-default": "^1.1.23",
+    "element-remove": "^1.0.4",
     "eslint": "^8.23.0",
     "eslint-plugin-react": "^7.31.1",
     "eslint-plugin-react-hooks": "^4.6.0",
