@@ -9,6 +9,7 @@ export type RefType<T = HTMLElement> =
 
 function getRef(ref: RefType) {
   if (typeof ref === 'function') {
+    // @ts-ignore
     return ref();
   } else if (ref && 'current' in ref) {
     return ref.current;

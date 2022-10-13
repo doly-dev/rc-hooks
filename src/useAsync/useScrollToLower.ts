@@ -8,6 +8,7 @@ export type TargetType = ScrollElement | (() => ScrollElement);
 
 function getTarget(target: TargetType) {
   if (typeof target === 'function') {
+    // @ts-ignore
     return target();
   }
   return target;
@@ -22,7 +23,7 @@ interface ScrollToLowerProps {
 const useScrollToLower = ({
   target: outTarget,
   threshold = 100,
-  onScrollLower = () => {}
+  onScrollLower = () => { }
 }: ScrollToLowerProps = {}) => {
   const onScrollLowerPersist = usePersistFn(onScrollLower);
   const scrollMethod = useCallback(() => {
