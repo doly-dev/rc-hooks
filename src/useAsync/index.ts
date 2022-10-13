@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
+import useLatest from '../useLatest';
 import { getCache } from '../utils/cache';
 import AsyncCalss, { Options, AsyncFunction } from './Async';
 
@@ -78,10 +79,7 @@ function useAsync<R = any, P extends any[] = any[]>(
   const onFinallyPersist = usePersistFn(onFinally);
   const onBeforePersist = usePersistFn(onBefore);
 
-  const internalFormatRef = useRef(__INTERNAL_FORMAT__);
-  if (internalFormatRef.current !== __INTERNAL_FORMAT__) {
-    internalFormatRef.current = __INTERNAL_FORMAT__;
-  }
+  const internalFormatRef = useLatest(__INTERNAL_FORMAT__);
 
   // 异步执行前
   const handleBefore = useCallback(
