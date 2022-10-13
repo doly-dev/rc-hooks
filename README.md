@@ -32,6 +32,8 @@ import { useAsync } from 'rc-hooks';
   - [useThrottle] - 用来处理节流值
   - [useThrottleFn] - 用来处理节流函数
 - State
+  - [useLatest] - 返回最新的 state 或 props
+  - [useLimitList] - 管理列表展示数量
   - [useMergeState] - 管理 object 类型 state ，内部使用展开操作符进行合并
   - [usePrevious] - 保存上一次状态
   - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
@@ -46,7 +48,6 @@ import { useAsync } from 'rc-hooks';
 - Other
   - [useClickAway] - 管理目标元素外的事件
   - [useControllableValue] - 便于管理 `受控/非受控` 状态
-  - [useLimitList] - 管理列表展示数量
   - [usePersistFn] - 持久化 function
   - [useSize] - 获取并监听 dom 节点的宽高
 
@@ -61,6 +62,7 @@ import { useAsync } from 'rc-hooks';
 [usemergestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-merge-state
 [useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-previous
 [usesafestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-safe-state
+[uselatest]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-latest
 [usemount]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-mount
 [usemountedref]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-mounted-ref
 [useupdate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/life-cycle/use-update
