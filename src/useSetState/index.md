@@ -1,13 +1,13 @@
 ---
-title: useMergeState
+title: useSetState
 group:
   order: 2
   title: State
   path: /state
-legacy: /state/use-merge-state
+legacy: /state/use-set-state
 ---
 
-# useMergeState
+# useSetState
 
 管理 object 类型 state 的 Hook ，用法和 class 组件的 `this.setState` 基本一致，内部使用展开操作符进行合并。
 
@@ -20,5 +20,5 @@ legacy: /state/use-merge-state
 ## API
 
 ```typescript
-const [state, setState] = useMergeState(initialState?);
+const [state, setState] = useSetState(initialState?);
 ```

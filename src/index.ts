@@ -16,7 +16,11 @@ export { default as useThrottle } from './useThrottle';
 // State
 export { default as useLatest } from './useLatest';
 export { default as useLimitList } from './useLimitList';
-export { default as useMergeState } from './useMergeState';
+/**
+ * @deprecated Please use `useSetState`
+ */
+export { default as useMergeState } from './useSetState';
+export { default as useSetState } from './useSetState';
 export { default as usePrevious } from './usePrevious';
 export { default as useSafeState } from './useSafeState';
 

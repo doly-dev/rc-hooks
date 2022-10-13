@@ -1,10 +1,10 @@
 import { renderHook, act } from '@testing-library/react';
-import useMergeState from '..';
+import useSetState from '..';
 
-describe('useMergeState', () => {
+describe('useSetState', () => {
   it('work', () => {
     const { result } = renderHook(() => {
-      return useMergeState({
+      return useSetState({
         foo: 0,
         bar: ''
       });

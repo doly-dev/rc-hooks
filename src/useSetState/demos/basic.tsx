@@ -1,9 +1,9 @@
 import React from 'react';
 import { Space, Button } from 'antd';
-import { useMergeState } from 'rc-hooks';
+import { useSetState } from 'rc-hooks';
 
 function Demo() {
-  const [state, setState] = useMergeState<{
+  const [state, setState] = useSetState<{
     foo: number;
     count: number;
     bar?: string;

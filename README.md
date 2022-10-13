@@ -34,7 +34,7 @@ import { useAsync } from 'rc-hooks';
 - State
   - [useLatest] - 返回最新的 state 或 props
   - [useLimitList] - 管理列表展示数量
-  - [useMergeState] - 管理 object 类型 state ，内部使用展开操作符进行合并
+  - [useSetState] - 管理 object 类型 state ，和 class 组件的 `this.setState` 基本一致
   - [usePrevious] - 保存上一次状态
   - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
 - LifeCycle
@@ -59,7 +59,7 @@ import { useAsync } from 'rc-hooks';
 [usethrottle]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-throttle
 [usedebouncefn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-debounce-fn
 [usethrottlefn]: https://doly-dev.github.io/rc-hooks/latest/index.html#/side-effect/use-throttle-fn
-[usemergestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-merge-state
+[usesetstate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-set-state
 [useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-previous
 [usesafestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-safe-state
 [uselatest]: https://doly-dev.github.io/rc-hooks/latest/index.html#/state/use-latest
