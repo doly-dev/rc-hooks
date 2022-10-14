@@ -12,7 +12,7 @@ const outputPath = 'site';
 const publicPath = serverRootDirect + version + '/';
 
 const logo = 'https://doly-dev.github.io/logo.png';
-const favicon = 'https://doly-dev.github.io/favicon.ico';
+const favicon = 'https://doly-dev.github.io/favicon.png';
 
 const umiConfig = {
   extraBabelPlugins: [[
