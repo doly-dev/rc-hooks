@@ -11,8 +11,8 @@ const serverRootDirect = !isDev ? '/rc-hooks/' : '/';
 const outputPath = 'site';
 const publicPath = serverRootDirect + version + '/';
 
-const logo = 'https://www.caijinfeng.com/assets/images/logo-doly@3x.png';
-const favicon = 'https://www.caijinfeng.com/assets/images/doly-touch-icon_48x48.png';
+const logo = 'https://doly-dev.github.io/logo.png';
+const favicon = 'https://doly-dev.github.io/favicon.ico';
 
 const umiConfig = {
   extraBabelPlugins: [[
