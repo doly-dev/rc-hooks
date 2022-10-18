@@ -35,7 +35,7 @@ import { useAsync } from 'rc-hooks';
   - [useLatest] - 返回最新的 state 或 props
   - [useLimitList] - 管理列表展示数量
   - [useSetState] - 管理 object 类型 state ，和 class 组件的 `this.setState` 基本一致
-  - [usePrevious] - 保存上一次状态
+  - [usePrevious] - 返回上一次的 state 或 props
   - [useSafeState] - 安全状态，组件卸载后 setState 不再执行
 - LifeCycle
   - [useMount] - 只在组件 mount 时执行

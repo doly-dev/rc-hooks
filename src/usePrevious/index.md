@@ -9,7 +9,7 @@ legacy: /state/use-previous
 
 # usePrevious
 
-保存上一次状态的 Hook。
+返回上一次的 state 或 props 。
 
 ## 代码演示
 
