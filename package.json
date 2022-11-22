@@ -14,7 +14,7 @@
     "build:cjs": "rm -rf lib && tsc -m commonjs -t ES5 --outDir lib -d",
     "build:umd": "rm -rf dist && rollup -c",
     "doc": "dumi build",
-    "doc-version": "cross-env BUIDL_DOC_VERSION=true dumi build",
+    "doc-version": "cross-env BUILD_DOC_VERSION=true dumi build",
     "prettier": "prettier --write **/*",
     "lint-staged": "lint-staged",
     "precommit": "lint-staged",

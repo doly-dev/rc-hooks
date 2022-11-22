@@ -1,9 +1,9 @@
 const pkg = require('./package.json');
 
-const { BUIDL_DOC_VERSION } = process.env;
+const { BUILD_DOC_VERSION } = process.env;
 const MajorVersionNumber = pkg.version.split('.')[0];
 const versionSiteRoot = `refs/heads/v${MajorVersionNumber}`;
-const version = BUIDL_DOC_VERSION ? versionSiteRoot : 'latest';
+const version = BUILD_DOC_VERSION ? versionSiteRoot : 'latest';
 
 const isDev = process.env.NODE_ENV === 'development';
 
