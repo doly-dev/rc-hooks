@@ -55,6 +55,7 @@
   "homepage": "https://github.com/doly-dev/hooks#readme",
   "dependencies": {
     "@types/lodash": "^4.14.194",
+    "cache2": "^1.0.1",
     "lodash": "^4.17.21",
     "tslib": "^2.5.0"
   },
@@ -82,7 +83,7 @@
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dayjs": "^1.11.7",
-    "dumi": "^1.1.47",
+    "dumi": "^1.1.50",
     "dumi-theme-default": "^1.1.24",
     "element-remove": "^1.0.4",
     "eslint": "^8.39.0",

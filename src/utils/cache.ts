@@ -1,67 +1,21 @@
-type CacheContent = {
-  data: any;
-  timer: NodeJS.Timeout;
-  cacheTime: number;
-  startTime: number;
-};
+import Cache2 from 'cache2';
 
-const cache: Record<string, CacheContent> = {};
-const defaultCacheTime = 5 * 60 * 1000; // 默认缓存5分钟
+const memoryCache = new Cache2({ stdTTL: 5 * 60 * 1000 });
 
 const getCache = <T = any>(key: string) => {
-  const currentCache = cache[key];
-
-  if (!currentCache) {
-    return;
-  }
-
-  const { startTime, cacheTime, data } = currentCache;
-  const currentTime = new Date().getTime();
-
-  if (currentTime - startTime >= cacheTime) {
-    if (currentCache.timer) {
-      clearTimeout(currentCache.timer);
-    }
-    delete cache[key];
-    return;
-  }
-
-  return data as T;
+  return memoryCache.get(key) as T;
 };
 
-const setCache = <T = any>(key: string, data: T, cacheTime = defaultCacheTime) => {
-  if (cache[key]) {
-    clearTimeout(cache[key].timer);
-  }
-
-  const timer = setTimeout(() => {
-    delete cache[key];
-  }, cacheTime);
-
-  cache[key] = {
-    data,
-    timer,
-    cacheTime,
-    startTime: new Date().getTime()
-  };
+const setCache = <T = any>(key: string, data: T, cacheTime?: number) => {
+  memoryCache.set(key, data, cacheTime);
 };
 
 const clearCache = (key?: string | string[]) => {
-  let keys: string[] = [];
-  if (typeof key === 'undefined') {
-    keys = Object.keys(cache);
+  if (key) {
+    memoryCache.del(key);
   } else {
-    keys = Array.isArray(key) ? key : [key];
+    memoryCache.clear();
   }
-
-  keys.forEach((k) => {
-    if (cache[k]) {
-      if (cache[k].timer) {
-        clearTimeout(cache[k].timer);
-      }
-      delete cache[k];
-    }
-  });
 };
 
 export { getCache, setCache, clearCache };
