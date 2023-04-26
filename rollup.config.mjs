@@ -1,16 +1,9 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
+import terser from '@rollup/plugin-terser';
 
-function toCamel(str) {
-  return str.replace(/-(.{1})/g, (m, p1) => {
-    return /[a-z]/.test(p1) ? p1.toUpperCase() : p1;
-  });
-}
-
-const globalVarName = toCamel(pkg.name);
+const globalVarName = 'rcHooks';
 
 export default {
   input: './src/index.ts',
@@ -22,7 +15,8 @@ export default {
       name: globalVarName,
       globals: {
         react: 'React'
-      }
+      },
+      sourcemap: true,
     },
     {
       file: `dist/${globalVarName}.min.js`,
@@ -35,5 +29,5 @@ export default {
       plugins: [terser()]
     }
   ],
-  plugins: [resolve(), commonjs(), typescript({ compilerOptions: { target: 'ES3' } })]
+  plugins: [resolve(), commonjs(), typescript()]
 };
