@@ -10,20 +10,20 @@
     "start": "npm run dev",
     "dev": "dumi dev",
     "build": "npm run build:es && npm run build:cjs && npm run build:umd",
-    "build:es": "rm -rf es && tsc -m ES2015 -t ES5 --outDir es -d",
-    "build:cjs": "rm -rf lib && tsc -m commonjs -t ES5 --outDir lib -d",
+    "build:es": "rm -rf es && tsc -p tsconfig.build.json -m ES2015 -t ES5 --outDir es -d",
+    "build:cjs": "rm -rf lib && tsc -p tsconfig.build.json -m commonjs -t ES5 --outDir lib -d",
     "build:umd": "rm -rf dist && rollup -c",
     "doc": "dumi build",
     "doc-version": "cross-env BUILD_DOC_VERSION=true dumi build",
     "prettier": "prettier --write **/*",
-    "lint-staged": "lint-staged",
     "precommit": "lint-staged",
     "lint": "eslint src --ext ts,tsx",
     "lint:fix": "npm run lint -- --fix",
     "commit": "cz",
     "test": "jest --verbose",
     "prepare": "husky install",
-    "prepublishOnly": "npm test && npm run build"
+    "prepublishOnly": "npm test && npm run build",
+    "tsc": "tsc --noEmit"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": "eslint",
@@ -100,7 +100,7 @@
     "rollup": "^3.21.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "util-helpers": "^4.16.2"
+    "util-helpers": "^4.17.3"
   },
   "peerDependencies": {
     "react": ">= 16.8.6"

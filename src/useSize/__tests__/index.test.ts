@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import useSize from '..';
 
-let callback;
+let callback: (e: any) => void;
 jest.mock('../ResizeObserver', () => {
   return jest.fn().mockImplementation((cb) => {
     callback = cb;
