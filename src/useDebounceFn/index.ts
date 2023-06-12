@@ -1,15 +1,15 @@
 import { useRef } from 'react';
-import debounce from 'lodash/debounce';
+import { debounce } from 'ut2';
 import useUnmount from '../useUnmount';
 
 function useDebounceFn<T extends (...args: any[]) => any>(
   fn: T,
   wait = 0,
-  options: Parameters<typeof debounce>[2] = {}
+  immediate = false
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
-  const debounceRun = useRef(debounce(((...args) => refFn.current(...args)) as T, wait, options));
+  const debounceRun = useRef(debounce(((...args) => refFn.current(...args)), wait, immediate));
 
   useUnmount(() => {
     debounceRun.current.cancel();

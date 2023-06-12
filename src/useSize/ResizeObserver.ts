@@ -1,5 +1,4 @@
-import throttle from 'lodash/throttle';
-import type { DebouncedFunc } from 'lodash';
+import { throttle } from 'ut2';
 import isBrowser from '../utils/isBrowser';
 
 // Minimum delay before invoking the update of observers.
@@ -24,7 +23,7 @@ type CallbackType = (
 
 class ResizeObserver {
   readonly observer;
-  private throttleRefresh: DebouncedFunc<() => void>;
+  private throttleRefresh: ReturnType<typeof throttle<() => void>>;
   targetNode: null | HTMLElement;
   readonly callback;
 

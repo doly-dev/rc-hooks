@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { renderHook, act } from '@testing-library/react';
-import type { ThrottleSettings } from 'lodash';
 import useThrottle from '..';
 
-const setUp = (wait = 300, options?: ThrottleSettings) =>
+const setUp = (wait = 300) =>
   renderHook(() => {
     const [state, setState] = useState(0);
-    const throttleState = useThrottle(state, wait, options);
+    const throttleState = useThrottle(state, wait);
     return {
       state,
       setState,

@@ -4,11 +4,11 @@ import useThrottleFn from '../useThrottleFn';
 function useThrottle<ValueType = any>(
   value: ValueType,
   wait = 0,
-  options: Parameters<typeof useThrottleFn>[2] = {}
+  immediate = true
 ) {
   const [state, setState] = useState(value);
 
-  const { run } = useThrottleFn(setState, wait, options);
+  const { run } = useThrottleFn(setState, wait, immediate);
 
   useEffect(() => {
     run(value);

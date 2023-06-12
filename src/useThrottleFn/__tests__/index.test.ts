@@ -1,11 +1,10 @@
 import { renderHook } from '@testing-library/react';
-import type { ThrottleSettings } from 'lodash';
 import useThrottleFn from '..';
 
-const setUp = (wait = 300, options?: ThrottleSettings) =>
+const setUp = (wait = 300) =>
   renderHook(() => {
     const fn = jest.fn();
-    const { run, cancel, flush } = useThrottleFn(fn, wait, options);
+    const { run, cancel, flush } = useThrottleFn(fn, wait);
     return {
       run,
       fn,

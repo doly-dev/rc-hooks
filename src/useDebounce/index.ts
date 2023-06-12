@@ -4,10 +4,10 @@ import useDebounceFn from '../useDebounceFn';
 function useDebounce<ValueType = any>(
   value: ValueType,
   wait = 0,
-  options: Parameters<typeof useDebounceFn>[2] = {}
+  immediate = false
 ) {
   const [state, setState] = useState(value);
-  const { run } = useDebounceFn(setState, wait, options);
+  const { run } = useDebounceFn(setState, wait, immediate);
 
   useEffect(() => {
     run(value);

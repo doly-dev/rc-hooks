@@ -1,11 +1,10 @@
 import { renderHook } from '@testing-library/react';
-import type { DebounceSettings } from 'lodash';
 import useDebounceFn from '..';
 
-const setUp = (wait = 300, options?: DebounceSettings) =>
+const setUp = (wait = 300) =>
   renderHook(() => {
     const fn = jest.fn();
-    const { run, cancel, flush } = useDebounceFn(fn, wait, options);
+    const { run, cancel, flush } = useDebounceFn(fn, wait);
     return {
       run,
       fn,

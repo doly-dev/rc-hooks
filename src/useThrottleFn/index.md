@@ -26,7 +26,7 @@ legacy: /side-effect/use-debounce-fn
 const { run, cancel, flush } = useThrottleFn(
   fn: (...args: any) => any,
   wait?: number,
-  options?: ThrottleSettings
+  immediate?: boolean
 );
 ```
 
@@ -40,15 +40,8 @@ const { run, cancel, flush } = useThrottleFn(
 
 ### Params
 
-| 参数    | 说明                     | 类型               | 默认值     |
-| ------- | ------------------------ | ------------------ | ---------- |
-| fn      | 需要节流的函数           | `function`         | `() => {}` |
-| wait    | 节流等待时间，单位为毫秒 | `number`           | `0`        |
-| options | 节流配置                 | `ThrottleSettings` | -          |
-
-### ThrottleSettings
-
-| 参数     | 说明           | 类型      | 默认值 |
-| -------- | -------------- | --------- | ------ |
-| leading  | 延迟开始前调用 | `boolean` | `true` |
-| trailing | 延迟结束后调用 | `boolean` | `true` |
+| 参数      | 说明                     | 类型       | 默认值     |
+| --------- | ------------------------ | ---------- | ---------- |
+| fn        | 需要节流的函数           | `function` | `() => {}` |
+| wait      | 节流等待时间，单位为毫秒 | `number`   | `0`        |
+| immediate | 是否在节流开始前调用。   | `boolean`  | `true`     |

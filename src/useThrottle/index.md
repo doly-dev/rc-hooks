@@ -22,21 +22,14 @@ legacy: /side-effect/use-throttle
 const throttledValue = useThrottle(
   value: any,
   wait?: number,
-  options?: ThrottleSettings
+  immediate?: boolean
 );
 ```
 
 ### Params
 
-| 参数    | 说明                     | 类型               | 默认值 |
-| ------- | ------------------------ | ------------------ | ------ |
-| value   | 需要防抖的值             | `any`              | -      |
-| wait    | 防抖等待时间，单位为毫秒 | `number`           | `0`    |
-| options | 节流配置                 | `ThrottleSettings` | -      |
-
-### ThrottleSettings
-
-| 参数     | 说明           | 类型      | 默认值 |
-| -------- | -------------- | --------- | ------ |
-| leading  | 延迟开始前调用 | `boolean` | `true` |
-| trailing | 延迟结束后调用 | `boolean` | `true` |
+| 参数      | 说明                     | 类型      | 默认值 |
+| --------- | ------------------------ | --------- | ------ |
+| value     | 需要防抖的值             | `any`     | -      |
+| wait      | 防抖等待时间，单位为毫秒 | `number`  | `0`    |
+| immediate | 是否在节流开始前调用。   | `boolean` | `true` |

@@ -1,6 +1,4 @@
-import { DebouncedFunc } from 'lodash';
-import debounce from 'lodash/debounce';
-import throttle from 'lodash/throttle';
+import { debounce, throttle } from 'ut2';
 import { isDocumentVisible } from '../utils';
 import { getCache, setCache } from '../utils/cache';
 import limit from '../utils/limit';
@@ -64,8 +62,8 @@ export type AsyncFunction<R = any, P extends any[] = any[]> = (...args: P) => Pr
 
 class Async<R = any, P extends any[] = any[]> {
   private async: AsyncFunction<R, P>;
-  private debounce: DebouncedFunc<AsyncFunction<R, P>> | undefined;
-  private throttle: DebouncedFunc<AsyncFunction<R, P>> | undefined;
+  private debounce: ReturnType<typeof debounce<AsyncFunction<R, P>>> | undefined;
+  private throttle: ReturnType<typeof throttle<AsyncFunction<R, P>>> | undefined;
   private unsubscribes: (() => void)[];
   private options: InternalOptions<R, P>;
 
