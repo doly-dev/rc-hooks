@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react';
 import useSafeState from '..';
 
 describe('useSafeState', () => {
-  const setUp = (initialState) =>
+  const setUp = <T = any>(initialState: T) =>
     renderHook(() => {
       const [state, setState] = useSafeState(initialState);
 

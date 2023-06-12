@@ -21,7 +21,7 @@ describe('useControllableValue', () => {
     let extraParam = '';
     const props = {
       value: 2,
-      onChange(v: any, extra) {
+      onChange(v: number, extra: string) {
         this.value = v;
         extraParam = extra;
       },
@@ -66,7 +66,7 @@ describe('useControllableValue', () => {
     expect(result.current[0]).toBe(1);
 
     act(() => {
-      result.current[1](prevState => prevState + 1);
+      result.current[1]((prevState: number) => prevState + 1);
     });
     expect(result.current[0]).toBe(2);
   });
@@ -89,7 +89,7 @@ describe('useControllableValue', () => {
   it('set alias', () => {
     const props = {
       foo: 42,
-      changeFoo(v) {
+      changeFoo(v: number) {
         this.foo = v;
       }
     }
