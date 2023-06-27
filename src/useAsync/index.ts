@@ -30,6 +30,26 @@ export type {
 const noop = () => { };
 
 // 异步方法hooks
+function useAsync<R = any, P extends any[] = any[]>(asyncFn: AsyncFunction<R, P>, options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'>): {
+  params: P;
+  loading: boolean;
+  error: null | Error;
+  data?: R | undefined;
+  run: (...args: P) => Promise<R>;
+  refresh: () => Promise<R>;
+  cancel: () => void;
+  mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
+};
+function useAsync<R = any, P extends any[] = any[]>(asyncFn: AsyncFunction<R, P>, options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'> & ({ debounceInterval: number; } | { throttleInterval: number; } | { debounceInterval: number; throttleInterval: number; })): {
+  params: P;
+  loading: boolean;
+  error: null | Error;
+  data?: R | undefined;
+  run: (...args: P) => Promise<null>;
+  refresh: () => Promise<null>;
+  cancel: () => void;
+  mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
+};
 function useAsync<R = any, P extends any[] = any[]>(
   asyncFn: AsyncFunction<R, P>,
   options?: AsyncOptions<R, P>
