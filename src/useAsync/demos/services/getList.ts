@@ -1,7 +1,7 @@
-import { waitTime } from "util-helpers";
+import { sleep } from "ut2";
 
 const getList = async ({ pageSize = 10, current = 1 }) => {
-  await waitTime();
+  await sleep();
   const total = 15;
   const data: {
     id: string,

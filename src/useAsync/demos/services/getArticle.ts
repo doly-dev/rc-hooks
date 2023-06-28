@@ -1,9 +1,9 @@
 import Mock from 'mockjs';
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export default async function getArticle() {
   // console.log('getArticle ', Date.now());
-  await waitTime();
+  await sleep();
   return {
     data: Mock.mock('@paragraph') as string,
     time: new Date().getTime()

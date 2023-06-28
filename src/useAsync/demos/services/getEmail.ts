@@ -1,8 +1,8 @@
 import Mock from 'mockjs';
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export default async function getEmail(search: string) {
   console.log(search);
-  await waitTime();
+  await sleep();
   return Mock.mock({ 'data|5': ['@email'] }).data as string[];
 }

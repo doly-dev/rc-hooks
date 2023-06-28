@@ -1,5 +1,5 @@
 import Mockjs from 'mockjs';
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 type DataItem = {
   text: string;
@@ -18,7 +18,7 @@ export default async function search(params: {
   const { keyword, order, pageNum, pageSize } = params;
   console.log(params);
 
-  await waitTime();
+  await sleep();
 
   return Mockjs.mock({
     [`list|${pageNum < 3 ? pageSize : pageSize - 1}`]: [

@@ -1,7 +1,7 @@
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export default async function deleteUser(userId: string) {
   console.log(userId);
-  await waitTime();
+  await sleep();
   return { success: true };
 }

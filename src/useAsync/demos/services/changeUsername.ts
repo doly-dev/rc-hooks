@@ -1,7 +1,7 @@
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export default async function changeUsername(username: string) {
   console.log(username);
-  await waitTime();
+  await sleep();
   return { success: true };
 }

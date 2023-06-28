@@ -1,10 +1,10 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 import useAsync from '..';
 import { clearCache } from '../..';
 
 const asyncFunc = async (result = 1) => {
-  await waitTime();
+  await sleep();
   if (result === 0) {
     throw 'error'
   }

@@ -1,7 +1,7 @@
 import Mock from 'mockjs';
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export default async function getUsername() {
-  await waitTime();
+  await sleep();
   return Mock.mock('@name') as string;
 }

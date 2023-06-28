@@ -1,6 +1,6 @@
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export default async function getCurrentTime() {
-  await waitTime();
+  await sleep();
   return new Date().getTime();
 }

@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import { useEffect, useState } from 'react';
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 import useLimitList from '..';
 
 describe('useLimitList', () => {
@@ -83,7 +83,7 @@ describe('useLimitList', () => {
   it('async list', async () => {
     const { result } = renderHook(() => {
       const getList = async () => {
-        await waitTime(1000);
+        await sleep(1000);
         return [1, 2, 3, 4];
       };
       const [list, setList] = useState<number[]>([]);
@@ -100,7 +100,7 @@ describe('useLimitList', () => {
     expect(result.current.data.length).toBe(0);
 
     await act(async () => {
-      await waitTime(1000);
+      await sleep(1000);
     });
 
     expect(result.current.canLimit).toBe(true);
