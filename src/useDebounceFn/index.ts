@@ -9,7 +9,7 @@ function useDebounceFn<T extends (...args: any[]) => any>(
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
-  const debounceRun = useRef(debounce(((...args) => refFn.current(...args)), wait, immediate));
+  const debounceRun = useRef(debounce(((...args) => refFn.current.apply(void 0, args)), wait, immediate));
 
   useUnmount(() => {
     debounceRun.current.cancel();

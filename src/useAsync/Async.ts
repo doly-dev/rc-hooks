@@ -202,7 +202,7 @@ class Async<R = any, P extends any[] = any[]> {
       }
 
       // 没有持久化的缓存数据，如果有缓存key将共享异步返回的Promise
-      runAsyncCache(() => this.async(...args), cacheKey)
+      runAsyncCache(() => this.async.apply(this, args), cacheKey)
         .then((res) => {
           if (count === this.counter) {
             const fmtRes = typeof formatResult === 'function' ? formatResult(res, args) : res;
@@ -229,7 +229,7 @@ class Async<R = any, P extends any[] = any[]> {
                 return;
               }
               this.pollingTimer = setTimeout(() => {
-                this.run(...args);
+                this.run.apply(this, args);
               }, pollingInterval);
             }
           }
@@ -240,21 +240,21 @@ class Async<R = any, P extends any[] = any[]> {
   // 执行异步
   run(...args: P) {
     if (this.debounce) {
-      this.debounce(...args);
+      this.debounce.apply(this, args);
       return Promise.resolve(null);
     }
     if (this.throttle) {
-      this.throttle(...args);
+      this.throttle.apply(this, args);
       return Promise.resolve(null);
     }
 
     this.counter += 1;
-    return this._run(...args);
+    return this._run.apply(this, args);
   }
 
   // 使用之前参数，重新执行异步
   refresh() {
-    return this.run(...this.params);
+    return this.run.apply(this, this.params);
   }
 
   // 取消请求

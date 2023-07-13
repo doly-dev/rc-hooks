@@ -10,7 +10,7 @@ function usePersistFn<T extends (...args: any[]) => any>(fn: T): T extends infer
   const persistFn = useCallback(
     (...args: any[]) => {
       const refFn = ref.current;
-      return refFn?.(...args);
+      return refFn?.apply(void 0, args);
     },
     [ref]
   );

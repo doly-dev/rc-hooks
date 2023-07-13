@@ -3,7 +3,7 @@ export default function limit(fn: (...args: any[]) => void, timespan: number) {
   return (...args: any[]) => {
     if (pending) return;
     pending = true;
-    fn(...args);
+    fn.apply(void 0, args);
     setTimeout(() => {
       pending = false;
     }, timespan);

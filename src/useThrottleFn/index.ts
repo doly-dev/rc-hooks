@@ -9,7 +9,7 @@ function useThrottleFn<T extends (...args: any[]) => any>(
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
-  const throttleRun = useRef(throttle(((...args) => refFn.current(...args)), wait, immediate));
+  const throttleRun = useRef(throttle(((...args) => refFn.current.apply(void 0, args)), wait, immediate));
 
   useUnmount(() => {
     throttleRun.current.cancel();

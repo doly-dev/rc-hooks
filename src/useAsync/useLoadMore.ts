@@ -18,8 +18,8 @@ export type LoadMoreParams = [
 
 export interface LoadMoreOptions<R extends LoadMoreAsyncReturn = any>
   extends Omit<
-  AsyncOptions<R, LoadMoreParams>,
-  'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
+    AsyncOptions<R, LoadMoreParams>,
+    'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
   threshold?: number;
   target?: TargetType;
@@ -79,12 +79,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   const [firstParams, ...restParams] = params || [];
 
   const loadData = React.useCallback(() => {
-    return run(
-      {
-        current: currentPageRef.current
-      },
-      ...restParams
-    );
+    return run.apply(void 0, ([{ current: currentPageRef.current }] as any).concat(restParams));
   }, [restParams, run]);
 
   const cancel = React.useCallback(() => {
@@ -149,11 +144,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     refresh,
     cancel,
     mutate,
-    params: [
-      { ...firstParams, current: currentPageRef.current },
-      ...restParams
-    ],
-
+    params: [{ ...firstParams, current: currentPageRef.current }].concat(restParams),
     loadMore,
     loadingMore: loading && currentPageRef.current > 1,
     noMore

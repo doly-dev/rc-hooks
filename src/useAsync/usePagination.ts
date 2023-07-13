@@ -56,13 +56,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
   const changePagination = React.useCallback(
     (pagination: Partial<PaginationParams[0]>) => {
       const [oldParams, ...restParams] = params;
-      run(
-        {
-          ...oldParams,
-          ...pagination
-        },
-        ...restParams
-      );
+      run.apply(void 0, ([{ ...oldParams, ...pagination }] as any).concat(restParams));
     },
     [params, run]
   );

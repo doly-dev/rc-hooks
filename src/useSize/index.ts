@@ -25,15 +25,15 @@ function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
     }
 
     if (!target) {
-      return () => {};
+      return () => { };
     }
 
     refresh(target);
 
     const observer = new ResizeObserver((mutationsList) => {
-      for (const mutation of mutationsList) {
+      mutationsList.forEach(mutation => {
         refresh(mutation.target);
-      }
+      });
     });
 
     observer.observe(target);

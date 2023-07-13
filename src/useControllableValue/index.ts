@@ -46,7 +46,7 @@ function useControllableValue<T = any>(props: Props<T> = {}, options: Options<T>
         setState(v);
       }
       if (props[trigger]) {
-        props[trigger](v, ...args);
+        props[trigger].apply(props, [v].concat(args));
       }
     },
     [hasValueProp, props, trigger]

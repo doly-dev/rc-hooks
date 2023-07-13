@@ -215,7 +215,7 @@ function useAsync<R = any, P extends any[] = any[]>(
 
   // 执行异步
   const run = useCallback((...args: P) => {
-    return asyncInstanceRef.current.run(...args);
+    return asyncInstanceRef.current.run.apply(asyncInstanceRef.current, args);
   }, []);
 
   // 使用上一次执行异步的参数，重新执行
@@ -250,7 +250,7 @@ function useAsync<R = any, P extends any[] = any[]>(
     if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
-  }, [autoRun, ...refreshDeps]);
+  }, [autoRun].concat(refreshDeps));
 
   useEffect(() => {
     // 默认自动执行
@@ -259,7 +259,7 @@ function useAsync<R = any, P extends any[] = any[]>(
       const fmtDefaultParams = Array.isArray(defaultParams)
         ? defaultParams
         : ((typeof defaultParams !== 'undefined' ? [defaultParams] : []) as unknown as P);
-      run(...fmtDefaultParams);
+      run.apply(void 0, fmtDefaultParams);
     }
 
     // 如果销毁过，可以重新恢复异步实例

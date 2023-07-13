@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { castArray } from 'ut2';
 import getRef, { RefType } from '../utils/getRef';
 
 type EventType = MouseEvent | TouchEvent;
@@ -24,16 +25,16 @@ function useClickAway<E extends Event = EventType>(
       }
     };
 
-    const eventList = Array.isArray(events) ? events : [events];
+    const eventList = castArray(events);
 
-    for (const eventName of eventList) {
+    eventList.forEach(eventName => {
       document.addEventListener(eventName, handler);
-    }
+    });
 
     return () => {
-      for (const eventName of eventList) {
+      eventList.forEach(eventName => {
         document.removeEventListener(eventName, handler);
-      }
+      });
     };
   }, [ref, events]);
 }
