@@ -27,7 +27,7 @@ const ExpensiveTree = React.memo(({ showCount }: ExpensiveTreeProp) => {
 ExpensiveTree.displayName = 'ExpensiveTree';
 
 function Demo() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const showCountPersistFn = usePersistFn(() => {
     message.info(`Current count is ${count}`);

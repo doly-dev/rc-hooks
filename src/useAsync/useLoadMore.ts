@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useRef } from 'react';
 import useAsync from '.';
 import type { AsyncOptions } from '.';
 import useScrollToLower, { TargetType } from './useScrollToLower';
@@ -39,8 +39,8 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     ...restOptions
   } = (options || {}) as LoadMoreOptions<R>;
 
-  const dataGroup = React.useRef<R['list']>([]); // 缓存之前请求的列表数据
-  const currentPageRef = React.useRef(1); // 当前页码
+  const dataGroup = useRef<R['list']>([]); // 缓存之前请求的列表数据
+  const currentPageRef = useRef(1); // 当前页码
 
   const {
     run,
@@ -78,11 +78,11 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
   const noMore = isNoMore ? !loading && isNoMore(data) : false;
   const [firstParams, ...restParams] = params || [];
 
-  const loadData = React.useCallback(() => {
+  const loadData = useCallback(() => {
     return run.apply(void 0, ([{ current: currentPageRef.current }] as any).concat(restParams));
   }, [restParams, run]);
 
-  const cancel = React.useCallback(() => {
+  const cancel = useCallback(() => {
     // 加载中并且当前页码大于第一页，页码自减一
     if (loading && currentPageRef.current > 1) {
       currentPageRef.current -= 1;
@@ -90,7 +90,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     reqCancel();
   }, [reqCancel, loading]);
 
-  const loadMore = React.useCallback(() => {
+  const loadMore = useCallback(() => {
     if (loading || noMore) {
       return;
     }
@@ -98,7 +98,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     loadData();
   }, [loading, noMore, loadData]);
 
-  const mutate: typeof reqMutate = React.useCallback(
+  const mutate: typeof reqMutate = useCallback(
     (param) => {
       const res = typeof param === 'function' ? param(data as R) : param;
       dataGroup.current = res?.list || [];
@@ -107,7 +107,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     [data, reqMutate]
   );
 
-  const refresh = React.useCallback(() => {
+  const refresh = useCallback(() => {
     cancel();
     currentPageRef.current = 1;
     mutate((d) => ({
@@ -117,7 +117,7 @@ function useLoadMore<R extends LoadMoreAsyncReturn = any>(
     return loadData();
   }, [cancel, loadData, mutate]);
 
-  const scrollMethod = React.useCallback(() => {
+  const scrollMethod = useCallback(() => {
     if (loading || !target) {
       return;
     }

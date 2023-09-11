@@ -1,11 +1,11 @@
-import * as React from 'react';
+import { useState, useCallback } from 'react';
 
 type SetState<S extends Record<string, any>> = <K extends keyof S>(state: S | Pick<S, K> | null | ((prevState: Readonly<S>) => S | Pick<S, K> | null)) => void;
 
 function useSetState<S extends Record<string, any>>(initialValue: S | (() => S)) {
-  const [state, setState] = React.useState<S>(initialValue);
+  const [state, setState] = useState<S>(initialValue);
 
-  const set: SetState<S> = React.useCallback((nextState) => {
+  const set: SetState<S> = useCallback((nextState) => {
     setState((prevState) => {
       const newState = nextState instanceof Function ? nextState(prevState) : nextState;
       return newState instanceof Object ? { ...prevState, ...newState } : prevState;

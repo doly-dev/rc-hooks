@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo, useCallback } from 'react';
 import useAsync from '.';
 import type { AsyncOptions } from '.';
 import useUpdateEffect from '../useUpdateEffect';
@@ -35,7 +35,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     ...restOptions
   } = options || {};
 
-  const defaultParams = React.useMemo(
+  const defaultParams = useMemo(
     () => defaultParamsProp || ([{ current: 1, pageSize: defaultPageSize }] as PaginationParams),
     [defaultPageSize, defaultParamsProp]
   );
@@ -53,7 +53,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
 
   const total = data?.total || 0;
 
-  const changePagination = React.useCallback(
+  const changePagination = useCallback(
     (pagination: Partial<PaginationParams[0]>) => {
       const [oldParams, ...restParams] = params;
       run.apply(void 0, ([{ ...oldParams, ...pagination }] as any).concat(restParams));
@@ -61,11 +61,11 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     [params, run]
   );
 
-  const refresh = React.useCallback(() => {
+  const refresh = useCallback(() => {
     changePagination({ current, pageSize });
   }, [changePagination, current, pageSize]);
 
-  const onChange = React.useCallback(
+  const onChange = useCallback(
     (c: number, p: number) => {
       let toCurrent = c <= 0 ? 1 : c;
       const toPageSize = p <= 0 ? 1 : p;
@@ -83,21 +83,21 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
     [changePagination, total]
   );
 
-  const changeCurrent = React.useCallback(
+  const changeCurrent = useCallback(
     (c: number) => {
       onChange(c, pageSize);
     },
     [onChange, pageSize]
   );
 
-  const changePageSize = React.useCallback(
+  const changePageSize = useCallback(
     (p: number) => {
       onChange(current, p);
     },
     [current, onChange]
   );
 
-  const changeTable = React.useCallback(
+  const changeTable = useCallback(
     (
       pagination: { current?: number; pageSize?: number } & Record<string, any>,
       filters: any,

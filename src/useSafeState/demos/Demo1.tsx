@@ -7,7 +7,7 @@ const Counter = () => {
   React.useEffect(() => {
     const timer = setInterval(() => {
       setCount((n) => n + 1);
-    }, 100);
+    }, 10);
 
     return () => {
       clearInterval(timer);

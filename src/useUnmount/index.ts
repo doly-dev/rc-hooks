@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import useLatest from '../useLatest';
 
 const useUnmount = (fn: () => any) => {
-  const fnRef = useRef(fn);
-  fnRef.current = fn;
-
+  const fnRef = useLatest(fn);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => fnRef.current(), []);
 };
 

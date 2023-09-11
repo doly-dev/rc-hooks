@@ -1,14 +1,14 @@
 import { useRef } from 'react';
 import { throttle } from 'ut2';
 import useUnmount from '../useUnmount';
+import useLatest from '../useLatest';
 
 function useThrottleFn<T extends (...args: any[]) => any>(
   fn: T,
   wait = 0,
   immediate = true
 ) {
-  const refFn = useRef<T>(fn);
-  refFn.current = fn;
+  const refFn = useLatest<T>(fn);
   const throttleRun = useRef(throttle(((...args) => refFn.current.apply(void 0, args)), wait, immediate));
 
   useUnmount(() => {

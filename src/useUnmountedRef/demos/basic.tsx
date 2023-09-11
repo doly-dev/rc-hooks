@@ -5,8 +5,7 @@
 import * as React from 'react';
 import { useUnmountedRef } from 'rc-hooks';
 
-const Counter = () => {
-  const [count, setCount] = React.useState(0);
+const Counter: React.FC<{ count: number, setCount: React.Dispatch<React.SetStateAction<number>> }> = ({ count, setCount }) => {
   const unmountedRef = useUnmountedRef();
 
   React.useEffect(() => {
@@ -24,12 +23,13 @@ const Counter = () => {
 };
 
 function Demo() {
+  const [count, setCount] = React.useState(0);
   const [visible, setVisible] = React.useState(true);
 
   return (
     <>
       <button onClick={() => setVisible((x) => !x)}>点击切换显示/隐藏</button>
-      {visible && <Counter />}
+      {visible && <Counter count={count} setCount={setCount} />}
     </>
   );
 }
