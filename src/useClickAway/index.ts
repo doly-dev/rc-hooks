@@ -1,6 +1,7 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { castArray } from 'ut2';
 import getRef, { RefType } from '../utils/getRef';
+import useLatest from '../useLatest';
 
 type EventType = MouseEvent | TouchEvent;
 
@@ -9,12 +10,13 @@ function useClickAway<E extends Event = EventType>(
   onClickAway: (event: E) => void,
   events: string | string[] = 'click'
 ) {
-  const onClickAwayRef = React.useRef(onClickAway);
-  onClickAwayRef.current = onClickAway;
+  const latestRef = useLatest(ref);
+  const onClickAwayRef = useLatest(onClickAway);
+  const eventsRef = useLatest(events);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = (event: any) => {
-      const targets = Array.isArray(ref) ? ref : [ref];
+      const targets = Array.isArray(latestRef.current) ? latestRef.current : [latestRef.current];
       if (
         !targets.some((targetItem) => {
           const target = getRef(targetItem);
@@ -25,7 +27,7 @@ function useClickAway<E extends Event = EventType>(
       }
     };
 
-    const eventList = castArray(events);
+    const eventList = castArray(eventsRef.current);
 
     eventList.forEach(eventName => {
       document.addEventListener(eventName, handler);
@@ -36,7 +38,8 @@ function useClickAway<E extends Event = EventType>(
         document.removeEventListener(eventName, handler);
       });
     };
-  }, [ref, events]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 }
 
 export default useClickAway;

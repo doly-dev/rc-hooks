@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import ResizeObserver from './ResizeObserver';
-import getRef from '../utils/getRef';
-import type { RefType } from '../utils/getRef';
+import getRef, { RefType } from '../utils/getRef';
+import useLatest from '../useLatest';
 
 function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
+  const latestRef = useLatest(ref);
   const [size, setSize] = useState<{ width?: number; height?: number }>(() => {
     const target = getRef(ref);
     return {
@@ -13,9 +14,9 @@ function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
   });
 
   useEffect(() => {
-    const target = getRef(ref);
+    const target = getRef(latestRef.current);
 
-    function refresh(target?: HTMLElement | null) {
+    function refresh(target: HTMLElement | null) {
       if (target) {
         setSize({
           width: target.clientWidth,
@@ -41,7 +42,8 @@ function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
     return () => {
       observer.disconnect();
     };
-  }, [ref]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return size;
 }

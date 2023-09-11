@@ -40,3 +40,12 @@ legacy: /other/use-click-away
 | ref         | Dom 节点 或 Ref 对象，支持数组 | `RefType \| RefType[]` | -       |
 | onClickAway | 触发事件的函数                 | `(event)=>void`        | -       |
 | events      | 监听事件名称，支持数组         | `string \| string[]`   | `click` |
+
+```typescript
+export type RefType<T = HTMLElement> =
+  | RefObject<T>
+  | null
+  | (() => T | null)
+  | T
+  | MutableRefObject<T | undefined>;
+```
