@@ -17,6 +17,10 @@ legacy: /other/use-size
 
 <code src="./demos/Demo1.tsx" />
 
+### 显示/隐藏
+
+<code src="./demos/Demo2.tsx" />
+
 ## API
 
 ```typescript

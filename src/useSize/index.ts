@@ -10,19 +10,19 @@ function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
   const [size, setSize] = useState<{ width?: number; height?: number }>(() => {
     const target = getRef(ref);
     return {
-      width: (target || {}).clientWidth,
-      height: (target || {}).clientHeight
+      width: target?.clientWidth,
+      height: target?.clientHeight
     };
   });
 
   useEffect(() => {
     const target = getRef(refIsFunc ? (wrapperRef as any).current : wrapperRef);
 
-    function refresh(target: HTMLElement | null) {
-      if (target) {
+    function refresh(el: HTMLElement | null) {
+      if (el) {
         setSize({
-          width: target.clientWidth,
-          height: target.clientHeight
+          width: el.clientWidth,
+          height: el.clientHeight
         });
       }
     }
