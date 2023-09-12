@@ -10,19 +10,23 @@ function useClickAway<E extends Event = EventType>(
   onClickAway: (event: E) => void,
   events: string | string[] = 'click'
 ) {
-  const latestRef = useLatest(ref);
+  const refs = castArray(ref);
+  const latestRefs = useLatest(refs);
+  const refsIsFunc = refs.every(item => typeof item === 'function');
+  const wrapperRefs = refsIsFunc ? latestRefs : refs;
+
   const onClickAwayRef = useLatest(onClickAway);
-  const eventsRef = useLatest(events);
+  const eventsArr = castArray(events);
+  const eventsRef = useLatest(eventsArr);
+  const eventsStr = eventsArr.join('');
 
   useEffect(() => {
     const handler = (event: any) => {
-      const targets = Array.isArray(latestRef.current) ? latestRef.current : [latestRef.current];
-      if (
-        !targets.some((targetItem) => {
-          const target = getRef(targetItem);
-          return !target || target?.contains(event.target);
-        })
-      ) {
+      const targets: RefType[] = refsIsFunc ? (wrapperRefs as any).current : wrapperRefs;
+      if (!targets.some((targetItem) => {
+        const target = getRef(targetItem);
+        return !target || target?.contains(event.target);
+      })) {
         onClickAwayRef.current?.(event);
       }
     };
@@ -39,7 +43,7 @@ function useClickAway<E extends Event = EventType>(
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [wrapperRefs, refsIsFunc, eventsStr]);
 }
 
 export default useClickAway;
