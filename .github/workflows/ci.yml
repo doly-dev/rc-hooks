@@ -10,7 +10,6 @@ on:
       - .dumi/**
       - docs/**
       - src/**
-      - .fatherrc.ts
       - .umirc.js
       - .github/**
       - README.md
@@ -25,14 +24,14 @@ jobs:
         with:
           node-version: 16
       - name: Install
-        run: yarn
+        run: pnpm install
       - name: Test
-        run: yarn test
+        run: pnpm test
       - name: Build package
-        run: yarn build
+        run: pnpm build
       - name: Build latest docs
         if: ${{github.ref == 'refs/heads/master'}}
-        run: yarn doc
+        run: pnpm run doc
       - name: Deploy latest docs
         if: ${{github.ref == 'refs/heads/master'}}
         uses: JamesIves/github-pages-deploy-action@releases/v4
@@ -43,7 +42,7 @@ jobs:
           target-folder: latest
       - name: Build version docs
         if: ${{github.ref != 'refs/heads/master'}}
-        run: yarn doc-version
+        run: pnpm doc-version
       - name: Deploy version docs
         if: ${{github.ref != 'refs/heads/master'}}
         uses: JamesIves/github-pages-deploy-action@releases/v4
