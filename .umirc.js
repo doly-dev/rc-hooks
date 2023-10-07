@@ -15,14 +15,6 @@ const logo = 'https://doly-dev.github.io/logo.png';
 const favicon = 'https://doly-dev.github.io/favicon.png';
 
 const umiConfig = {
-  extraBabelPlugins: [[
-    'babel-plugin-import',
-    {
-      libraryName: 'antd',
-      libraryDirectory: 'es',
-      style: true,
-    },
-  ]],
   mode: 'doc',
   history: {
     type: 'hash'
@@ -33,17 +25,20 @@ const umiConfig = {
   publicPath,
   outputPath,
   hash: true,
-  locales: [['zh-CN', '中文'], ['en-US', 'English']],
+  locales: [
+    ['zh-CN', '中文'],
+    ['en-US', 'English']
+  ],
   // esbuild: !isDev,
   nodeModulesTransform: {
     type: isDev ? 'none' : 'all'
   },
   targets: {
-    ie: 11,
+    ie: 11
   },
   polyfill: {
     imports: ['element-remove', 'core-js']
-  },
+  }
 };
 
 if (!isDev) {
@@ -54,7 +49,8 @@ if (!isDev) {
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-P755RQJZZ2');
-    `}
+    `
+    }
   ];
   umiConfig.chunks = ['vendors', 'umi'];
   umiConfig.chainWebpack = function (config, { webpack }) {
@@ -65,8 +61,8 @@ gtag('config', 'G-P755RQJZZ2');
           cacheGroups: {
             vendor: {
               test: /node_modules/,
-              chunks: "all",
-              name: "vendors",
+              chunks: 'all',
+              name: 'vendors',
               priority: -10,
               enforce: true
             }
@@ -74,7 +70,7 @@ gtag('config', 'G-P755RQJZZ2');
         }
       }
     });
-  }
+  };
 }
 
 export default umiConfig;
