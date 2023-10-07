@@ -1,5 +1,4 @@
 /**
- * title: Loading Delay
  * desc: 通过设置 `options.loadingDelay` ，可以延迟 `loading` 变成 `true` 的时间，有效防止闪烁。
  */
 

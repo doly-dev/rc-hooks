@@ -1,5 +1,4 @@
 /**
- * title: 无value，有onChange的组件
  * desc: props 中有 onChange ，则在 state 变化时，就会触发 onChange
  */
 import * as React from 'react';

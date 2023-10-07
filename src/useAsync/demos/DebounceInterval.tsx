@@ -1,5 +1,4 @@
 /**
- * title: 防抖
  * desc: 通过设置 `options.debounceInterval` ，则进入防抖模式。此时如果频繁触发 `run` ，则会以防抖策略进行请求。
  */
 

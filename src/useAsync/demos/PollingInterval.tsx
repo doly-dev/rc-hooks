@@ -1,5 +1,4 @@
 /**
- * title: 轮询
  * desc: |
  *  通过设置 `options.pollingInterval` ，进入轮询模式，定时触发函数执行。
  *

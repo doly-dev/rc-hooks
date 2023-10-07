@@ -1,5 +1,4 @@
 /**
- * title: 多个目标对象
  * desc: 支持传入多个目标对象
  */
 import * as React from 'react';

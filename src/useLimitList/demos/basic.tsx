@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * desc: 列表数量大于 3 时，显示`显示更多`按钮
  */
 import * as React from 'react';

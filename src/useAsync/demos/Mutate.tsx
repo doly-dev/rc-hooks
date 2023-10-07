@@ -1,5 +1,4 @@
 /**
- * title: 突变
  * desc: 你可以通过 `mutate` ，直接修改 `data` 。 `mutate` 函数参数可以为 `newData` 或 `(oldData)=> newData` 。
  */
 

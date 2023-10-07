@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * desc: 点击按钮和按钮外的元素查看效果
  */
 import * as React from 'react';

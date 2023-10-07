@@ -1,7 +1,3 @@
-/**
- * title: 普通分页
- */
-
 import React from 'react';
 import { List, Pagination } from 'antd';
 import { usePagination } from 'rc-hooks';

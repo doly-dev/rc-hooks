@@ -1,5 +1,4 @@
 /**
- * title: 非受控组件
  * desc: props 中没有 value ，则组件内部自己赋值
  */
 import * as React from 'react';

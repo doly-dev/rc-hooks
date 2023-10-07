@@ -1,11 +1,13 @@
 /**
- * title: 基础用法
  * desc: 组件卸载后不再更新 `state`
  */
 import * as React from 'react';
 import { useUnmountedRef } from 'rc-hooks';
 
-const Counter: React.FC<{ count: number, setCount: React.Dispatch<React.SetStateAction<number>> }> = ({ count, setCount }) => {
+const Counter: React.FC<{
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+}> = ({ count, setCount }) => {
   const unmountedRef = useUnmountedRef();
 
   React.useEffect(() => {

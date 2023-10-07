@@ -1,5 +1,4 @@
 /**
- * title: 异步获取列表
  * desc: 初始列表为空，当数据加载完成后，更新显示限制列表数量
  */
 import * as React from 'react';

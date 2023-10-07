@@ -1,5 +1,4 @@
 /**
- * title: 上拉加载更多
  * desc: 如果 `options` 中存在 `ref` ，在滚动到底部时，自动触发 `loadMore` 。通过设置 `isNoMore`, 让 `useLoadMore` 知道何时停止。
  */
 import { Button, List } from 'antd';

@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * desc: 修改默认显示列表数量 和 默认显示全部
  */
 import * as React from 'react';

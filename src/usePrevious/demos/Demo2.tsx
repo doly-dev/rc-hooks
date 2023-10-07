@@ -1,7 +1,3 @@
-/**
- * title: 不受其他状态影响
- */
-
 import React, { useState } from 'react';
 import { usePrevious } from 'rc-hooks';
 
@@ -14,9 +10,11 @@ function Demo() {
     <>
       <p>Now: {value}</p>
       <p>before: {prevValue}</p>
-      <input type="text" onChange={e => setValue(e.target.value)} value={value} />
+      <input type="text" onChange={(e) => setValue(e.target.value)} value={value} />
       <p>count: {count}</p>
-      <button type='button' onClick={() => setCount(x => x + 1)}>add count</button>
+      <button type="button" onClick={() => setCount((x) => x + 1)}>
+        add count
+      </button>
     </>
   );
 }

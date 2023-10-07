@@ -1,6 +1,3 @@
-/**
- * title: 基础用法
- */
 import React from 'react';
 import { Button, Spin, List, Typography } from 'antd';
 import { useLoadMore } from 'rc-hooks';

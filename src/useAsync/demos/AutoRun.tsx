@@ -1,5 +1,4 @@
 /**
- * title: 手动触发
  * desc: 通过设置 `options.autoRun = false` , 则需要手动调用 `run` 时才会触发执行异步函数。
  */
 

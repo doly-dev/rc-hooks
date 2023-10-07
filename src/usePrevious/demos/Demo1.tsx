@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * desc: 记录上次的 value 值
  */
 
@@ -14,7 +13,7 @@ function Demo() {
     <>
       <p>Now: {value}</p>
       <p>before: {prevValue}</p>
-      <input type="text" onChange={e => setValue(e.target.value)} value={value} />
+      <input type="text" onChange={(e) => setValue(e.target.value)} value={value} />
     </>
   );
 }

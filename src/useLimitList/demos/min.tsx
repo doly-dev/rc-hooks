@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * desc: 当列表数量小于等于 3 时，不显示`显示更多`按钮
  */
 import * as React from 'react';

@@ -1,5 +1,4 @@
 /**
- * title: 受控组件
  * desc: props 中有 value ，则由父级控制 state
  */
 import * as React from 'react';

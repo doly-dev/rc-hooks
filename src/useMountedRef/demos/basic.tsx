@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * desc: 组件卸载后不再更新 `state`
  */
 import * as React from 'react';

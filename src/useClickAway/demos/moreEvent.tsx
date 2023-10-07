@@ -1,5 +1,4 @@
 /**
- * title: 监听多个事件
  * desc: 试试点击左键和右键查看效果
  */
 import * as React from 'react';

@@ -1,5 +1,4 @@
 /**
- * title: refreshDeps
  * desc: |
  *  当 `options.refreshDeps` 变化时，且 `options.autoRun=true`， `useAsync` 会使用之前的参数重新执行。
  */

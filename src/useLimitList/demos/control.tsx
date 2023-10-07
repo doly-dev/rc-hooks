@@ -1,5 +1,4 @@
 /**
- * title: 可变列表
  * desc: 当列表数据变化时，更新数据
  */
 import * as React from 'react';

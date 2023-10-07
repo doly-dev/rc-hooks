@@ -1,6 +1,3 @@
-/**
- * title: 修改列表
- */
 import React from 'react';
 import { Button, Spin, List, Typography } from 'antd';
 import { useLoadMore } from 'rc-hooks';
@@ -15,8 +12,8 @@ function Demo() {
   );
 
   const removeItem = (id: string) => {
-    mutate(d => {
-      const index = d.list.findIndex(item => item.id === id);
+    mutate((d) => {
+      const index = d.list.findIndex((item) => item.id === id);
       const newList = d.list.slice();
       newList.splice(index, 1);
 
@@ -25,12 +22,12 @@ function Demo() {
           ...d,
           total: d.total - 1,
           list: newList
-        }
+        };
       }
 
       return d;
-    })
-  }
+    });
+  };
 
   return (
     <div>
@@ -38,7 +35,14 @@ function Demo() {
         <List
           dataSource={data?.list}
           renderItem={(item: { id: string; name: string }) => (
-            <List.Item key={item.id} actions={[<a key='delete' onClick={() => removeItem(item.id)}>删除</a>]}>
+            <List.Item
+              key={item.id}
+              actions={[
+                <a key="delete" onClick={() => removeItem(item.id)}>
+                  删除
+                </a>
+              ]}
+            >
               <Typography.Text mark>[{item.id}]</Typography.Text> {item.name}
             </List.Item>
           )}

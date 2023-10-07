@@ -1,5 +1,4 @@
 /**
- * title: 节流
  * desc: 通过设置 `options.throttleInterval` ，则进入节流模式。此时如果频繁触发 `run` ，则会以节流策略进行请求。
  */
 

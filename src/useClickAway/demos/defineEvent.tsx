@@ -1,5 +1,4 @@
 /**
- * title: 监听其他事件
  * desc: 试试点击右键
  */
 import * as React from 'react';

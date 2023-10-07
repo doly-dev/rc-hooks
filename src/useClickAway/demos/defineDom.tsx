@@ -1,5 +1,4 @@
 /**
- * title: 自定义dom
  * desc: 支持传入dom对象或function返回dom对象
  */
 import * as React from 'react';
