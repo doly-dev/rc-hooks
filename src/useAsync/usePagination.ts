@@ -18,12 +18,12 @@ export type PaginationParams = [
   ...args: any[]
 ];
 
-export interface PaginationOptions<R extends PaginationAsyncReturn = any>
+export interface PaginationOptions<DataItem = any, R extends PaginationAsyncReturn<DataItem> = any>
   extends AsyncOptions<R, PaginationParams> {
   defaultPageSize?: number;
 }
 
-export function usePagination<R extends PaginationAsyncReturn = any>(
+export function usePagination<D = any, R extends PaginationAsyncReturn<D> = any>(
   asyncFn: (...args: PaginationParams) => Promise<R>,
   options?: PaginationOptions<R>
 ) {
@@ -138,7 +138,7 @@ export function usePagination<R extends PaginationAsyncReturn = any>(
       changePageSize
     },
     tableProps: {
-      dataSource: data?.list || [],
+      dataSource: (data?.list || []) as R['list'],
       loading,
       onChange: changeTable,
       pagination: {

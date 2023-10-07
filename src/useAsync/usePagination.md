@@ -49,7 +49,7 @@ const {
     changePageSize: (pageSize: number) => void;
   };
   tableProps: {
-    dataSource: Item[];
+    dataSource: DataItem[];
     loading: boolean;
     onChange: (
       pagination: any,
@@ -62,13 +62,11 @@ const {
       total: number;
     };
   };
-} = useLoadMore<R, FR>(async ({ current, data, sorter?, filters?, extra? }) => {
-  return {
+} = usePagination(async ({ current, data, sorter?, filters?, extra? }) => ({
     list,
     total,
     ...
-  }
-}, {
+  }), {
   ...,
   defaultPageSize,
   refreshDeps,

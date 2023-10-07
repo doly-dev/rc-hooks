@@ -16,7 +16,7 @@ export type LoadMoreParams = [
   ...args: any[]
 ];
 
-export interface LoadMoreOptions<R extends LoadMoreAsyncReturn = any>
+export interface LoadMoreOptions<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = any>
   extends Omit<
     AsyncOptions<R, LoadMoreParams>,
     'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
@@ -26,7 +26,7 @@ export interface LoadMoreOptions<R extends LoadMoreAsyncReturn = any>
   isNoMore?: (data?: R) => boolean;
 }
 
-function useLoadMore<R extends LoadMoreAsyncReturn = any>(
+function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = any>(
   asyncFn: (...args: LoadMoreParams) => Promise<R>,
   options?: LoadMoreOptions<R>
 ) {

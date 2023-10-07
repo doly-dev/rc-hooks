@@ -50,12 +50,10 @@ const {
   loadMore,
   loadingMore,
   noMore
-} = useLoadMore<R>(async ({ current }) => {
-  return {
+} = useLoadMore(async ({ current }) => ({
     list,
     ...
-  }
-}, {
+  }), {
   ...,
   threshold,
   target,
