@@ -1,6 +1,6 @@
-import Cache2 from 'cache2';
+import { Cache } from 'cache2';
 
-const memoryCache = new Cache2({ stdTTL: 5 * 60 * 1000 });
+const memoryCache = new Cache({ stdTTL: 5 * 60 * 1000 });
 
 const getCache = <T = any>(key: string) => {
   return memoryCache.get(key) as T;
