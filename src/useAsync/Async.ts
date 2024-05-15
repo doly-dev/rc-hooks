@@ -1,43 +1,23 @@
 import { debounce, throttle } from 'ut2';
+import { AsyncMemo } from 'util-helpers';
 import { isDocumentVisible } from '../utils';
-import { getCache, setCache } from '../utils/cache';
 import limit from '../utils/limit';
 import subscribeVisible from '../utils/windowVisible';
 import subscribeFocus from '../utils/windowFocus';
 
-// 注意区分两种情况：
-// 同一个实例的run执行多次，只运行最后一次？通过内部的counter
-// 不同实例的run各执行一次，只运行一次异步，同时执行所有实例的成功回调？通过传入相同的cacheKey
+const asyncMemo = new AsyncMemo({ prefix: 'rc-hooks', stdTTL: 5 * 60 * 1000 });
 
-// Promise 缓存
-const promiseCache: {
-  [key: string]: Promise<any> | undefined;
-} = {};
+export function getCache<T = any>(key: string) {
+  return asyncMemo.cache.get(key) as T;
+}
 
-// 运行异步方法 ，支持缓存 Promise
-// 处理多个 key 的 Promise ，只执行第一个，返回Promise
-const runAsyncCache = <T extends ((...args: any[]) => Promise<any>) = (() => Promise<any>)>(async: T, key?: string) => {
-  // 如果有缓存，标识有相同key的异步正在请求中
-  if (key && promiseCache[key]) {
-    return promiseCache[key] as ReturnType<T>;
-  }
-
+export function clearCache(key?: string | string[]) {
   if (key) {
-    promiseCache[key] = async()
-      .then((res) => {
-        delete promiseCache[key];
-        return res;
-      })
-      .catch((err) => {
-        delete promiseCache[key];
-        return Promise.reject(err);
-      });
-
-    return promiseCache[key] as ReturnType<T>;
+    asyncMemo.cache.del(key);
+  } else {
+    asyncMemo.cache.clear();
   }
-
-  return async() as ReturnType<T>;
-};
+}
 
 type InternalOptions<R = any, P extends any[] = any[]> = {
   cacheKey?: string;
@@ -186,29 +166,17 @@ class Async<R = any, P extends any[] = any[]> {
     onBefore?.(args);
 
     return new Promise<R>((resolve, reject) => {
-      if (cacheKey && persisted) {
-        // 持久化数据
-        const cacheData = getCache<R>(cacheKey);
-        // 有缓存数据
-        if (cacheData && count === this.counter) {
-          Promise.resolve().then(() => {
-            onSuccess?.(cacheData, args);
-            resolve(cacheData);
-          }).finally(() => {
-            onFinally?.();
-          });
-          return;
-        }
-      }
-
-      // 没有持久化的缓存数据，如果有缓存key将共享异步返回的Promise
-      runAsyncCache(() => this.async.apply(this, args), cacheKey)
-        .then((res) => {
+      asyncMemo
+        .run(
+          () =>
+            this.async.apply(this, args).then((res) => {
+              return typeof formatResult === 'function' ? formatResult(res, args) : res;
+            }),
+          cacheKey,
+          { persisted, ttl: cacheTime }
+        )
+        .then((fmtRes) => {
           if (count === this.counter) {
-            const fmtRes = typeof formatResult === 'function' ? formatResult(res, args) : res;
-            if (cacheKey) {
-              setCache(cacheKey, fmtRes, cacheTime);
-            }
             onSuccess?.(fmtRes, args);
             resolve(fmtRes);
           }

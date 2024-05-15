@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { noop } from 'ut2';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
-import { getCache } from '../utils/cache';
-import AsyncCalss, { Options, AsyncFunction } from './Async';
+import AsyncCalss, { getCache, clearCache, Options, AsyncFunction } from './Async';
 
-export type AsyncOptions<R = any, P extends any[] = any[]> = Partial<
+export { clearCache };
+
+type AsyncOptions<R = any, P extends any[] = any[]> = Partial<
   {
     autoRun: boolean;
     refreshDeps: any[];
@@ -22,15 +24,13 @@ export type AsyncOptions<R = any, P extends any[] = any[]> = Partial<
   } & Omit<Options<R, P>, 'formatResult'>
 >;
 
-export type {
-  AsyncFunction
-}
-
-// 空函数
-const noop = () => { };
+export type { AsyncOptions, AsyncFunction };
 
 // 异步方法hooks
-function useAsync<R = any, P extends any[] = any[]>(asyncFn: AsyncFunction<R, P>, options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'>): {
+function useAsync<R = any, P extends any[] = any[]>(
+  asyncFn: AsyncFunction<R, P>,
+  options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'>
+): {
   params: P;
   loading: boolean;
   error: null | Error;
@@ -40,7 +40,15 @@ function useAsync<R = any, P extends any[] = any[]>(asyncFn: AsyncFunction<R, P>
   cancel: () => void;
   mutate: (newData: R | ((oldData: R) => R) | undefined) => void;
 };
-function useAsync<R = any, P extends any[] = any[]>(asyncFn: AsyncFunction<R, P>, options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'> & ({ debounceInterval: number; } | { throttleInterval: number; } | { debounceInterval: number; throttleInterval: number; })): {
+function useAsync<R = any, P extends any[] = any[]>(
+  asyncFn: AsyncFunction<R, P>,
+  options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'> &
+    (
+      | { debounceInterval: number }
+      | { throttleInterval: number }
+      | { debounceInterval: number; throttleInterval: number }
+    )
+): {
   params: P;
   loading: boolean;
   error: null | Error;

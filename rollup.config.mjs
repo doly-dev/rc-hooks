@@ -16,7 +16,7 @@ export default {
       globals: {
         react: 'React'
       },
-      sourcemap: true,
+      sourcemap: true
     },
     {
       file: `dist/${globalVarName}.min.js`,
@@ -29,5 +29,5 @@ export default {
       plugins: [terser()]
     }
   ],
-  plugins: [resolve(), commonjs(), typescript()]
+  plugins: [resolve(), commonjs(), typescript({ tsconfig: 'tsconfig.build.json' })]
 };
