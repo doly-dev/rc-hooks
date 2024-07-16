@@ -1,8 +1,9 @@
-import { renderHook, act } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useSetState from '..';
 
 describe('useSetState', () => {
-  it('work', () => {
+  it('work', async () => {
     const { result } = renderHook(() => {
       return useSetState({
         foo: 0,
@@ -12,39 +13,39 @@ describe('useSetState', () => {
 
     expect(result.current[0]).toEqual({ foo: 0, bar: '' });
 
-    act(() => {
+    await act(async () => {
       result.current[1]({ bar: 'biz' });
     });
     expect(result.current[0]).toEqual({ foo: 0, bar: 'biz' });
 
-    act(() => {
+    await act(async () => {
       result.current[1]({ foo: 42 });
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz' });
 
-    act(() => {
+    await act(async () => {
       result.current[1]({});
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz' });
 
     // input error is not work
-    act(() => {
+    await act(async () => {
       result.current[1](undefined as any);
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz' });
 
-    act(() => {
+    await act(async () => {
       result.current[1](null as any);
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz' });
 
-    act(() => {
+    await act(async () => {
       result.current[1]('13243' as any);
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz' });
 
     // new key value
-    act(() => {
+    await act(async () => {
       // @ts-ignore
       result.current[1]({ a: 1 });
     });

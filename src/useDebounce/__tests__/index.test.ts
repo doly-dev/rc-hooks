@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { renderHook, act } from '@testing-library/react';
+import { useState, act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useDebounce from '..';
 
 describe('useDebounce', () => {
@@ -26,14 +26,14 @@ describe('useDebounce', () => {
       };
     });
 
-    act(() => {
+    await act(async () => {
       result.current.setState(1);
     });
 
     expect(result.current.state).toBe(1);
     expect(result.current.debounceState).toBe(0);
 
-    act(() => {
+    await act(async () => {
       // 因为延迟处理 state 所以要放在 act 中
       jest.advanceTimersByTime(300);
     });
@@ -53,7 +53,7 @@ describe('useDebounce', () => {
       };
     });
 
-    act(() => {
+    await act(async () => {
       result.current.setState(1);
     });
 

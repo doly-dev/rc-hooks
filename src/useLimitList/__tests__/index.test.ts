@@ -1,10 +1,10 @@
-import { renderHook, act } from '@testing-library/react';
-import { useEffect, useState } from 'react';
+import { renderHook } from '@testing-library/react';
+import { useEffect, useState, act } from 'react';
 import { sleep } from 'ut2';
 import useLimitList from '..';
 
 describe('useLimitList', () => {
-  it('not limited', () => {
+  it('not limited', async () => {
     const list = [1, 2, 3];
     const { result } = renderHook(() => {
       return useLimitList(list);
@@ -14,7 +14,7 @@ describe('useLimitList', () => {
     expect(result.current.limited).toBe(true);
     expect(result.current.data).toEqual(list);
 
-    act(() => {
+    await act(async () => {
       result.current.toggle();
     });
 
@@ -23,7 +23,7 @@ describe('useLimitList', () => {
     expect(result.current.data).toEqual(list);
   });
 
-  it('limited', () => {
+  it('limited', async () => {
     const list = [1, 2, 3, 4];
     const { result } = renderHook(() => {
       return useLimitList(list);
@@ -33,7 +33,7 @@ describe('useLimitList', () => {
     expect(result.current.limited).toBe(true);
     expect(result.current.data.length).toBe(3);
 
-    act(() => {
+    await act(async () => {
       result.current.toggle();
     });
 
@@ -42,7 +42,7 @@ describe('useLimitList', () => {
     expect(result.current.data.length).toBe(list.length);
   });
 
-  it('change count and defaultLimited', () => {
+  it('change count and defaultLimited', async () => {
     const list = [1, 2, 3, 4];
     const { result } = renderHook(() => {
       const [count, setCount] = useState(1);
@@ -62,7 +62,7 @@ describe('useLimitList', () => {
     expect(result.current.limited).toBe(false);
     expect(result.current.data.length).toBe(list.length);
 
-    act(() => {
+    await act(async () => {
       result.current.toggle();
     });
 
@@ -70,7 +70,7 @@ describe('useLimitList', () => {
     expect(result.current.limited).toBe(true);
     expect(result.current.data.length).toBe(1);
 
-    act(() => {
+    await act(async () => {
       result.current.setCount(3);
     });
 
@@ -106,7 +106,7 @@ describe('useLimitList', () => {
     expect(result.current.limited).toBe(true);
     expect(result.current.data.length).toBe(3);
 
-    act(() => {
+    await act(async () => {
       result.current.toggle();
     });
 

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { renderHook, act } from '@testing-library/react';
+import { useState, act } from 'react';
+import { renderHook } from '@testing-library/react';
 import usePersistFn from '..';
 
 describe('usePersistFn', () => {
-  it('should work', () => {
+  it('should work', async () => {
     const fn1 = jest.fn();
     const fn2 = jest.fn();
 
@@ -34,7 +34,7 @@ describe('usePersistFn', () => {
     expect(currentCount).toBe(result.current.count);
     expect(fn1).toHaveBeenCalledTimes(1);
 
-    act(() => {
+    await act(async () => {
       result.current.add();
     });
 

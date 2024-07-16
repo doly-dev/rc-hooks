@@ -1,4 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useControllableValue from '..';
 
 describe('useControllableValue', () => {
@@ -17,7 +18,7 @@ describe('useControllableValue', () => {
     expect(result.current[0]).toBeUndefined();
   });
 
-  it('onChange should work', () => {
+  it('onChange should work', async () => {
     let extraParam = '';
     const props = {
       value: 2,
@@ -28,7 +29,7 @@ describe('useControllableValue', () => {
     };
     const { result } = renderHook(() => useControllableValue(props));
     expect(result.current[0]).toEqual(2);
-    act(() => {
+    await act(async () => {
       result.current[1](3, 'extraParam');
     });
     expect(props.value).toEqual(3);
@@ -51,21 +52,21 @@ describe('useControllableValue', () => {
     expect(result.current[0]).toBe(3);
   });
 
-  it('test set state', () => {
+  it('test set state', async () => {
     const { result } = renderHook(() => useControllableValue());
     expect(result.current[0]).toBeUndefined();
 
-    act(() => {
+    await act(async () => {
       result.current[1](null);
     });
     expect(result.current[0]).toBeNull();
 
-    act(() => {
+    await act(async () => {
       result.current[1](1);
     });
     expect(result.current[0]).toBe(1);
 
-    act(() => {
+    await act(async () => {
       result.current[1]((prevState: number) => prevState + 1);
     });
     expect(result.current[0]).toBe(2);
@@ -86,7 +87,7 @@ describe('useControllableValue', () => {
     expect(value).toEqual({ foo: 42 });
   });
 
-  it('set alias', () => {
+  it('set alias', async () => {
     const props = {
       foo: 42,
       changeFoo(v: number) {
@@ -101,7 +102,7 @@ describe('useControllableValue', () => {
     );
     expect(result.current[0]).toBe(42);
 
-    act(() => {
+    await act(async () => {
       result.current[1](result.current[0] + 1);
     });
     expect(props.foo).toBe(43);

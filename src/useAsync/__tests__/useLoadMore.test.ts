@@ -1,4 +1,5 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useLoadMore from '../useLoadMore';
 import getList from '../demos/services/getList';
 
@@ -28,91 +29,83 @@ describe('useLoadMore', () => {
     expect(result.current.data).toBeUndefined();
     expect(result.current.params).toEqual([{ current: 1 }]);
 
-    act(() => {
+    await act(async () => {
       jest.runAllTimers();
     });
 
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(5);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 1 }]);
-    });
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(5);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 1 }]);
 
-    act(() => {
+    await act(async () => {
       result.current.loadMore();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(result.current.loadingMore).toBe(true);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(5);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 2 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+    expect(result.current.loadingMore).toBe(true);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(5);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 2 }]);
+
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(10);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 2 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(10);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 2 }]);
+
+    await act(async () => {
       result.current.loadMore();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(result.current.loadingMore).toBe(true);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(10);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 3 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+    expect(result.current.loadingMore).toBe(true);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(10);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 3 }]);
+
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(true);
-      expect(result.current.data?.list.length).toBe(15);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 3 }]);
-    });
+
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(true);
+    expect(result.current.data?.list.length).toBe(15);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 3 }]);
 
     // 没有更多了，不触发异步
-    act(() => {
+    await act(async () => {
       result.current.loadMore();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(true);
-      expect(result.current.data?.list.length).toBe(15);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 3 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(true);
+    expect(result.current.data?.list.length).toBe(15);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 3 }]);
+
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(true);
-      expect(result.current.data?.list.length).toBe(15);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 3 }]);
-    });
+
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(true);
+    expect(result.current.data?.list.length).toBe(15);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 3 }]);
   });
 
   it('cancel and refresh', async () => {
@@ -130,74 +123,68 @@ describe('useLoadMore', () => {
       )
     );
 
-    act(() => {
+    await act(async () => {
       result.current.cancel();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data).toBeUndefined();
-      expect(result.current.params).toEqual([{ current: 1 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data).toBeUndefined();
+    expect(result.current.params).toEqual([{ current: 1 }]);
+
+    await act(async () => {
       result.current.run({ current: 1 });
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data).toBeUndefined();
-      expect(result.current.params).toEqual([{ current: 1 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data).toBeUndefined();
+    expect(result.current.params).toEqual([{ current: 1 }]);
+
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(5);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 1 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(5);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 1 }]);
+
+    await act(async () => {
       result.current.loadMore();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(result.current.loadingMore).toBe(true);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(5);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 2 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+    expect(result.current.loadingMore).toBe(true);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(5);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 2 }]);
+
+    await act(async () => {
       result.current.cancel();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(5);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 1 }]);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(false);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(5);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 1 }]);
+
+    await act(async () => {
       result.current.refresh();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(result.current.loadingMore).toBe(false);
-      expect(result.current.noMore).toBe(false);
-      expect(result.current.data?.list.length).toBe(0);
-      expect(result.current.data?.total).toBe(15);
-      expect(result.current.params).toEqual([{ current: 1 }]);
-    });
+
+    expect(result.current.loading).toBe(true);
+    expect(result.current.loadingMore).toBe(false);
+    expect(result.current.noMore).toBe(false);
+    expect(result.current.data?.list.length).toBe(0);
+    expect(result.current.data?.total).toBe(15);
+    expect(result.current.params).toEqual([{ current: 1 }]);
   });
 });

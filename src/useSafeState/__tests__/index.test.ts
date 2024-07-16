@@ -1,4 +1,5 @@
-import { renderHook, act } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useSafeState from '..';
 
 describe('useSafeState', () => {
@@ -18,34 +19,34 @@ describe('useSafeState', () => {
     expect(result.current.state).toBe(0);
   });
 
-  it('update state', () => {
+  it('update state', async () => {
     const { result } = setUp(0);
 
-    act(() => {
+    await act(async () => {
       result.current.setState(5);
     });
 
     expect(result.current.state).toBe(5);
   });
 
-  it('not update when unmounted', () => {
+  it('not update when unmounted', async () => {
     const { result, unmount } = setUp(0);
 
     unmount();
-    act(() => {
+    await act(async () => {
       result.current.setState(5);
     });
 
     expect(result.current.state).toBe(0);
   });
 
-  it('type', () => {
+  it('type', async () => {
     const { result, unmount } = renderHook(() => {
       return useSafeState(0);
     });
 
     unmount();
-    act(() => {
+    await act(async () => {
       result.current[1](5);
     });
 

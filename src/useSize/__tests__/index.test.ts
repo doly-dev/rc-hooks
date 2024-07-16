@@ -1,4 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useSize from '..';
 
 let callback: (e: any) => void;
@@ -13,7 +14,7 @@ jest.mock('../ResizeObserver', () => {
 });
 
 describe('useSize', () => {
-  it('target is null', () => {
+  it('target is null', async () => {
     const { result } = renderHook(() => {
       return useSize(null);
     });
@@ -22,11 +23,11 @@ describe('useSize', () => {
     expect(result.current.width).toBeUndefined();
   });
 
-  it('work', () => {
+  it('work', async () => {
     const targetEl = document.createElement('div');
     const { result } = renderHook(() => useSize(targetEl));
 
-    act(() => {
+    await act(async () => {
       callback([
         {
           target: {

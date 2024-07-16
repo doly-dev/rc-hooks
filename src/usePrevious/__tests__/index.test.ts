@@ -1,5 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
-import { useState } from 'react';
+import { renderHook } from '@testing-library/react';
+import { useState, act } from 'react';
 import usePrevious from '..';
 
 describe('usePrevious', () => {
@@ -28,7 +28,7 @@ describe('usePrevious', () => {
     expect(result.current).toBe(2);
   });
 
-  it('other state update', () => {
+  it('other state update', async () => {
     const { result } = renderHook(() => {
       const [count1, setCount1] = useState(0);
       const [count2, setCount2] = useState(0);
@@ -46,14 +46,14 @@ describe('usePrevious', () => {
     expect(result.current.count1).toBe(0);
     expect(result.current.prevCount1).toBeUndefined();
 
-    act(() => {
+    await act(async () => {
       result.current.setCount1(1);
     });
 
     expect(result.current.count1).toBe(1);
     expect(result.current.prevCount1).toBe(0);
 
-    act(() => {
+    await act(async () => {
       result.current.setCount2(1);
     });
 

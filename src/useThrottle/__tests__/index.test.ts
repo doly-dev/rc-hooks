@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { renderHook, act } from '@testing-library/react';
+import { useState, act } from 'react';
+import { renderHook } from '@testing-library/react';
 import useThrottle from '..';
 
 const setUp = (wait = 300) =>
@@ -26,10 +26,10 @@ describe('useThrottle', () => {
     jest.useRealTimers();
   });
 
-  it('should work', () => {
+  it('should work', async () => {
     const { result } = setUp();
 
-    act(() => {
+    await act(async () => {
       result.current.setState(1);
       jest.advanceTimersByTime(100);
     });
@@ -37,14 +37,14 @@ describe('useThrottle', () => {
     expect(result.current.state).toBe(1);
     expect(result.current.throttleState).toBe(0);
 
-    act(() => {
+    await act(async () => {
       result.current.setState(2);
     });
 
     expect(result.current.state).toBe(2);
     expect(result.current.throttleState).toBe(0);
 
-    act(() => {
+    await act(async () => {
       // 因为延迟处理 state 所以要放在 act 中
       jest.advanceTimersByTime(300);
     });
@@ -52,23 +52,23 @@ describe('useThrottle', () => {
     expect(result.current.state).toBe(2);
     expect(result.current.throttleState).toBe(2);
 
-    act(() => {
+    await act(async () => {
       result.current.setState(3);
     });
     expect(result.current.state).toBe(3);
     expect(result.current.throttleState).toBe(3);
-    act(() => {
+    await act(async () => {
       result.current.setState(4);
     });
     expect(result.current.state).toBe(4);
     expect(result.current.throttleState).toBe(3);
     jest.advanceTimersByTime(100);
-    act(() => {
+    await act(async () => {
       result.current.setState(5);
     });
     expect(result.current.state).toBe(5);
     expect(result.current.throttleState).toBe(3);
-    act(() => {
+    await act(async () => {
       // 因为延迟处理 state 所以要放在 act 中
       jest.advanceTimersByTime(200);
     });
@@ -79,7 +79,7 @@ describe('useThrottle', () => {
   it('should cancel function call on unmount', async () => {
     const { result, unmount } = setUp();
 
-    act(() => {
+    await act(async () => {
       result.current.setState(1);
     });
 

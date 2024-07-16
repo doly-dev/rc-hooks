@@ -1,4 +1,5 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
+import { renderHook } from '@testing-library/react';
 import { sleep } from 'ut2';
 import useAsync from '..';
 import { clearCache } from '../..';
@@ -14,6 +15,10 @@ const asyncFunc = async (result = 1) => {
 describe('useAsync', () => {
   beforeAll(() => {
     jest.useFakeTimers();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 
   it('autoRun and success, error, finally callback', async () => {
@@ -34,35 +39,31 @@ describe('useAsync', () => {
     expect(successCallback).toHaveBeenCalledTimes(0);
     expect(finallyCallback).toHaveBeenCalledTimes(0);
 
-    act(() => {
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(1);
-      expect(finallyCallback).toHaveBeenCalledTimes(1);
-    });
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(1);
+    expect(finallyCallback).toHaveBeenCalledTimes(1);
 
-    act(() => {
+    await act(async () => {
       // 此处需要使用 catch 处理，不然会报错
       // ref: https://github.com/testing-library/react-testing-library/issues/982
       // ref: http://objcer.com/2017/12/27/unhandled-promise-rejections-in-node-js/
       result.current.run(0).catch(() => {});
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(1);
-      expect(successCallback).toHaveBeenCalledTimes(1);
-      expect(finallyCallback).toHaveBeenCalledTimes(2);
-    });
+
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(1);
+    expect(successCallback).toHaveBeenCalledTimes(1);
+    expect(finallyCallback).toHaveBeenCalledTimes(2);
   });
 
   it('not autoRun', async () => {
@@ -84,23 +85,21 @@ describe('useAsync', () => {
     expect(successCallback).toHaveBeenCalledTimes(0);
     expect(finallyCallback).toHaveBeenCalledTimes(0);
 
-    act(() => {
+    await act(async () => {
       // 手动触发
-      result.current.run().catch(() => {});
-    });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
+      result.current.run();
     });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+
+    await act(async () => {
       jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(1);
-      expect(finallyCallback).toHaveBeenCalledTimes(1);
-    });
+
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(1);
+    expect(finallyCallback).toHaveBeenCalledTimes(1);
   });
 
   it('cacheKey and persisted', async () => {
@@ -124,72 +123,68 @@ describe('useAsync', () => {
     expect(successCallback).toHaveBeenCalledTimes(0);
     expect(finallyCallback).toHaveBeenCalledTimes(0);
 
-    act(() => {
-      jest.advanceTimersByTime(3000);
-    });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(1);
-      expect(finallyCallback).toHaveBeenCalledTimes(1);
+    await act(async () => {
+      jest.runAllTimers();
     });
 
-    act(() => {
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(1);
+    expect(finallyCallback).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
       // 手动触发
-      result.current.run().catch(() => {});
+      result.current.run();
     });
+
     // 后面读取的缓存，不需要走异步方法
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(2);
-      expect(finallyCallback).toHaveBeenCalledTimes(2);
-    });
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(2);
+    expect(finallyCallback).toHaveBeenCalledTimes(2);
 
     // 清理缓存
     clearCache(cacheKey);
-    act(() => {
+
+    await act(async () => {
       // 手动触发
-      result.current.run().catch(() => {});
-    });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(2);
-      expect(finallyCallback).toHaveBeenCalledTimes(2);
+      result.current.run();
     });
 
-    act(() => {
-      jest.advanceTimersByTime(3000);
+    expect(result.current.loading).toBe(true);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(2);
+    expect(finallyCallback).toHaveBeenCalledTimes(2);
+
+    await act(async () => {
+      jest.runAllTimers();
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(3);
-      expect(finallyCallback).toHaveBeenCalledTimes(3);
-    });
+
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(3);
+    expect(finallyCallback).toHaveBeenCalledTimes(3);
 
     // 清理缓存，请求失败
     clearCache(cacheKey);
-    act(() => {
+
+    await act(async () => {
       // 手动触发
       result.current.run(0).catch(() => {});
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(true);
-      expect(errorCallback).toHaveBeenCalledTimes(0);
-      expect(successCallback).toHaveBeenCalledTimes(3);
-      expect(finallyCallback).toHaveBeenCalledTimes(3);
-    });
 
-    act(() => {
+    expect(result.current.loading).toBe(true);
+    expect(errorCallback).toHaveBeenCalledTimes(0);
+    expect(successCallback).toHaveBeenCalledTimes(3);
+    expect(finallyCallback).toHaveBeenCalledTimes(3);
+
+    await act(async () => {
       jest.advanceTimersByTime(3000);
     });
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(errorCallback).toHaveBeenCalledTimes(1);
-      expect(successCallback).toHaveBeenCalledTimes(3);
-      expect(finallyCallback).toHaveBeenCalledTimes(4);
-    });
+
+    expect(result.current.loading).toBe(false);
+    expect(errorCallback).toHaveBeenCalledTimes(1);
+    expect(successCallback).toHaveBeenCalledTimes(3);
+    expect(finallyCallback).toHaveBeenCalledTimes(4);
   });
 });
