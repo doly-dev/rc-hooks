@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSize } from 'rc-hooks';
 
-type SizeType = { width?: number; height?: number; };
+type SizeType = { width?: number; height?: number };
 
-function Table({ onSizeChange }: { onSizeChange?: (size: SizeType) => void; }) {
+function Table({ onSizeChange }: { onSizeChange?: (size: SizeType) => void }) {
   const tableRef = useRef<HTMLTableElement>(null);
   const size = useSize(tableRef);
 
@@ -30,7 +30,7 @@ function Table({ onSizeChange }: { onSizeChange?: (size: SizeType) => void; }) {
         </tr>
       </tbody>
     </table>
-  )
+  );
 }
 
 function Demo() {
@@ -39,25 +39,21 @@ function Demo() {
   const size = useSize(() => document.body);
 
   const handleVisible = () => {
-    setVisible(v => {
+    setVisible((v) => {
       if (v) {
         setTableSize({});
       }
       console.log('12');
       return !v;
-    })
-  }
+    });
+  };
 
   return (
     <>
       <button onClick={handleVisible}>切换显示/隐藏</button>
       <p>body value: {JSON.stringify(size)}</p>
       <p>table value: {JSON.stringify(tableSize)}</p>
-      {
-        visible && (
-          <Table onSizeChange={setTableSize} />
-        )
-      }
+      {visible && <Table onSizeChange={setTableSize} />}
     </>
   );
 }

@@ -2,7 +2,10 @@ import { useState, useCallback } from 'react';
 import useUnmountedRef from '../useUnmountedRef';
 
 function useSafeState<S>(initialState: S | (() => S)): [S, React.Dispatch<React.SetStateAction<S>>];
-function useSafeState<S = undefined>(): [S | undefined, React.Dispatch<React.SetStateAction<S | undefined>>];
+function useSafeState<S = undefined>(): [
+  S | undefined,
+  React.Dispatch<React.SetStateAction<S | undefined>>
+];
 function useSafeState<S>(initialState?: S | (() => S)) {
   const unmountedRef = useUnmountedRef();
   const [state, setState] = useState(initialState);
@@ -15,7 +18,8 @@ function useSafeState<S>(initialState?: S | (() => S)) {
       setState(nextState);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    []
+  );
 
   return [state, setCurrentState];
 }

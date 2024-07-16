@@ -9,8 +9,8 @@ function useLimitList(list: any[] = [], options: Options = {}) {
   const { count = 3, defaultLimited = true } = options || {};
   const limitedRef = useRef(defaultLimited);
 
-  const safeList = useMemo(() => Array.isArray(list) ? list : [], [list]);
-  const safeCount = useMemo(() => count > 0 ? Math.ceil(count) : 0, [count]);
+  const safeList = useMemo(() => (Array.isArray(list) ? list : []), [list]);
+  const safeCount = useMemo(() => (count > 0 ? Math.ceil(count) : 0), [count]);
 
   // 是否可以限制数量
   const canLimit = useMemo(() => safeList.length > safeCount, [safeCount, safeList.length]);

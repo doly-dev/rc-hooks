@@ -12,7 +12,7 @@ function useClickAway<E extends Event = EventType>(
 ) {
   const refs = castArray(ref);
   const latestRefs = useLatest(refs);
-  const refsIsFunc = refs.every(item => typeof item === 'function');
+  const refsIsFunc = refs.every((item) => typeof item === 'function');
   const wrapperRefs = refsIsFunc ? latestRefs : refs;
 
   const onClickAwayRef = useLatest(onClickAway);
@@ -23,22 +23,24 @@ function useClickAway<E extends Event = EventType>(
   useEffect(() => {
     const handler = (event: any) => {
       const targets: RefType[] = refsIsFunc ? (wrapperRefs as any).current : wrapperRefs;
-      if (!targets.some((targetItem) => {
-        const target = getRef(targetItem);
-        return !target || target?.contains(event.target);
-      })) {
+      if (
+        !targets.some((targetItem) => {
+          const target = getRef(targetItem);
+          return !target || target?.contains(event.target);
+        })
+      ) {
         onClickAwayRef.current?.(event);
       }
     };
 
     const eventList = castArray(eventsRef.current);
 
-    eventList.forEach(eventName => {
+    eventList.forEach((eventName) => {
       document.addEventListener(eventName, handler);
     });
 
     return () => {
-      eventList.forEach(eventName => {
+      eventList.forEach((eventName) => {
         document.removeEventListener(eventName, handler);
       });
     };

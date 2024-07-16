@@ -40,7 +40,7 @@ describe('usePrevious', () => {
         count2,
         setCount2,
         prevCount1
-      }
+      };
     });
 
     expect(result.current.count1).toBe(0);
@@ -59,7 +59,5 @@ describe('usePrevious', () => {
 
     expect(result.current.count1).toBe(1);
     expect(result.current.prevCount1).toBe(0);
-
-
   });
 });

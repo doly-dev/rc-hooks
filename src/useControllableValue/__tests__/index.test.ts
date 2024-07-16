@@ -24,7 +24,7 @@ describe('useControllableValue', () => {
       onChange(v: number, extra: string) {
         this.value = v;
         extraParam = extra;
-      },
+      }
     };
     const { result } = renderHook(() => useControllableValue(props));
     expect(result.current[0]).toEqual(2);
@@ -38,7 +38,7 @@ describe('useControllableValue', () => {
   it('test on state update', () => {
     const props = {
       value: 1
-    }
+    };
     const { result, rerender } = renderHook(() => useControllableValue(props));
     expect(result.current[0]).toBe(1);
 
@@ -76,7 +76,7 @@ describe('useControllableValue', () => {
       value: {
         foo: 42
       }
-    }
+    };
     const { result } = renderHook(() => {
       return useControllableValue(props);
     });
@@ -92,11 +92,13 @@ describe('useControllableValue', () => {
       changeFoo(v: number) {
         this.foo = v;
       }
-    }
-    const { result } = renderHook(() => useControllableValue<number>(props, {
-      valuePropName: 'foo',
-      trigger: 'changeFoo'
-    }));
+    };
+    const { result } = renderHook(() =>
+      useControllableValue<number>(props, {
+        valuePropName: 'foo',
+        trigger: 'changeFoo'
+      })
+    );
     expect(result.current[0]).toBe(42);
 
     act(() => {

@@ -6,8 +6,8 @@ jest.mock('../ResizeObserver', () => {
   return jest.fn().mockImplementation((cb) => {
     callback = cb;
     return {
-      observe: () => { },
-      disconnect: () => { },
+      observe: () => {},
+      disconnect: () => {}
     };
   });
 });
@@ -27,15 +27,16 @@ describe('useSize', () => {
     const { result } = renderHook(() => useSize(targetEl));
 
     act(() => {
-      callback([{
-        target: {
-          clientWidth: 100,
-          clientHeight: 50
+      callback([
+        {
+          target: {
+            clientWidth: 100,
+            clientHeight: 50
+          }
         }
-      }]);
+      ]);
     });
 
     expect(result.current).toEqual({ width: 100, height: 50 });
   });
-
 });

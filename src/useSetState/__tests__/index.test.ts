@@ -27,7 +27,6 @@ describe('useSetState', () => {
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz' });
 
-
     // input error is not work
     act(() => {
       result.current[1](undefined as any);
@@ -50,7 +49,5 @@ describe('useSetState', () => {
       result.current[1]({ a: 1 });
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz', a: 1 });
-
   });
-
 });

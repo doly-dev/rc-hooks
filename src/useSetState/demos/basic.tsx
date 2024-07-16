@@ -9,7 +9,7 @@ function Demo() {
     bar?: string;
   }>({
     foo: 0,
-    count: 0,
+    count: 0
   });
 
   return (
@@ -26,11 +26,14 @@ function Demo() {
         <Button type="primary" onClick={() => setState((prev) => ({ count: prev.count + 1 }))}>
           count + 1
         </Button>
-        <Button type="dashed" onClick={() => {
-          // 设置非对象数据，将不处理。 如： null, undefined, number, string, boolean 等
-          // @ts-ignore
-          setState(1324);
-        }}>
+        <Button
+          type="dashed"
+          onClick={() => {
+            // 设置非对象数据，将不处理。 如： null, undefined, number, string, boolean 等
+            // @ts-ignore
+            setState(1324);
+          }}
+        >
           非对象数据不处理
         </Button>
       </Space>

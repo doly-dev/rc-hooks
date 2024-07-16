@@ -55,7 +55,7 @@ describe('useLimitList', () => {
       return {
         ...limitResult,
         setCount
-      }
+      };
     });
 
     expect(result.current.canLimit).toBe(true);
@@ -77,7 +77,6 @@ describe('useLimitList', () => {
     expect(result.current.canLimit).toBe(true);
     expect(result.current.limited).toBe(true);
     expect(result.current.data.length).toBe(3);
-
   });
 
   it('async list', async () => {

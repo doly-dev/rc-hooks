@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
 
-type SetState<S extends Record<string, any>> = <K extends keyof S>(state: S | Pick<S, K> | null | ((prevState: Readonly<S>) => S | Pick<S, K> | null)) => void;
+type SetState<S extends Record<string, any>> = <K extends keyof S>(
+  state: S | Pick<S, K> | null | ((prevState: Readonly<S>) => S | Pick<S, K> | null)
+) => void;
 
 function useSetState<S extends Record<string, any>>(initialValue: S | (() => S)) {
   const [state, setState] = useState<S>(initialValue);

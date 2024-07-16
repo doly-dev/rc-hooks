@@ -8,14 +8,19 @@ describe('useLoadMore', () => {
   });
 
   it('work', async () => {
-    const { result } = renderHook(() => useLoadMore(({ current }) => {
-      return getList({ current, pageSize: 5 }).then(res => ({
-        list: res.data,
-        total: res.total
-      }));
-    }, {
-      isNoMore: (result) => !!result && result.list.length >= result.total
-    }));
+    const { result } = renderHook(() =>
+      useLoadMore(
+        ({ current }) => {
+          return getList({ current, pageSize: 5 }).then((res) => ({
+            list: res.data,
+            total: res.total
+          }));
+        },
+        {
+          isNoMore: (result) => !!result && result.list.length >= result.total
+        }
+      )
+    );
 
     expect(result.current.loading).toBe(true);
     expect(result.current.loadingMore).toBe(false);
@@ -84,7 +89,6 @@ describe('useLoadMore', () => {
       expect(result.current.params).toEqual([{ current: 3 }]);
     });
 
-
     // 没有更多了，不触发异步
     act(() => {
       result.current.loadMore();
@@ -112,14 +116,19 @@ describe('useLoadMore', () => {
   });
 
   it('cancel and refresh', async () => {
-    const { result } = renderHook(() => useLoadMore(({ current }) => {
-      return getList({ current, pageSize: 5 }).then(res => ({
-        list: res.data,
-        total: res.total
-      }));
-    }, {
-      isNoMore: (result) => !!result && result.list.length >= result.total
-    }));
+    const { result } = renderHook(() =>
+      useLoadMore(
+        ({ current }) => {
+          return getList({ current, pageSize: 5 }).then((res) => ({
+            list: res.data,
+            total: res.total
+          }));
+        },
+        {
+          isNoMore: (result) => !!result && result.list.length >= result.total
+        }
+      )
+    );
 
     act(() => {
       result.current.cancel();
@@ -190,6 +199,5 @@ describe('useLoadMore', () => {
       expect(result.current.data?.total).toBe(15);
       expect(result.current.params).toEqual([{ current: 1 }]);
     });
-
   });
 });
