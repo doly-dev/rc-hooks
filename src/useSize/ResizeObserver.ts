@@ -1,5 +1,4 @@
-import { throttle } from 'ut2';
-import isBrowser from '../utils/isBrowser';
+import { throttle, isBrowser } from 'ut2';
 
 // Minimum delay before invoking the update of observers.
 const REFRESH_DELAY = 50;

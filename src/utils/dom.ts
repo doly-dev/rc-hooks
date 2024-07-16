@@ -1,6 +1,4 @@
-export const isWindow = (obj: any) => {
-  return obj !== null && obj !== undefined && obj === obj?.window;
-};
+import { isBrowser, isWindow } from 'ut2';
 
 /**
  * 获取垂直滚动的像素数
@@ -9,7 +7,7 @@ export const isWindow = (obj: any) => {
  * @returns
  */
 export const getScrollTop = (el: Window | HTMLElement = window) => {
-  if (typeof window === 'undefined') {
+  if (!isBrowser) {
     return 0;
   }
   if (isWindow(el)) {
@@ -25,7 +23,7 @@ export const getScrollTop = (el: Window | HTMLElement = window) => {
  * @returns
  */
 export const getScrollHeight = (el: Window | HTMLElement = window) => {
-  if (typeof window === 'undefined') {
+  if (!isBrowser) {
     return 0;
   }
   if (isWindow(el)) {
@@ -41,7 +39,7 @@ export const getScrollHeight = (el: Window | HTMLElement = window) => {
  * @returns
  */
 export const getClientHeight = (el: Window | HTMLElement = window) => {
-  if (typeof window === 'undefined') {
+  if (!isBrowser) {
     return 0;
   }
   if (isWindow(el)) {
