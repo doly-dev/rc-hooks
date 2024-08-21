@@ -17,10 +17,8 @@ type AsyncOptions<R = any, P extends any[] = any[]> = Partial<
      * @private 该API仅用于内部传递，请不要使用。
      */
     __INTERNAL_FORMAT__: (res: R, params: P) => R;
-    /** @deprecated */
     defaultLoading: boolean;
-    /** @deprecated */
-    initialData: R;
+    initialData: R | undefined;
   } & Omit<Options<R, P>, 'formatResult'>
 >;
 

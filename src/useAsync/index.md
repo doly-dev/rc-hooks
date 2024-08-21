@@ -11,7 +11,7 @@ legacy: /async/use-async
 
 管理异步函数的 Hook。
 
-**核心特性**
+## 特性
 
 - 自动请求
 - 手动请求
@@ -144,6 +144,8 @@ const { data, error, loading, params, run, cancel, refresh, mutate } = useAsync<
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | autoRun | 默认 `true`。即在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。 | `boolean` | `true` |
+| initialData | 初始化的 `data`。 | `R` | - |
+| defaultLoading | 初始化默认 `loading` 值。 | `boolean` | `false` |
 | defaultParams | 如果 `autoRun=true` 自动执行 `run` 的默认参数。 | `any[]` | - |
 | refreshDeps | 在 `autoRun = true` 时，`refreshDeps` 变化，会触发重新执行 | `any[]` | `[]` |
 | onBefore | 异步函数执行前触发，参数为 `params`。 | `(params) => void` | - |
