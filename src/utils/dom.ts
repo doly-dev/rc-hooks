@@ -7,13 +7,13 @@ import { isBrowser, isWindow } from 'ut2';
  * @returns
  */
 export const getScrollTop = (el: Window | HTMLElement = window) => {
-  if (!isBrowser) {
+  if (!isBrowser || !el) {
     return 0;
   }
   if (isWindow(el)) {
     return window.scrollY;
   }
-  return (el as HTMLElement)?.scrollTop || 0;
+  return el.scrollTop;
 };
 
 /**
@@ -23,13 +23,13 @@ export const getScrollTop = (el: Window | HTMLElement = window) => {
  * @returns
  */
 export const getScrollHeight = (el: Window | HTMLElement = window) => {
-  if (!isBrowser) {
+  if (!isBrowser || !el) {
     return 0;
   }
   if (isWindow(el)) {
     return document.documentElement.scrollHeight;
   }
-  return (el as HTMLElement).scrollHeight;
+  return el.scrollHeight;
 };
 
 /**
@@ -39,11 +39,11 @@ export const getScrollHeight = (el: Window | HTMLElement = window) => {
  * @returns
  */
 export const getClientHeight = (el: Window | HTMLElement = window) => {
-  if (!isBrowser) {
+  if (!isBrowser || !el) {
     return 0;
   }
   if (isWindow(el)) {
     return document.documentElement.clientHeight;
   }
-  return (el as HTMLElement).clientHeight;
+  return el.clientHeight;
 };
