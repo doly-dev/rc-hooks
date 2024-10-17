@@ -5,6 +5,29 @@ import useLatest from '../useLatest';
 
 type EventType = MouseEvent | TouchEvent;
 
+/**
+ * 管理目标元素外事件的 Hook。
+ *
+ * @param {Object} ref Dom 节点或 Ref 对象，支持数组。
+ * @param {Function} onClickAway 触发事件的函数。
+ * @param {string | string[]} [events='click'] 监听事件名称，支持数组。默认 `click`。
+ * @example
+ * const [count, setCount] = React.useState(0);
+ * const ref = React.useRef<HTMLSpanElement>(null);
+ *
+ * useClickAway(ref, () => {
+ *   setCount((c) => c + 1);
+ * });
+ *
+ * return (
+ *   <div>
+ *     <span ref={ref}>
+ *       <button>box</button>
+ *     </span>
+ *     <p>count: {count}</p>
+ *   </div>
+ * );
+ */
 function useClickAway<E extends Event = EventType>(
   ref: RefType | RefType[],
   onClickAway: (event: E) => void,

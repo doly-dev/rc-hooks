@@ -3,13 +3,10 @@ import { Space, Button } from 'antd';
 import { useSetState } from 'rc-hooks';
 
 function Demo() {
-  const [state, setState] = useSetState<{
-    foo: number;
-    count: number;
-    bar?: string;
-  }>({
+  const [state, setState] = useSetState({
     foo: 0,
-    count: 0
+    count: 0,
+    bar: undefined as string | undefined
   });
 
   return (

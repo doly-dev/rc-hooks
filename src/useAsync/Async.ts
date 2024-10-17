@@ -7,10 +7,21 @@ import subscribeFocus from '../utils/windowFocus';
 
 const asyncMemo = new AsyncMemo({ prefix: 'rc-hooks', stdTTL: 5 * 60 * 1000 });
 
+/**
+ * 获取缓存键值。
+ *
+ * @param key 键名称。
+ * @returns 如果找到缓存键值，返回该键值，否则返回 `undefined`。
+ */
 export function getCache<T = any>(key: string) {
   return asyncMemo.cache.get(key) as T;
 }
 
+/**
+ * 清理缓存。如果不传参数，表示清理全部。
+ *
+ * @param key 键名称。
+ */
 export function clearCache(key?: string | string[]) {
   if (key) {
     asyncMemo.cache.del(key);
@@ -20,19 +31,91 @@ export function clearCache(key?: string | string[]) {
 }
 
 type InternalOptions<R = any, P extends any[] = any[]> = {
+  /**
+   * @description 缓存的键值。启用缓存机制，异步成功结果将被缓存。如果多个相同 cacheKey 的异步同时触发中，将共享第一个异步结果。
+   */
   cacheKey?: string;
+
+  /**
+   * @description 缓存时间。单位毫秒。
+   * @default 5*60*1000
+   */
   cacheTime: number;
+
+  /**
+   * @description 持久化数据。开启后，在触发异步时如果有缓存数据，不再执行异步函数。需要配合 `cacheKey` `cacheTime` 使用。
+   * @default false
+   */
   persisted: boolean;
+
+  /**
+   * @description 格式化异步返回结果。
+   * @param res 异步返回的数据。
+   * @param params 触发异步函数的参数。
+   * @returns 格式化后的数据。
+   */
   formatResult?: (res: any, params: P) => R;
-  onSuccess?: (res: R, params: P) => void;
+
+  /**
+   * @description 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。
+   * @param data 异步返回的数据。
+   * @param params 触发异步函数的参数。
+   * @returns
+   */
+  onSuccess?: (data: R, params: P) => void;
+
+  /**
+   * @description 异步函数异常错误时触发，参数为 `error` 和 `params`。
+   * @param err 错误信息。
+   * @param params 触发异步函数的参数。
+   * @returns
+   */
   onError?: (err: Error, params: P) => void;
+
+  /**
+   * @description 异步函数执行完成后触发。
+   * @returns
+   */
   onFinally?: () => void;
+
+  /**
+   * @description 异步函数执行前触发，参数为 `params`。
+   * @param params 触发异步函数的参数。
+   * @returns
+   */
   onBefore?: (params: P) => void;
+
+  /**
+   * @description 防抖间隔，单位为毫秒。设置后，请求进入防抖模式。
+   */
   debounceInterval?: number;
+
+  /**
+   * @description 节流间隔，单位为毫秒。设置后，请求进入节流模式。
+   */
   throttleInterval?: number;
+
+  /**
+   * @description 轮询间隔，单位为毫秒。设置后，将进入轮询模式，定时触发 `run`。
+   */
   pollingInterval?: number;
+
+  /**
+   * @description 在页面隐藏时，是否继续轮询。如果为 `true`，不会停止轮询。如果为 `false`，在页面隐藏时会暂时停止轮询，页面重新显示时继续上次轮询。
+   * @default true
+   */
   pollingWhenHidden: boolean;
+
+  /**
+   * @description 在屏幕重新获取焦点或重新显示时，是否重新发起请求。如果为 `false`，不会重新发起请求。如果为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。
+   * @default false
+   */
   refreshOnWindowFocus: boolean;
+
+  /**
+   * @description 屏幕重新聚焦，重新发起请求时间间隔。需要配置 `refreshOnWindowFocus` 使用。
+   * @default 5000
+   */
   focusTimespan: number;
 };
 

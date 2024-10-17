@@ -79,12 +79,12 @@ const {
 
 | 参数       | 说明                                                             | 类型 |
 | ---------- | ---------------------------------------------------------------- | ---- |
-| pagination | 分页数据及操作分页的方法                                         | -    |
+| pagination | 分页数据及操作分页的方法。                                       | -    |
 | tableProps | 适配 antd Table 组件的数据结构，可以直接用在 antd Table 组件上。 | -    |
 
 ### Params
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| defaultPageSize | 默认每页的数量 | `number` | `10` |
-| refreshDeps | 在 `autoRun = true` 时，refreshDeps 变化，会重置 current 到第一页，并执行 run 。 | `any[]` |
+| defaultPageSize | 默认每页的数量。 | `number` | `10` |
+| refreshDeps | 在 `autoRun = true` 时，refreshDeps 变化，会重置 `current` 到第一页，并执行 `run` 方法。 | `any[]` | - |

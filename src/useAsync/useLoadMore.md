@@ -65,12 +65,12 @@ const {
 
 ### Result
 
-| 参数        | 说明                                                 | 类型                     |
-| ----------- | ---------------------------------------------------- | ------------------------ |
-| loadMore    | 触发加载更多。                                       | `() => void`             |
-| loadingMore | 是否正在加载更多。即加载中并且 `current` 不等于 1    | `boolean`                |
-| noMore      | 是否没有更多                                         | `boolean`                |
-| refresh     | 重置`current`到第 1 页，并清除之前列表数据，发起请求 | `()=>Promise<R \| null>` |
+| 参数 | 说明 | 类型 |
+| --- | --- | --- |
+| loadMore | 触发加载更多。 | `() => void` |
+| loadingMore | 是否正在加载更多。即加载中并且 `current` 不等于 `1`。 | `boolean` |
+| noMore | 是否没有更多。 | `boolean` |
+| refresh | 重置`current`到第 `1` 页，并清除之前列表数据，发起请求。 | `()=>Promise<R \| null>` |
 
 ### Params
 
@@ -78,7 +78,7 @@ const {
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| threshold | 上拉自动加载，距离底部距离阈值 | `number` | `100` |
-| target | 内容的滚动容器，如果存在，则在滚动到底部时，自动触发 loadMore | `HTMLElement \| Window \| (()=>HTMLElement \| Window)` | - |
-| isNoMore | 判断是否没有更多数据 | `(data?: R) => boolean` | - |
-| refreshDeps | 在 `autoRun = true` 时，refreshDeps 变化，会执行 refresh 。 | `any[]` |
+| threshold | 上拉自动加载，距离底部距离阈值。 | `number` | `100` |
+| target | 内容的滚动容器，如果存在，则在滚动到底部时，自动触发 `loadMore` 方法。 | `HTMLElement \| Window \| (()=>HTMLElement \| Window)` | - |
+| isNoMore | 判断是否没有更多数据。 | `(data?: R) => boolean` | - |
+| refreshDeps | 在 `autoRun = true` 时，refreshDeps 变化，会执行 `refresh` 。 | `any[]` | - |

@@ -3,6 +3,22 @@ import ResizeObserver from './ResizeObserver';
 import getRef, { RefType } from '../utils/getRef';
 import useLatest from '../useLatest';
 
+/**
+ * 获取并监听 dom 节点的宽高。
+ *
+ * @param {Object} ref `dom` 节点引用。
+ * @returns {Object} 返回 `dom` 节点的宽高。
+ * @example
+ * const ref = useRef<HTMLDivElement>(null);
+ * const size = useSize(ref);
+ *
+ * return (
+ *   <>
+ *     <h1 ref={ref}>Hello, world</h1>
+ *     <p>rect value: {JSON.stringify(size)}</p>
+ *   </>
+ * );
+ */
 function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
   const latestRef = useLatest(ref);
   const refIsFunc = typeof ref === 'function';

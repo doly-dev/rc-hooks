@@ -9,7 +9,7 @@ legacy: /other/use-size
 
 # useSize
 
-获取并监听 dom 节点的宽高
+获取并监听 dom 节点的宽高。
 
 ## 代码演示
 
@@ -29,6 +29,6 @@ const size = useSize(ref: (() => HTMLElement) | HTMLElement | MutableRefObject<H
 
 ### Result
 
-| 参数 | 说明           | 类型                                  |
-| ---- | -------------- | ------------------------------------- |
-| size | dom 节点的尺寸 | `{ width?:number; height?: number; }` |
+| 参数 | 说明               | 类型                                  |
+| ---- | ------------------ | ------------------------------------- |
+| size | `dom` 节点的尺寸。 | `{ width?:number; height?: number; }` |

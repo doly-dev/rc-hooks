@@ -1,7 +1,17 @@
 import { useRef } from 'react';
 import useMountedRef from '../useMountedRef';
 
-export default function usePrevious<T>(state: T) {
+/**
+ * 返回上一次的 state 或 props 。
+ *
+ * @param state 需要记录变化的值。
+ * @returns 上一次记录的值。
+ * @example
+ * const [value, setValue] = useState('');
+ * // 上一次 state 的值。
+ * const prevValue = usePrevious(value);
+ */
+function usePrevious<T>(state: T) {
   const mountedRef = useMountedRef();
   const prevRef = useRef<T>();
   const curRef = useRef(state);
@@ -13,3 +23,5 @@ export default function usePrevious<T>(state: T) {
 
   return prevRef.current;
 }
+
+export default usePrevious;

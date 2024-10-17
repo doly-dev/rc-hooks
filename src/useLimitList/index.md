@@ -42,7 +42,7 @@ const { data, canLimit, limited, toggle } = useLimitList(list: any[], {
 | data     | 列表数据。                                                             | `any[]`      |
 | canLimit | 是否可以限制列表数量。<br/>当列表数量小于等于 `count` 时，为 `false`。 | `boolean`    |
 | limited  | 当前是否限制列表数据。                                                 | `boolean`    |
-| toggle   | 切换限制/不限制列表数据。                                              | `() => void` |
+| toggle   | 切换限制列表数据。                                                     | `() => void` |
 
 ### Params
 
@@ -50,5 +50,5 @@ const { data, canLimit, limited, toggle } = useLimitList(list: any[], {
 
 | 参数           | 说明                   | 类型      | 默认值 |
 | -------------- | ---------------------- | --------- | ------ |
-| count          | 默认限制列表数量       | `number`  | `3`    |
+| count          | 默认限制列表数量。     | `number`  | `3`    |
 | defaultLimited | 默认是否限制列表数据。 | `boolean` | `true` |

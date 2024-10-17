@@ -1,5 +1,3 @@
-// ref:
-// https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
 import React, { useState } from 'react';
 import { Button } from 'antd';
 import { usePersistFn } from 'rc-hooks';

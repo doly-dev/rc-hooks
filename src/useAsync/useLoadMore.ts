@@ -4,11 +4,20 @@ import type { AsyncOptions } from '.';
 import useScrollToLower, { TargetType } from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 
+/**
+ * 加载更多异步返回类型。
+ */
 export interface LoadMoreAsyncReturn<DataItem = any> {
+  /**
+   * @description 列表数据。
+   */
   list: DataItem[];
   [key: string]: any;
 }
 
+/**
+ * 异步函数参数类型。
+ */
 export type LoadMoreParams = [
   page: {
     current: number;
@@ -21,11 +30,49 @@ export interface LoadMoreOptions<DataItem = any, R extends LoadMoreAsyncReturn<D
     AsyncOptions<R, LoadMoreParams>,
     'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
   > {
+  /**
+   * @description 上拉自动加载，距离底部距离阈值。
+   * @default 100
+   */
   threshold?: number;
+
+  /**
+   * @description 内容的滚动容器。如果存在，则在滚动到底部时，自动触发 `loadMore` 方法。
+   */
   target?: TargetType;
+
+  /**
+   * @description 判断是否没有更多数据。
+   * @param data 异步返回的数据。
+   * @returns
+   * @default () => false
+   */
   isNoMore?: (data?: R) => boolean;
 }
 
+/**
+ * 基于 `useAsync` 扩展，用于管理加载更多的 Hook。
+ *
+ * @param {number} [options.threshold=100] 上拉自动加载，距离底部距离阈值。默认 `100`。
+ * @param {Object | Function} [options.target] 内容的滚动容器，如果存在，则在滚动到底部时，自动触发 `loadMore` 方法。
+ * @param {Function} [options.isNoMore=()=>false] 判断是否没有更多数据。默认 `()=>false`。
+ * @param {boolean} [options.autoRun=true] 在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。默认 `true`。
+ * @param {*} [options.initialData] 初始化的 `data`。
+ * @param {boolean} [options.defaultLoading=false] 初始化默认 `loading` 值。默认 `false`。
+ * @param {Array} [options.defaultParams] 如果 `autoRun=true` 自动执行 `run` 的默认参数。
+ * @param {Array} [options.refreshDeps] 在 `autoRun = true` 时，refreshDeps 变化，会执行 `refresh` （重置`current`到第 1 页，并清除之前列表数据，发起请求。）。
+ * @param {Function} [options.onBefore] 异步函数执行前触发，参数为 `params`。
+ * @param {Function} [options.onSuccess] 异步函数 `resolve` 时触发，参数为 `data` 和 `params`。
+ * @param {Function} [options.onError] 异步函数报错时触发，参数为 `error` 和 `params`。
+ * @param {number} [options.loadingDelay] 设置 `loading` 延迟时间，避免闪烁，单位为毫秒。
+ * @param {boolean} [options.refreshOnWindowFocus=false] 在屏幕重新获取焦点或重新显示时，是否重新发起请求。如果为 `false`，不会重新发起请求。如果为 `true`，在屏幕重新聚焦或重新显示时，会重新发起请求。默认 `false`。
+ * @param {number} [options.focusTimespan=5000] 屏幕重新聚焦，重新发起请求时间间隔。需要配置 `refreshOnWindowFocus` 使用。默认 `5000`。
+ * @param {number} [options.debounceInterval] 防抖间隔，单位为毫秒，设置后，请求进入防抖模式。
+ * @param {number} [options.throttleInterval] 节流间隔，单位为毫秒，设置后，请求进入节流模式。
+ * @returns {Object}
+ * @example
+ * const { data, error, loading, loadingMore, noMore, loadMore, refresh, cancel } = useLoadMore(asyncFn, options);
+ */
 function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = any>(
   asyncFn: (...args: LoadMoreParams) => Promise<R>,
   options?: LoadMoreOptions<R>
@@ -90,6 +137,9 @@ function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = a
     reqCancel();
   }, [reqCancel, loading]);
 
+  /**
+   * 触发加载更多。
+   */
   const loadMore = useCallback(() => {
     if (loading || noMore) {
       return;
@@ -141,12 +191,28 @@ function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = a
     loading,
     data,
     run,
+
+    /**
+     * 重置`current`到第 `1` 页，并清除之前列表数据，发起请求。
+     */
     refresh,
     cancel,
     mutate,
     params: [{ ...firstParams, current: currentPageRef.current }].concat(restParams),
+
+    /**
+     * 触发加载更多。
+     */
     loadMore,
+
+    /**
+     * 是否正在加载更多。即加载中并且 `current` 不等于 `1`。
+     */
     loadingMore: loading && currentPageRef.current > 1,
+
+    /**
+     * 是否没有更多。
+     */
     noMore
   };
 }

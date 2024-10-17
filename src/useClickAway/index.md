@@ -35,11 +35,11 @@ legacy: /other/use-click-away
 
 ## API
 
-| 参数        | 说明                           | 类型                   | 默认值  |
-| ----------- | ------------------------------ | ---------------------- | ------- |
-| ref         | Dom 节点 或 Ref 对象，支持数组 | `RefType \| RefType[]` | -       |
-| onClickAway | 触发事件的函数                 | `(event)=>void`        | -       |
-| events      | 监听事件名称，支持数组         | `string \| string[]`   | `click` |
+| 参数        | 说明                            | 类型                   | 默认值  |
+| ----------- | ------------------------------- | ---------------------- | ------- |
+| ref         | Dom 节点或 Ref 对象，支持数组。 | `RefType \| RefType[]` | -       |
+| onClickAway | 触发事件的函数。                | `(event)=>void`        | -       |
+| events      | 监听事件名称，支持数组。        | `string \| string[]`   | `click` |
 
 ```typescript
 export type RefType<T = HTMLElement> =
