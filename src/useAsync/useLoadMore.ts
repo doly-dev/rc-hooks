@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
-import useAsync from '.';
-import type { AsyncOptions } from '.';
+import { isArray } from 'ut2';
+import useAsync, { AsyncOptions } from '.';
 import useScrollToLower, { TargetType } from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 
@@ -181,7 +181,7 @@ function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = a
   });
 
   useUpdateEffect(() => {
-    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    if (autoRun && isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
   }, refreshDeps);

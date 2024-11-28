@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { noop } from 'ut2';
+import { isArray, noop } from 'ut2';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
@@ -354,7 +354,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
   // autoRun=true 时，refreshDeps 变化，将重新执行
   useUpdateEffect(() => {
     // 区分 React.StrictMode 下触发
-    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    if (autoRun && isArray(refreshDeps) && refreshDeps.length > 0) {
       refresh();
     }
   }, [autoRun].concat(refreshDeps));
@@ -363,7 +363,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     // 默认自动执行
     if (autoRun) {
       // 支持默认参数
-      const fmtDefaultParams = Array.isArray(defaultParams)
+      const fmtDefaultParams = isArray(defaultParams)
         ? defaultParams
         : ((typeof defaultParams !== 'undefined' ? [defaultParams] : []) as unknown as P);
       run.apply(void 0, fmtDefaultParams);

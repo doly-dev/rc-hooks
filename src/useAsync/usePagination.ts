@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
-import useAsync from '.';
-import type { AsyncOptions } from '.';
+import { isArray } from 'ut2';
+import useAsync, { AsyncOptions } from '.';
 import useUpdateEffect from '../useUpdateEffect';
 
 /**
@@ -150,7 +150,7 @@ function usePagination<D = any, R extends PaginationAsyncReturn<D> = any>(
   );
 
   useUpdateEffect(() => {
-    if (autoRun && Array.isArray(refreshDeps) && refreshDeps.length > 0) {
+    if (autoRun && isArray(refreshDeps) && refreshDeps.length > 0) {
       changeCurrent(1);
     }
   }, refreshDeps);
