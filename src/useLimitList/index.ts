@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { isArray } from 'ut2';
 
 type Options = {
   count?: number;
@@ -16,11 +17,11 @@ type Options = {
  * @example
  * const { data, limited, canLimit, toggle } = useLimitList(list);
  */
-function useLimitList(list: any[] = [], options: Options = {}) {
+function useLimitList<T>(list: T[] = [], options: Options = {}) {
   const { count = 3, defaultLimited = true } = options || {};
   const limitedRef = useRef(defaultLimited);
 
-  const safeList = useMemo(() => (Array.isArray(list) ? list : []), [list]);
+  const safeList = useMemo(() => (isArray(list) ? list : []), [list]);
   const safeCount = useMemo(() => (count > 0 ? Math.ceil(count) : 0), [count]);
 
   // 是否可以限制数量
