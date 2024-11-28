@@ -8,7 +8,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended'
   ],
   settings: {
     react: {
@@ -30,8 +31,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/no-empty-function': 0,
-    'prefer-spread': 0,
-    'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
-    'react-hooks/exhaustive-deps': 'warn' // 检查 effect 的依赖
+    'prefer-spread': 0
   }
 };
