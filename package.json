@@ -15,7 +15,7 @@
     "build:umd": "rm -rf dist && rollup -c",
     "doc": "dumi build",
     "doc-version": "cross-env BUILD_DOC_VERSION=true dumi build",
-    "prettier": "prettier --write **/*",
+    "prettier": "prettier -w **/*",
     "precommit": "lint-staged",
     "lint": "eslint src --ext ts,tsx",
     "lint:fix": "npm run lint -- --fix",
