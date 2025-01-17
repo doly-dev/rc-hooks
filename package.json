@@ -104,5 +104,8 @@
   },
   "peerDependencies": {
     "react": ">= 16.8.6"
+  },
+  "resolutions": {
+    "**/mockjs/commander": "11.0.0"
   }
 }
