@@ -5,5 +5,5 @@ hero:
   description: React Hooks Library.
   actions:
     - text: 快速上手
-      link: /docs
+      link: /guide
 ---
