@@ -12,6 +12,7 @@ on:
       - src/**
       - .umirc.js
       - .github/**
+      - package.json
       - README.md
 
 jobs:

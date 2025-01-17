@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { isArray } from 'ut2';
-import useAsync, { AsyncOptions } from '.';
+import useAsync, { AsyncOptions } from '../useAsync';
 import useUpdateEffect from '../useUpdateEffect';
 
 /**

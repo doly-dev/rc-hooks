@@ -1,9 +1,7 @@
 ---
-title: useUpdateLayoutEffect
 group:
   title: LifeCycle
-  path: /life-cycle
-legacy: /life-cycle/use-update-layout-effect
+toc: content
 ---
 
 # useUpdateLayoutEffect
@@ -14,7 +12,7 @@ legacy: /life-cycle/use-update-layout-effect
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

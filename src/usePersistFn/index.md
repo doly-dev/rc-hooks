@@ -1,9 +1,7 @@
 ---
-title: usePersistFn
 group:
   title: Other
-  path: /other
-legacy: /other/use-persist-fn
+toc: content
 ---
 
 # usePersistFn
@@ -18,7 +16,7 @@ legacy: /other/use-persist-fn
 
 ### 基础用法
 
-<code src="./demos/Demo2.tsx" />
+<code src="./demos/Demo2.tsx"></code>
 
 ## API
 

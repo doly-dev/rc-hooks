@@ -1,9 +1,7 @@
 ---
-title: useUpdate
 group:
   title: LifeCycle
-  path: /life-cycle
-legacy: /life-cycle/use-update
+toc: content
 ---
 
 # useUpdate
@@ -16,7 +14,7 @@ legacy: /life-cycle/use-update
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

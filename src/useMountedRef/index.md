@@ -1,10 +1,7 @@
 ---
-title: useMountedRef
 group:
   title: LifeCycle
-  path: /life-cycle
-  order: 3
-legacy: /life-cycle/use-mounted-ref
+toc: content
 ---
 
 # useMountedRef
@@ -15,13 +12,13 @@ legacy: /life-cycle/use-mounted-ref
 
 **<mark>注意：组件未加载完成时，mountedRef 的值也为 false 。</mark>**
 
-大多数场景中，你需要的可能是 [`useUnmountedRef`](/life-cycle/use-unmounted-ref) 。
+大多数场景中，你需要的可能是 [useUnmountedRef](/hooks/use-unmounted-ref) 。
 
 ## 代码演示
 
 ### 基础用法
 
-<code src="./demos/basic.tsx" />
+<code src="./demos/basic.tsx"></code>
 
 ## API
 

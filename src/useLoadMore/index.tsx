@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { isArray } from 'ut2';
-import useAsync, { AsyncOptions } from '.';
+import useAsync, { AsyncOptions } from '../useAsync';
 import useScrollToLower, { TargetType } from './useScrollToLower';
 import useUpdateEffect from '../useUpdateEffect';
 

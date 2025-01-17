@@ -1,10 +1,7 @@
 ---
-title: useSize
 group:
   title: Other
-  path: /other
-  order: 4
-legacy: /other/use-size
+toc: content
 ---
 
 # useSize
@@ -15,11 +12,11 @@ legacy: /other/use-size
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ### 显示/隐藏
 
-<code src="./demos/Demo2.tsx" />
+<code src="./demos/Demo2.tsx"></code>
 
 ## API
 

@@ -1,9 +1,7 @@
 ---
-title: useThrottle
 group:
   title: SideEffect
-  path: /side-effect
-legacy: /side-effect/use-throttle
+toc: content
 ---
 
 # useThrottle
@@ -14,7 +12,7 @@ legacy: /side-effect/use-throttle
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

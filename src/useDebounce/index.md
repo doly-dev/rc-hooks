@@ -1,10 +1,8 @@
 ---
-title: useDebounce
 group:
   title: SideEffect
-  path: /side-effect
   order: 2
-legacy: /side-effect/use-debounce
+toc: content
 ---
 
 # useDebounce
@@ -15,7 +13,7 @@ legacy: /side-effect/use-debounce
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

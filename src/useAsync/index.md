@@ -1,10 +1,8 @@
 ---
-title: useAsync
 group:
   title: Async
-  path: /async
   order: 1
-legacy: /async/use-async
+toc: content
 ---
 
 # useAsync
@@ -34,53 +32,53 @@ legacy: /async/use-async
 
 ### 默认请求
 
-<code src="./demos/Default.tsx" />
+<code src="./demos/Default.tsx"></code>
 
 ### 手动触发
 
-<code src="./demos/AutoRun.tsx" />
+<code src="./demos/AutoRun.tsx"></code>
 
 ### 缓存 & 预加载
 
-<code src="./demos/Preload.tsx" />
+<code src="./demos/Preload.tsx"></code>
 
 ### 清理缓存
 
-<code src="./demos/ClearCache.tsx" />
+<code src="./demos/ClearCache.tsx"></code>
 
 ### 持久化数据
 
-<code src="./demos/Persisted.tsx" />
+<code src="./demos/Persisted.tsx"></code>
 
 ### 共享异步
 
 多个相同 `cacheKey` 的异步，同时触发中，只会执行第一个，后面执行的将共享第一个异步执行的结果。
 
-<code src="./demos/CacheKey.tsx" />
+<code src="./demos/CacheKey.tsx"></code>
 
 ### 屏幕聚焦重新请求
 
-<code src="./demos/RefreshOnWindowFocus.tsx" />
+<code src="./demos/RefreshOnWindowFocus.tsx"></code>
 
 ### 轮询
 
-<code src="./demos/PollingInterval.tsx" />
+<code src="./demos/PollingInterval.tsx"></code>
 
 ### 防抖
 
-<code src="./demos/DebounceInterval.tsx" />
+<code src="./demos/DebounceInterval.tsx"></code>
 
 ### 节流
 
-<code src="./demos/ThrottleInterval.tsx" />
+<code src="./demos/ThrottleInterval.tsx"></code>
 
 ### 突变
 
-<code src="./demos/Mutate.tsx" />
+<code src="./demos/Mutate.tsx"></code>
 
 ### Loading Delay
 
-<code src="./demos/LoadingDelay.tsx" />
+<code src="./demos/LoadingDelay.tsx"></code>
 
 ### refreshDeps
 
@@ -96,11 +94,11 @@ useEffect(() => {
 
 `refreshDeps` 是一个语法糖，让你更方便的实现上面的功能。当 `refreshDeps` 变化时，会使用之前的 `params` 重新执行。
 
-<code src="./demos/RefreshDeps.tsx" />
+<code src="./demos/RefreshDeps.tsx"></code>
 
 ### 并行请求
 
-<code src="./demos/Parallel.tsx" />
+<code src="./demos/Parallel.tsx"></code>
 
 ## API
 
@@ -175,10 +173,10 @@ clearCache(cacheKey?: string|string[]);
 
 ## 扩展用法
 
-### 分页
-
-[点击查看 `usePagination`](/async/use-pagination)
-
 ### 加载更多
 
-[点击查看 `useLoadMore`](/async/use-load-more)
+[点击查看 useLoadMore](/hooks/use-load-more)
+
+### 分页
+
+[点击查看 usePagination](/hooks/use-pagination)

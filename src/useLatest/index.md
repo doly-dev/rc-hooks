@@ -1,9 +1,8 @@
 ---
-title: useLatest
 group:
   title: State
-  path: /state
-legacy: /state/use-latest
+  order: 3
+toc: content
 ---
 
 # useLatest
@@ -12,7 +11,7 @@ legacy: /state/use-latest
 
 ## 代码演示
 
-<code src='./demos/basic.tsx' />
+<code src='./demos/basic.tsx'></code>
 
 ## API
 

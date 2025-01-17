@@ -1,15 +1,12 @@
 ---
-title: usePagination
 group:
   title: Async
-  path: /async
-  order: 1
-legacy: /async/use-pagination
+toc: content
 ---
 
 # usePagination
 
-基于 [`useAsync`](/async/use-async) 扩展，用于管理`分页`的 Hook。
+基于 [useAsync](/hooks/use-async) 扩展，用于管理`分页`的 Hook。
 
 **核心特性**
 
@@ -24,15 +21,15 @@ legacy: /async/use-pagination
 
 ### 基础用法
 
-<code src="./demos/Pagination1.tsx" />
+<code src="./demos/Pagination1.tsx"></code>
 
 ### Ant Table
 
-<code src="./demos/Pagination2.tsx" />
+<code src="./demos/Pagination2.tsx"></code>
 
 ### 第一个参数包含其他值
 
-<code src="./demos/Pagination3.tsx" />
+<code src="./demos/Pagination3.tsx"></code>
 
 ## API
 
@@ -73,7 +70,7 @@ const {
 });
 ```
 
-除了以下，其它和 [`useAsync`](/async/use-async) 一样。
+除了以下，其它和 [useAsync](/hooks/use-async) 一样。
 
 ### Result
 

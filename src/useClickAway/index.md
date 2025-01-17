@@ -1,10 +1,8 @@
 ---
-title: useClickAway
 group:
   title: Other
-  path: /other
-  order: 1
-legacy: /other/use-click-away
+  order: 5
+toc: content
 ---
 
 # useClickAway
@@ -15,23 +13,23 @@ legacy: /other/use-click-away
 
 ### 基础用法
 
-<code src="./demos/basic.tsx" />
+<code src="./demos/basic.tsx"></code>
 
 ### 自定义 Dom
 
-<code src="./demos/defineDom.tsx" />
+<code src="./demos/defineDom.tsx"></code>
 
 ### 多个目标对象
 
-<code src="./demos/moreDom.tsx" />
+<code src="./demos/moreDom.tsx"></code>
 
 ### 监听其他事件
 
-<code src="./demos/defineEvent.tsx" />
+<code src="./demos/defineEvent.tsx"></code>
 
 ### 监听多个事件
 
-<code src="./demos/moreEvent.tsx" />
+<code src="./demos/moreEvent.tsx"></code>
 
 ## API
 

@@ -1,15 +1,12 @@
 ---
-title: useLoadMore
 group:
   title: Async
-  path: /async
-  order: 1
-legacy: /async/use-load-more
+toc: content
 ---
 
 # useLoadMore
 
-基于 [`useAsync`](/async/use-async) 扩展，用于管理`加载更多`的 Hook。
+基于 [useAsync](/hooks/use-async) 扩展，用于管理`加载更多`的 Hook。
 
 **核心特性**
 
@@ -24,23 +21,23 @@ legacy: /async/use-load-more
 
 ### 基础用法
 
-<code iframe="300" src="./demos/LoadMore1.tsx" />
+<code iframe="300" src="./demos/LoadMore1.tsx"></code>
 
 ### 滚动底部自动加载
 
-<code src="./demos/LoadMore2.tsx" />
+<code src="./demos/LoadMore2.tsx"></code>
 
 ### 根据 data 进行下一次请求
 
-<code src="./demos/LoadMore3.tsx" />
+<code src="./demos/LoadMore3.tsx"></code>
 
 ### 搜索列表
 
-<code src="./demos/LoadMore4.tsx" />
+<code src="./demos/LoadMore4.tsx"></code>
 
 ### 修改列表
 
-<code iframe="300" src="./demos/LoadMore5.tsx" />
+<code iframe="300" src="./demos/LoadMore5.tsx"></code>
 
 ## API
 
@@ -61,7 +58,7 @@ const {
 });
 ```
 
-除了以下，其它和 [`useAsync`](/async/use-async) 一样。
+除了以下，其它和 [useAsync](/hooks/use-async) 一样。
 
 ### Result
 

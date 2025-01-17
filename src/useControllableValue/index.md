@@ -1,10 +1,7 @@
 ---
-title: useControllableValue
 group:
   title: Other
-  path: /other
-  order: 4
-legacy: /other/use-controllabel-value
+toc: content
 ---
 
 # useControllableValue
@@ -15,15 +12,15 @@ legacy: /other/use-controllabel-value
 
 ### 非受控组件
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ### 受控组件
 
-<code src="./demos/Demo2.tsx" />
+<code src="./demos/Demo2.tsx"></code>
 
 ### 无 value，有 onChange 的组件
 
-<code src="./demos/Demo3.tsx" />
+<code src="./demos/Demo3.tsx"></code>
 
 ## API
 

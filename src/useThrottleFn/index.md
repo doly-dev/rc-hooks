@@ -1,9 +1,7 @@
 ---
-title: useThrottleFn
 group:
   title: SideEffect
-  path: /side-effect
-legacy: /side-effect/use-debounce-fn
+toc: content
 ---
 
 # useThrottleFn
@@ -14,11 +12,11 @@ legacy: /side-effect/use-debounce-fn
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ### 对比
 
-<code src="./demos/Demo2.tsx" />
+<code src="./demos/Demo2.tsx"></code>
 
 ## API
 

@@ -1,10 +1,7 @@
 ---
-title: usePrevious
 group:
-  order: 2
   title: State
-  path: /state
-legacy: /state/use-previous
+toc: content
 ---
 
 # usePrevious
@@ -15,11 +12,11 @@ legacy: /state/use-previous
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ### 不受其他状态更新影响
 
-<code src="./demos/Demo2.tsx" />
+<code src="./demos/Demo2.tsx"></code>
 
 ## API
 

@@ -10,8 +10,9 @@ module-config.js
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
-.umi
-.umi-production
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
 example
 .DS_Store
 npm-debug.log*

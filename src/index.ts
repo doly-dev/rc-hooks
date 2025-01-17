@@ -1,10 +1,10 @@
 // Async
 export { default as useAsync } from './useAsync';
 export * from './useAsync';
-export { default as useLoadMore } from './useAsync/useLoadMore';
-export * from './useAsync/useLoadMore';
-export { default as usePagination } from './useAsync/usePagination';
-export * from './useAsync/usePagination';
+export { default as useLoadMore } from './useLoadMore';
+export * from './useLoadMore';
+export { default as usePagination } from './usePagination';
+export * from './usePagination';
 
 // SideEffect
 export { default as useDebounceFn } from './useDebounceFn';

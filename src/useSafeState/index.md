@@ -1,10 +1,7 @@
 ---
-title: useSafeState
 group:
-  order: 2
   title: State
-  path: /state
-legacy: /state/use-safe-state
+toc: content
 ---
 
 # useSafeState
@@ -15,7 +12,7 @@ legacy: /state/use-safe-state
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

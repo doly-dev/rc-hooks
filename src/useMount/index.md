@@ -1,10 +1,8 @@
 ---
-title: useMount
 group:
   title: LifeCycle
-  path: /life-cycle
-  order: 3
-legacy: /life-cycle/use-mount
+  order: 4
+toc: content
 ---
 
 # useMount
@@ -15,7 +13,7 @@ legacy: /life-cycle/use-mount
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

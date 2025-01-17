@@ -1,9 +1,7 @@
 ---
-title: useLimitList
 group:
   title: State
-  path: /state
-legacy: /state/use-limit-list
+toc: content
 ---
 
 # useLimitList
@@ -14,17 +12,15 @@ legacy: /state/use-limit-list
 
 ### 基础用法
 
-<code src='./demos/basic.tsx' />
-<code src='./demos/min.tsx' />
-<code src='./demos/count.tsx' />
+<code src='./demos/basic.tsx'></code> <code src='./demos/min.tsx'></code> <code src='./demos/count.tsx'></code>
 
 ### 异步获取列表
 
-<code src='./demos/async.tsx' />
+<code src='./demos/async.tsx'></code>
 
 ### 可变列表
 
-<code src='./demos/control.tsx' />
+<code src='./demos/control.tsx'></code>
 
 ## API
 

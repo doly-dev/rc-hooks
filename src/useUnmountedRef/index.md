@@ -1,10 +1,7 @@
 ---
-title: useUnmountedRef
 group:
   title: LifeCycle
-  path: /life-cycle
-  order: 3
-legacy: /life-cycle/use-unmounted-ref
+toc: content
 ---
 
 # useUnmountedRef
@@ -17,7 +14,7 @@ legacy: /life-cycle/use-unmounted-ref
 
 ### 基础用法
 
-<code src="./demos/basic.tsx" />
+<code src="./demos/basic.tsx"></code>
 
 ## API
 

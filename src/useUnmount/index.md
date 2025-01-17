@@ -1,9 +1,7 @@
 ---
-title: useUnmount
 group:
   title: LifeCycle
-  path: /life-cycle
-legacy: /life-cycle/use-unmount
+toc: content
 ---
 
 # useUnmount
@@ -14,7 +12,7 @@ legacy: /life-cycle/use-unmount
 
 ### 基础用法
 
-<code src="./demos/Demo1.tsx" />
+<code src="./demos/Demo1.tsx"></code>
 
 ## API
 

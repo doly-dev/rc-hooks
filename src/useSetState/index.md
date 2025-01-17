@@ -1,10 +1,7 @@
 ---
-title: useSetState
 group:
-  order: 2
   title: State
-  path: /state
-legacy: /state/use-set-state
+toc: content
 ---
 
 # useSetState
@@ -15,7 +12,7 @@ legacy: /state/use-set-state
 
 ### 基础用法
 
-<code src="./demos/basic.tsx" />
+<code src="./demos/basic.tsx"></code>
 
 ## API
 
