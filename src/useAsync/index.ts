@@ -3,7 +3,9 @@ import { isArray, isUndefined, noop } from 'ut2';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
+import useUnmountedRef from '../useUnmountedRef';
 import AsyncCalss, { getCache, clearCache, Options, AsyncFunction } from './Async';
+import equalParams from '../utils/equalParams';
 
 export { clearCache };
 
@@ -197,6 +199,9 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     error: null,
     data: cacheKey ? getCache<R>(cacheKey) : initialData
   }));
+  const latestState = useLatest(state);
+  const unmountedRef = useUnmountedRef();
+
   const loadingDelayTimerRef = useRef<any>(null); // 延迟loading
 
   // 持久化一些函数
@@ -223,17 +228,24 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
 
       // 没有缓存数据 或 没有开启持久缓存，设置loading
       if (!cacheData || !persisted) {
-        set((s) => ({ ...s, loading: !loadingDelay, params: p }));
+        if (
+          latestState.current.loading !== !loadingDelay ||
+          !equalParams(latestState.current.params, p)
+        ) {
+          set((s) => ({ ...s, loading: !loadingDelay, params: p }));
+        }
 
         // 设置延迟loading定时器
         if (loadingDelay) {
           loadingDelayTimerRef.current = setTimeout(() => {
-            set((s) => ({ ...s, loading: true }));
+            if (!unmountedRef.current) {
+              set((s) => ({ ...s, loading: true }));
+            }
           }, loadingDelay);
         }
       }
     },
-    [cacheKey, loadingDelay, onBeforePersist, persisted]
+    [cacheKey, latestState, loadingDelay, onBeforePersist, persisted, unmountedRef]
   );
 
   // 异步执行成功后
