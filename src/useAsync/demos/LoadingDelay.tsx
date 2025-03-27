@@ -11,7 +11,7 @@ function Demo() {
   const getTimeAction = useAsync(getCurrentTime);
 
   const withLoadingDelayAction = useAsync(getCurrentTime, {
-    loadingDelay: 1000
+    loadingDelay: 1020
   });
 
   const trigger = () => {
