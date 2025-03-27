@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { isArray, noop } from 'ut2';
+import { isArray, isUndefined, noop } from 'ut2';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
@@ -37,7 +37,7 @@ type AsyncOptions<R = any, P extends any[] = any[]> = Partial<
 
     /**
      * @description 初始化默认 `loading` 值。
-     * @default false
+     * @default 默认为 `autoRun` 值
      */
     defaultLoading: boolean;
 
@@ -167,7 +167,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     defaultParams,
     loadingDelay,
     __INTERNAL_FORMAT__,
-    defaultLoading = false,
+    defaultLoading,
     initialData,
 
     cacheKey = '',
@@ -190,13 +190,13 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     loading: boolean;
     error: null | Error;
     data?: R;
-  }>({
+  }>(() => ({
     // 参数兼容非array的情况
     params: [] as unknown as P,
-    loading: defaultLoading,
+    loading: !!(isUndefined(defaultLoading) ? autoRun : defaultLoading),
     error: null,
     data: cacheKey ? getCache<R>(cacheKey) : initialData
-  });
+  }));
   const loadingDelayTimerRef = useRef<any>(null); // 延迟loading
 
   // 持久化一些函数

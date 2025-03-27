@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { Button, Spin } from 'antd';
+import { Button, Space, Spin } from 'antd';
 import { useAsync } from 'rc-hooks';
 import getUsername from './services/getUsername';
 
@@ -23,10 +23,10 @@ function Demo() {
       <Spin spinning={loading}>
         <p>Username: {data}</p>
       </Spin>
-      <Button.Group>
+      <Space.Compact>
         <Button onClick={run}>start</Button>
         <Button onClick={cancel}>stop</Button>
-      </Button.Group>
+      </Space.Compact>
     </>
   );
 }

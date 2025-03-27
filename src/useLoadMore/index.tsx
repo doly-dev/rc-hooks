@@ -58,7 +58,7 @@ export interface LoadMoreOptions<DataItem = any, R extends LoadMoreAsyncReturn<D
  * @param {Function} [options.isNoMore=()=>false] 判断是否没有更多数据。默认 `()=>false`。
  * @param {boolean} [options.autoRun=true] 在初始化时自动执行异步函数。如果设置为 `false`，则需要手动调用 `run` 触发执行。默认 `true`。
  * @param {*} [options.initialData] 初始化的 `data`。
- * @param {boolean} [options.defaultLoading=false] 初始化默认 `loading` 值。默认 `false`。
+ * @param {boolean} [options.defaultLoading] 初始化默认 `loading` 值。默认为 `autoRun` 值。
  * @param {Array} [options.defaultParams] 如果 `autoRun=true` 自动执行 `run` 的默认参数。
  * @param {Array} [options.refreshDeps] 在 `autoRun = true` 时，refreshDeps 变化，会执行 `refresh` （重置`current`到第 1 页，并清除之前列表数据，发起请求。）。
  * @param {Function} [options.onBefore] 异步函数执行前触发，参数为 `params`。
