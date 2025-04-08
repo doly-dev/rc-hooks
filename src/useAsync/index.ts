@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { isArray, isUndefined, noop } from 'ut2';
+import { equalArrayLike, isArray, isUndefined, noop } from 'ut2';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
 import useUnmountedRef from '../useUnmountedRef';
 import AsyncCalss, { getCache, clearCache, Options, AsyncFunction } from './Async';
-import equalParams from '../utils/equalParams';
 
 export { clearCache };
 
@@ -230,7 +229,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
       if (!cacheData || !persisted) {
         if (
           latestState.current.loading !== !loadingDelay ||
-          !equalParams(latestState.current.params, p)
+          !equalArrayLike(latestState.current.params, p)
         ) {
           set((s) => ({ ...s, loading: !loadingDelay, params: p }));
         }
