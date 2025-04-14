@@ -1,7 +1,6 @@
-import { debounce, throttle } from 'ut2';
+import { debounce, throttle, limit } from 'ut2';
 import { AsyncMemo } from 'util-helpers';
 import { isDocumentVisible } from '../utils';
-import limit from '../utils/limit';
 import subscribeVisible from '../utils/windowVisible';
 import subscribeFocus from '../utils/windowFocus';
 

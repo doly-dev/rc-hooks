@@ -54,7 +54,7 @@
   "homepage": "https://github.com/doly-dev/hooks#readme",
   "dependencies": {
     "tslib": "^2.8.1",
-    "ut2": "^1.18.0",
+    "ut2": "^1.19.0",
     "util-helpers": "^5.7.1"
   },
   "devDependencies": {
