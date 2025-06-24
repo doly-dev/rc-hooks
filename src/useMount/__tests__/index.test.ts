@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import useMount from '..';
+import { useMount } from 'rc-hooks';
 
 describe('useMount', () => {
   it('should not call provided callback on rerender', () => {

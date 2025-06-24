@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import usePagination from '..';
+import { usePagination } from 'rc-hooks';
 import getList from '../demos/services/getList';
 
 describe('usePagination', () => {

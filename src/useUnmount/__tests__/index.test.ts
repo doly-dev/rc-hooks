@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import useUnmount from '..';
+import { useUnmount } from 'rc-hooks';
 
 describe('useUnmount', () => {
   it('should not call provided callback on re-renders', () => {

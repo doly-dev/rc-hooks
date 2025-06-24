@@ -1,6 +1,6 @@
 import { useState, act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useThrottle from '..';
+import { useThrottle } from 'rc-hooks';
 
 const setUp = (wait = 300) =>
   renderHook(() => {

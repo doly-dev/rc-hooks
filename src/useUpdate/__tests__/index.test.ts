@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useUpdate from '..';
+import { useUpdate } from 'rc-hooks';
 
 describe('useUpdate', () => {
   it('should return a function', () => {

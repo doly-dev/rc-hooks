@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import useUpdateLayoutEffect from '..';
+import { useUpdateLayoutEffect } from 'rc-hooks';
 
 describe('useUpdateLayoutEffect', () => {
   it('should run effect on update', () => {

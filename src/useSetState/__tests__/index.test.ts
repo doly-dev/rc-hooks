@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useSetState from '..';
+import { useSetState } from 'rc-hooks';
 
 describe('useSetState', () => {
   it('work', async () => {

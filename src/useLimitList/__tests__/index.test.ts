@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { useEffect, useState, act } from 'react';
 import { sleep } from 'ut2';
-import useLimitList from '..';
+import { useLimitList } from 'rc-hooks';
 
 describe('useLimitList', () => {
   it('not limited', async () => {

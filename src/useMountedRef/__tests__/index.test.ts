@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useMountedRef from '..';
+import { useMountedRef } from 'rc-hooks';
 
 describe('useMountedRef', () => {
   it('work', async () => {

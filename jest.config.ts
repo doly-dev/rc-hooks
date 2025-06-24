@@ -1,7 +1,10 @@
 export default {
   preset: 'ts-jest',
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
   // transform: {
   //   '^.+.tsx?$': ['ts-jest', {}]
   // }
+  moduleNameMapper: {
+    '^rc-hooks$': '<rootDir>/src/index.ts'
+  }
 };

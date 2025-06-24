@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useUnmountedRef from '..';
+import { useUnmountedRef } from 'rc-hooks';
 
 describe('useUnmountedRef', () => {
   it('work', async () => {

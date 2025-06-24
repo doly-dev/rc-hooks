@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useControllableValue from '..';
+import { useControllableValue } from 'rc-hooks';
 
 describe('useControllableValue', () => {
   it('deufaltValue should work', () => {

@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
-import useLoadMore from '..';
+import { useLoadMore } from 'rc-hooks';
 import getList from '../demos/services/getList';
 
 describe('useLoadMore', () => {

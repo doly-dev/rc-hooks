@@ -1,6 +1,6 @@
 import { useState, act } from 'react';
 import { renderHook } from '@testing-library/react';
-import usePersistFn from '..';
+import { usePersistFn } from 'rc-hooks';
 
 describe('usePersistFn', () => {
   it('should work', async () => {

@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import useDebounceFn from '..';
+import { useDebounceFn } from 'rc-hooks';
 
 const setUp = (wait = 300) =>
   renderHook(() => {

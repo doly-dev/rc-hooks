@@ -1,4 +1,4 @@
-import * as allHooks from '..';
+import * as allHooks from 'rc-hooks';
 
 describe('index', () => {
   it('should be defined', () => {

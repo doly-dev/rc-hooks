@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import useUpdateEffect from '..';
+import { useUpdateEffect } from 'rc-hooks';
 
 describe('useUpdateEffect', () => {
   it('should run effect on update', () => {

@@ -1,5 +1,5 @@
 import { renderHook, fireEvent } from '@testing-library/react';
-import useClickAway from '..';
+import { useClickAway } from 'rc-hooks';
 
 describe('useClickAway', () => {
   let dom1: HTMLDivElement;

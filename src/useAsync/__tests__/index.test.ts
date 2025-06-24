@@ -1,8 +1,7 @@
 import { act } from 'react';
 import { renderHook } from '@testing-library/react';
 import { sleep } from 'ut2';
-import useAsync from '..';
-import { clearCache } from '../..';
+import { useAsync, clearCache } from 'rc-hooks';
 
 const asyncFunc = async (result = 1) => {
   await sleep();
