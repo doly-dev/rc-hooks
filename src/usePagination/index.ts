@@ -90,13 +90,13 @@ function usePagination<D = any, R extends PaginationAsyncReturn<D> = any>(
   const changePagination = useCallback(
     (pagination: Partial<PaginationParams[0]>) => {
       const [oldParams, ...restParams] = params;
-      run.apply(void 0, ([{ ...oldParams, ...pagination }] as any).concat(restParams));
+      return run.apply(void 0, ([{ ...oldParams, ...pagination }] as any).concat(restParams));
     },
     [params, run]
   );
 
   const refresh = useCallback(() => {
-    changePagination({ current, pageSize });
+    return changePagination({ current, pageSize });
   }, [changePagination, current, pageSize]);
 
   const onChange = useCallback(

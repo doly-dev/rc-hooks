@@ -9,7 +9,7 @@ import { usePagination } from 'rc-hooks';
 import getUserList from './services/getUserList';
 
 function Demo() {
-  const { refresh, tableProps } = usePagination(
+  const { loading, refresh, tableProps } = usePagination(
     ({ current, pageSize, ...rest }) => {
       console.log(rest);
       return getUserList({ current, pageSize }).then((res) => ({
@@ -54,7 +54,7 @@ function Demo() {
 
   return (
     <div>
-      <Button onClick={refresh} style={{ marginBottom: 16 }}>
+      <Button onClick={refresh} style={{ marginBottom: 16 }} disabled={loading}>
         刷新
       </Button>
       <Table {...tableProps} columns={columns} rowKey="id" bordered />
