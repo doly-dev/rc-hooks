@@ -140,12 +140,12 @@ function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = a
   /**
    * 触发加载更多。
    */
-  const loadMore = useCallback(() => {
+  const loadMore = useCallback(async () => {
     if (loading || noMore) {
       return;
     }
     currentPageRef.current += 1;
-    loadData();
+    return loadData();
   }, [loading, noMore, loadData]);
 
   const mutate: typeof reqMutate = useCallback(
@@ -202,6 +202,8 @@ function useLoadMore<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = a
 
     /**
      * 触发加载更多。
+     *
+     * 如果没有更多或者正在加载中，返回 `undefined`。
      */
     loadMore,
 

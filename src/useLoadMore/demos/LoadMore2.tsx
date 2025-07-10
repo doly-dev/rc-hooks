@@ -31,7 +31,9 @@ function Demo() {
 
       {noMore && <span>No more data</span>}
 
-      <span style={{ float: 'right', fontSize: 12 }}>total: {data?.total}</span>
+      <span style={{ float: 'right', fontSize: 12 }}>
+        {loading && (!data || data.list.length === 0) ? '' : `total: ${data?.total}`}
+      </span>
     </div>
   );
 
