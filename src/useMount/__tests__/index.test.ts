@@ -6,12 +6,12 @@ describe('useMount', () => {
     const mockFn = jest.fn();
     const { unmount, rerender } = renderHook(() => useMount(mockFn));
 
-    expect(mockFn).toBeCalledTimes(1);
+    expect(mockFn).toHaveBeenCalledTimes(1);
 
     rerender();
-    expect(mockFn).toBeCalledTimes(1);
+    expect(mockFn).toHaveBeenCalledTimes(1);
 
     unmount();
-    expect(mockFn).toBeCalledTimes(1);
+    expect(mockFn).toHaveBeenCalledTimes(1);
   });
 });
