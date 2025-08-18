@@ -21,8 +21,6 @@ import useLatest from '../useLatest';
  */
 function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
   const latestRef = useLatest(ref);
-  const refIsFunc = typeof ref === 'function';
-  const wrapperRef = refIsFunc ? latestRef : ref;
   const [size, setSize] = useState<{ width?: number; height?: number }>(() => {
     const target = getRef(ref);
     return {
@@ -30,15 +28,18 @@ function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
       height: target?.clientHeight
     };
   });
+  const sizeLatestRef = useLatest(size);
 
   useEffect(() => {
-    const target = getRef(refIsFunc ? (wrapperRef as any).current : wrapperRef);
+    const target = getRef(latestRef.current);
 
     function refresh(el: HTMLElement | null) {
-      if (el) {
+      const width = el?.clientWidth;
+      const height = el?.clientHeight;
+      if (width !== sizeLatestRef.current.width || height !== sizeLatestRef.current.height) {
         setSize({
-          width: el.clientWidth,
-          height: el.clientHeight
+          width,
+          height
         });
       }
     }
@@ -60,7 +61,7 @@ function useSize<T extends HTMLElement = HTMLElement>(ref: RefType<T>) {
     return () => {
       observer.disconnect();
     };
-  }, [wrapperRef, refIsFunc]);
+  }, [latestRef, sizeLatestRef]);
 
   return size;
 }
