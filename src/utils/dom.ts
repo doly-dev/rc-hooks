@@ -47,3 +47,27 @@ export const getClientHeight = (el: Window | HTMLElement = window) => {
   }
   return el.clientHeight;
 };
+
+/**
+ * 检查文档是否可见
+ *
+ * @returns
+ */
+export function isDocumentVisible() {
+  if (typeof document !== 'undefined' && typeof document.visibilityState !== 'undefined') {
+    return document.visibilityState !== 'hidden';
+  }
+  return true;
+}
+
+/**
+ * 检查是否在线
+ *
+ * @returns
+ */
+export function isOnline() {
+  if (typeof navigator !== 'undefined' && typeof navigator.onLine !== 'undefined') {
+    return navigator.onLine;
+  }
+  return true;
+}

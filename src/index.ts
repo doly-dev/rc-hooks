@@ -13,6 +13,7 @@ export { default as useThrottleFn } from './useThrottleFn';
 export { default as useThrottle } from './useThrottle';
 
 // State
+export { default as useCacheState, clearCacheState } from './useCacheState';
 export { default as useLatest } from './useLatest';
 export { default as useLimitList } from './useLimitList';
 export { default as useSetState } from './useSetState';

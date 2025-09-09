@@ -1,10 +1,11 @@
 import { debounce, throttle, limit } from 'ut2';
 import { AsyncMemo } from 'util-helpers';
-import { isDocumentVisible } from '../utils';
+import { isDocumentVisible } from '../utils/dom';
 import subscribeVisible from '../utils/windowVisible';
 import subscribeFocus from '../utils/windowFocus';
+import { pkgName } from '../utils/config';
 
-const asyncMemo = new AsyncMemo({ prefix: 'rc-hooks', stdTTL: 5 * 60 * 1000 });
+const asyncMemo = new AsyncMemo({ prefix: pkgName, stdTTL: 5 * 60 * 1000 });
 
 /**
  * 获取缓存键值。
@@ -17,7 +18,7 @@ export function getCache<T = any>(key: string) {
 }
 
 /**
- * 清理缓存。如果不传参数，表示清理全部。
+ * 清理 `useAsync` 缓存。如果不传参数，表示清理全部。
  *
  * @param key 键名称。
  */

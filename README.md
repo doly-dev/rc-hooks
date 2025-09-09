@@ -38,6 +38,7 @@ import { useAsync } from 'rc-hooks';
   - [useThrottle] - 用来处理节流值
   - [useThrottleFn] - 用来处理节流函数
 - State
+  - [useCacheState] - 管理缓存 state
   - [useLatest] - 返回最新的 state 或 props
   - [useLimitList] - 管理列表展示数量
   - [useSetState] - 管理 object 类型 state ，和 class 组件的 `this.setState` 基本一致
@@ -68,6 +69,7 @@ import { useAsync } from 'rc-hooks';
 [usesetstate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-set-state
 [useprevious]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-previous
 [usesafestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-safe-state
+[usecachestate]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-cache-state
 [uselatest]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-latest
 [uselimitlist]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-limit-list
 [usemount]: https://doly-dev.github.io/rc-hooks/latest/index.html#/hooks/use-mount
