@@ -1,10 +1,11 @@
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import reactHooks from 'eslint-plugin-react-hooks';
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ['.dumi', 'site/', 'dist/', 'lib/', 'es/', 'coverage/']
   },
