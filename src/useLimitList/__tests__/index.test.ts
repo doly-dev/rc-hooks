@@ -19,7 +19,7 @@ describe('useLimitList', () => {
     });
 
     expect(result.current.canLimit).toBe(false);
-    expect(result.current.limited).toBe(true);
+    expect(result.current.limited).toBe(false);
     expect(result.current.data).toEqual(list);
   });
 

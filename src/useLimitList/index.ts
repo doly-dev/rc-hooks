@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { isArray } from 'ut2';
 
 type Options = {
@@ -17,50 +17,34 @@ type Options = {
  * @example
  * const { data, limited, canLimit, toggle } = useLimitList(list);
  */
-function useLimitList<T>(list: T[] = [], options: Options = {}) {
+function useLimitList<T>(list: T[] | undefined, options: Options = {}) {
   const { count = 3, defaultLimited = true } = options || {};
-  const limitedRef = useRef(defaultLimited);
+  const [limited, setLimited] = useState(defaultLimited);
 
-  const safeList = useMemo(() => (isArray(list) ? list : []), [list]);
-  const safeCount = useMemo(() => (count > 0 ? Math.ceil(count) : 0), [count]);
-
-  // 是否可以限制数量
-  const canLimit = useMemo(() => safeList.length > safeCount, [safeCount, safeList.length]);
-
-  // 限制后的值
-  const [data, setData] = useState(() => {
-    if (canLimit && defaultLimited) {
-      return safeList.slice(0, safeCount);
+  const data = useMemo(() => {
+    if (isArray(list) && list.length > count) {
+      return limited ? list.slice(0, count) : list;
     }
-    return safeList;
-  });
+    return list || [];
+  }, [limited, list, count]);
 
-  // 切换限制/不限制数量
   const toggle = () => {
-    if (canLimit) {
-      limitedRef.current = !limitedRef.current;
-    }
-    setData(limitedRef.current ? safeList.slice(0, safeCount) : safeList);
+    setLimited(!limited);
   };
-
-  // 修改 list 或 count 后，触发更新
-  useEffect(() => {
-    setData(limitedRef.current ? safeList.slice(0, safeCount) : safeList);
-  }, [safeCount, safeList]);
 
   return {
     /**
-     * 是否可以限制列表数量。当列表数量小于等于 `count` 时，为 `false`。
-     */
-    canLimit,
-
-    /**
      * 当前是否限制列表数据。
      */
-    limited: limitedRef.current,
+    limited,
 
     /**
-     * 列表数据。
+     * 是否可以限制列表数量。当列表数量小于等于 `count` 时，为 `false`。
+     */
+    canLimit: isArray(list) && list.length > count,
+
+    /**
+     * 限制列表后的数据。
      */
     data,
 
