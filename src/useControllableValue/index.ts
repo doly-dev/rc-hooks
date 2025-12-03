@@ -1,5 +1,6 @@
 import { SetStateAction, useCallback, useState } from 'react';
-import useUpdateEffect from '../useUpdateEffect';
+
+const objectProtoHasOwnProperty = Object.prototype.hasOwnProperty;
 
 type Props<T> = {
   value?: T;
@@ -37,23 +38,16 @@ function useControllableValue<T = any>(props: Props<T> = {}, options: Options<T>
     trigger = 'onChange'
   } = options;
 
-  const hasValueProp = valuePropName in props;
-  const value = props[valuePropName] as T;
+  const hasValueProp = objectProtoHasOwnProperty.call(props, valuePropName);
   const [state, setState] = useState<T>(() => {
     if (hasValueProp) {
-      return value;
+      return props[valuePropName];
     }
-    if (defaultValuePropName in props) {
+    if (objectProtoHasOwnProperty.call(props, defaultValuePropName)) {
       return props[defaultValuePropName];
     }
     return defaultValue;
   });
-
-  useUpdateEffect(() => {
-    if (hasValueProp) {
-      setState(value);
-    }
-  }, [value, hasValueProp]);
 
   const handleSetState = useCallback(
     (v: SetStateAction<T>, ...args: any[]): any => {
@@ -67,7 +61,7 @@ function useControllableValue<T = any>(props: Props<T> = {}, options: Options<T>
     [hasValueProp, props, trigger]
   );
 
-  return [hasValueProp ? value : state, handleSetState] as const;
+  return [hasValueProp ? props[valuePropName] : state, handleSetState] as const;
 }
 
 export default useControllableValue;
