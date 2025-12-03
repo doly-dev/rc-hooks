@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import { useRef } from 'react';
 import useMountedRef from '../useMountedRef';
 
@@ -13,7 +14,7 @@ import useMountedRef from '../useMountedRef';
  */
 function usePrevious<T>(state: T) {
   const mountedRef = useMountedRef();
-  const prevRef = useRef<T>();
+  const prevRef = useRef<T>(undefined);
   const curRef = useRef(state);
 
   if (mountedRef.current && curRef.current !== state) {

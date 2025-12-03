@@ -1,11 +1,11 @@
-import { MutableRefObject, RefObject } from 'react';
+import { RefObject } from 'react';
 
 export type RefType<T = HTMLElement> =
-  | RefObject<T>
+  | RefObject<T | null>
   | null
   | (() => T | null)
   | T
-  | MutableRefObject<T | undefined>;
+  | RefObject<T | undefined>;
 
 function getRef(ref: RefType) {
   if (typeof ref === 'function') {

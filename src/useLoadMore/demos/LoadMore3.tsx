@@ -37,7 +37,7 @@ async function getLoadMoreList(nextId: any, limit: any): Promise<Result> {
 
 function Demo() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const currResult = useRef<Result>();
+  const currResult = useRef<Result>(undefined);
   const { data, loading, loadingMore, refresh, loadMore, noMore } = useLoadMore(
     ({ current }) => {
       return getLoadMoreList(current === 1 ? undefined : currResult.current?.nextId, 3);
