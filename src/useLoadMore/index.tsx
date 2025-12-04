@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import { useCallback, useRef } from 'react';
 import { isArray } from 'ut2';
 import useAsync, { AsyncOptions } from '../useAsync';
@@ -25,11 +26,13 @@ export type LoadMoreParams = [
   ...args: any[]
 ];
 
-export interface LoadMoreOptions<DataItem = any, R extends LoadMoreAsyncReturn<DataItem> = any>
-  extends Omit<
-    AsyncOptions<R, LoadMoreParams>,
-    'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
-  > {
+export interface LoadMoreOptions<
+  DataItem = any,
+  R extends LoadMoreAsyncReturn<DataItem> = any
+> extends Omit<
+  AsyncOptions<R, LoadMoreParams>,
+  'cacheKey' | 'cacheTime' | 'persisted' | 'pollingInterval' | 'pollingWhenHidden'
+> {
   /**
    * @description 上拉自动加载，距离底部距离阈值。
    * @default 100

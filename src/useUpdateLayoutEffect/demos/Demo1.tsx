@@ -12,6 +12,7 @@ function Demo() {
   const [updateLayoutEffectCount, setUpdateLayoutEffectCount] = useState(0);
 
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLayoutEffectCount((c) => c + 1);
   }, [count]);
 

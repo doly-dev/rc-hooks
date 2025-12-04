@@ -12,6 +12,7 @@ function Demo() {
   return (
     <div>
       <p>* 设置相同的 foo/bar 值时还是会触发渲染</p>
+      {/* eslint-disable-next-line react-hooks/purity */}
       <p style={{ color: 'gray' }}>时间戳（监测是否触发渲染）：{Date.now()}</p>
       <Space>
         <Button type="primary" onClick={() => setState({ foo: 42 })}>

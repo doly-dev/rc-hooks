@@ -11,6 +11,7 @@ function Demo() {
 
   return (
     <>
+      {/* eslint-disable-next-line react-hooks/purity */}
       <div>Time: {Date.now()}</div>
       <Button onClick={update} style={{ marginTop: 16 }}>
         update

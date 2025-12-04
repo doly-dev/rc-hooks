@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/refs */
+
 import { useRef } from 'react';
 import { debounce } from 'ut2';
 import useUnmount from '../useUnmount';
@@ -17,12 +19,14 @@ import useLatest from '../useLatest';
  */
 function useDebounceFn<T extends (...args: any[]) => any>(fn: T, wait = 0, immediate = false) {
   const fnRef = useLatest<T>(fn);
-  const debounceRun = useRef(
-    debounce((...args) => fnRef.current.apply(void 0, args), wait, immediate)
-  );
+  const debounceRun = useRef<ReturnType<typeof debounce>>(null);
+  if (debounceRun.current === null) {
+    // @ts-ignore
+    debounceRun.current = debounce((...args) => fnRef.current.apply(void 0, args), wait, immediate);
+  }
 
   useUnmount(() => {
-    debounceRun.current.cancel();
+    debounceRun.current!.cancel();
   });
 
   return {

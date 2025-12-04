@@ -13,10 +13,12 @@ interface ExpensiveTreeProp {
 // some expensive component with React.memo
 const ExpensiveTree = React.memo(({ showCount }: ExpensiveTreeProp) => {
   const renderCountRef = useRef(0);
+  // eslint-disable-next-line react-hooks/refs
   renderCountRef.current += 1;
 
   return (
     <div>
+      {/* eslint-disable-next-line react-hooks/refs */}
       <p>Render Count: {renderCountRef.current}</p>
       <Button onClick={showCount}>showParentCount</Button>
     </div>
