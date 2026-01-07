@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { equalArrayLike, isArray, isUndefined, noop } from 'ut2';
+import { shallowEqual, isArray, isUndefined, noop } from 'ut2';
 import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
@@ -229,7 +229,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
       if (!cacheData || !persisted) {
         if (
           latestState.current.loading !== !loadingDelay ||
-          !equalArrayLike(latestState.current.params, p)
+          !shallowEqual(latestState.current.params, p)
         ) {
           set((s) => ({ ...s, loading: !loadingDelay, params: p }));
         }
@@ -273,8 +273,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     [onErrorPersist]
   );
 
-  // @ts-ignore
-  const asyncInstanceRef: React.MutableRefObject<AsyncCalss<R, P>> = useRef();
+  const asyncInstanceRef = useRef<AsyncCalss<R, P>>();
 
   if (!asyncInstanceRef.current) {
     asyncInstanceRef.current = new AsyncCalss<R, P>(asyncFnPersist, {
@@ -296,7 +295,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
   }
 
   useUpdateEffect(() => {
-    asyncInstanceRef.current.updateOptions({
+    asyncInstanceRef.current!.updateOptions({
       cacheKey,
       cacheTime,
       persisted,
@@ -333,16 +332,16 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
 
   // 执行异步
   const run = useCallback((...args: P) => {
-    return asyncInstanceRef.current.run.apply(asyncInstanceRef.current, args);
+    return asyncInstanceRef.current!.run.apply(asyncInstanceRef.current, args);
   }, []);
 
   // 使用上一次执行异步的参数，重新执行
   const refresh = useCallback(() => {
-    return asyncInstanceRef.current.refresh();
+    return asyncInstanceRef.current!.refresh();
   }, []);
 
   const cancel = useCallback(() => {
-    asyncInstanceRef.current.cancel();
+    asyncInstanceRef.current!.cancel();
 
     // 取消延迟loading
     if (loadingDelayTimerRef.current) {
@@ -381,11 +380,11 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     }
 
     // 如果销毁过，可以重新恢复异步实例
-    asyncInstanceRef.current.resume();
+    asyncInstanceRef.current!.resume();
 
     return () => {
       cancel();
-      asyncInstanceRef.current.destroy(false);
+      asyncInstanceRef.current!.destroy(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
