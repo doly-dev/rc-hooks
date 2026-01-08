@@ -5,7 +5,7 @@ import { useSetState } from 'rc-hooks';
 describe('useSetState', () => {
   it('work', async () => {
     const { result } = renderHook(() => {
-      return useSetState({
+      return useSetState<Record<string, any>>({
         foo: 0,
         bar: ''
       });
@@ -46,7 +46,6 @@ describe('useSetState', () => {
 
     // new key value
     await act(async () => {
-      // @ts-ignore
       result.current[1]({ a: 1 });
     });
     expect(result.current[0]).toEqual({ foo: 42, bar: 'biz', a: 1 });

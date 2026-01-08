@@ -273,7 +273,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     [onErrorPersist]
   );
 
-  const asyncInstanceRef = useRef<AsyncCalss<R, P>>();
+  const asyncInstanceRef = useRef<AsyncCalss<R, P>>(undefined);
 
   if (!asyncInstanceRef.current) {
     asyncInstanceRef.current = new AsyncCalss<R, P>(asyncFnPersist, {

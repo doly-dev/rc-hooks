@@ -19,9 +19,8 @@ import useLatest from '../useLatest';
  */
 function useDebounceFn<T extends (...args: any[]) => any>(fn: T, wait = 0, immediate = false) {
   const fnRef = useLatest<T>(fn);
-  const debounceRun = useRef<ReturnType<typeof debounce>>(null);
-  if (debounceRun.current === null) {
-    // @ts-ignore
+  const debounceRun = useRef<ReturnType<typeof debounce>>(undefined);
+  if (!debounceRun.current) {
     debounceRun.current = debounce((...args) => fnRef.current.apply(void 0, args), wait, immediate);
   }
 

@@ -8,7 +8,6 @@ export type TargetType = ScrollElement | (() => ScrollElement);
 
 function getTarget(target: TargetType) {
   if (typeof target === 'function') {
-    // @ts-ignore
     return target();
   }
   return target;

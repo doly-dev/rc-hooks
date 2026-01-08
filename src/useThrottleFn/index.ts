@@ -18,9 +18,8 @@ import useLatest from '../useLatest';
  */
 function useThrottleFn<T extends (...args: any[]) => any>(fn: T, wait = 0, immediate = true) {
   const refFn = useLatest<T>(fn);
-  const throttleRun = useRef<ReturnType<typeof throttle>>(null);
-  if (throttleRun.current === null) {
-    // @ts-ignore
+  const throttleRun = useRef<ReturnType<typeof throttle>>(undefined);
+  if (!throttleRun.current) {
     throttleRun.current = throttle((...args) => refFn.current.apply(void 0, args), wait, immediate);
   }
 
