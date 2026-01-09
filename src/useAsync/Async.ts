@@ -174,11 +174,11 @@ class Async<R = any, P extends any[] = any[]> {
     const { debounceInterval, throttleInterval } = this.options;
     this.debounce =
       typeof debounceInterval === 'number' && debounceInterval > 0
-        ? debounce(this._run, debounceInterval)
+        ? debounce(this._wraprun, debounceInterval)
         : undefined;
     this.throttle =
       typeof throttleInterval === 'number' && throttleInterval > 0
-        ? throttle(this._run, throttleInterval)
+        ? throttle(this._wraprun, throttleInterval)
         : undefined;
   }
 
@@ -288,6 +288,11 @@ class Async<R = any, P extends any[] = any[]> {
     });
   }
 
+  private _wraprun(...args: P) {
+    this.counter += 1;
+    return this._run.apply(this, args);
+  }
+
   // 执行异步
   run(...args: P) {
     if (this.debounce) {
@@ -298,9 +303,7 @@ class Async<R = any, P extends any[] = any[]> {
       this.throttle.apply(this, args);
       return Promise.resolve(null);
     }
-
-    this.counter += 1;
-    return this._run.apply(this, args);
+    return this._wraprun.apply(this, args);
   }
 
   // 使用之前参数，重新执行异步
