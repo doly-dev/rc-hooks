@@ -48,6 +48,8 @@ toc: content
 
 ### 持久化数据
 
+当 `persisted` 为 `true` 时，如果有缓存数据，将直接读取缓存数据不会执行异步函数。
+
 <code src="./demos/Persisted.tsx"></code>
 
 ### 共享异步

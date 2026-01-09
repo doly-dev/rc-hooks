@@ -198,7 +198,6 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     error: null,
     data: cacheKey ? getCache<R>(cacheKey) : initialData
   }));
-  const latestState = useLatest(state);
   const unmountedRef = useUnmountedRef();
 
   const loadingDelayTimerRef = useRef<any>(null); // 延迟loading
@@ -227,12 +226,14 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
 
       // 没有缓存数据 或 没有开启持久缓存，设置loading
       if (!cacheData || !persisted) {
-        if (
-          latestState.current.loading !== !loadingDelay ||
-          !shallowEqual(latestState.current.params, p)
-        ) {
-          set((s) => ({ ...s, loading: !loadingDelay, params: p }));
-        }
+        set((s) => {
+          const hasNewParams = !shallowEqual(s.params, p);
+          const hasNewLoading = s.loading !== !loadingDelay;
+          if (hasNewLoading || hasNewParams) {
+            return { ...s, loading: !loadingDelay, params: p };
+          }
+          return s;
+        });
 
         // 设置延迟loading定时器
         if (loadingDelay) {
@@ -244,7 +245,7 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
         }
       }
     },
-    [cacheKey, latestState, loadingDelay, onBeforePersist, persisted, unmountedRef]
+    [cacheKey, loadingDelay, onBeforePersist, persisted, unmountedRef]
   );
 
   // 异步执行成功后
