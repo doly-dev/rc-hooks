@@ -2,6 +2,7 @@ node_modules
 lib/
 esm/
 es/
+types/
 .idea
 dist/
 site

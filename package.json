@@ -4,15 +4,14 @@
   "description": "React Hooks Library.",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "browser": "dist/rcHook.min.js",
   "sideEffects": false,
-  "types": "lib/index.d.ts",
+  "types": "types/index.d.ts",
   "scripts": {
     "start": "npm run dev",
     "dev": "dumi dev",
-    "build": "npm run build:es && npm run build:cjs && npm run build:umd",
-    "build:es": "rm -rf es && tsc -p tsconfig.build.json -m ES2015 -t ES5 --outDir es -d",
-    "build:cjs": "rm -rf lib && tsc -p tsconfig.build.json -m commonjs -t ES5 --outDir lib -d",
-    "build:umd": "rm -rf dist && rollup -c",
+    "build": "rm -rf es lib dist && rollup -c && npm run build:types",
+    "build:types": "rm -rf types && tsc -p tsconfig.build.json --outDir types -d --emitDeclarationOnly",
     "doc": "dumi build",
     "doc-version": "cross-env BUILD_DOC_VERSION=true dumi build",
     "prettier": "prettier --write **/*",
@@ -36,7 +35,8 @@
   "files": [
     "dist",
     "es",
-    "lib"
+    "lib",
+    "types"
   ],
   "repository": {
     "type": "git",
