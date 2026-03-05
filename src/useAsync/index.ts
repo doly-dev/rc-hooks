@@ -4,7 +4,7 @@ import usePersistFn from '../usePersistFn';
 import useUpdateEffect from '../useUpdateEffect';
 import useLatest from '../useLatest';
 import useUnmountedRef from '../useUnmountedRef';
-import AsyncCalss, { getCache, clearCache, Options, AsyncFunction } from './Async';
+import AsyncClass, { getCache, clearCache, Options, AsyncFunction } from './Async';
 
 export { clearCache };
 
@@ -274,10 +274,10 @@ const useAsync: UseAsync = <R = any, P extends any[] = any[]>(
     [onErrorPersist]
   );
 
-  const asyncInstanceRef = useRef<AsyncCalss<R, P>>(undefined);
+  const asyncInstanceRef = useRef<AsyncClass<R, P>>(undefined);
 
   if (!asyncInstanceRef.current) {
-    asyncInstanceRef.current = new AsyncCalss<R, P>(asyncFnPersist, {
+    asyncInstanceRef.current = new AsyncClass<R, P>(asyncFnPersist, {
       cacheKey,
       cacheTime,
       persisted,
