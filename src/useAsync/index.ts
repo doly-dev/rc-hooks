@@ -105,7 +105,7 @@ type AsyncReturn<R = any, P extends any[] = any[]> = {
 interface UseAsync {
   <R = any, P extends any[] = any[]>(
     asyncFn: AsyncFunction<R, P>,
-    options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'> &
+    options: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'> &
       (
         | { debounceInterval: number }
         | { throttleInterval: number }
@@ -127,7 +127,7 @@ interface UseAsync {
   };
   <R = any, P extends any[] = any[]>(
     asyncFn: AsyncFunction<R, P>,
-    options?: Omit<AsyncOptions<R, P>, 'debounceInterval' | 'throttleInterval'>
+    options?: AsyncOptions<R, P>
   ): AsyncReturn<R, P>;
 }
 
