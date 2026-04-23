@@ -32,5 +32,6 @@ export { default as useUpdateLayoutEffect } from './useUpdateLayoutEffect';
 // Other
 export { default as useClickAway } from './useClickAway';
 export { default as useControllableValue } from './useControllableValue';
+export { default as useFullscreen } from './useFullscreen';
 export { default as usePersistFn } from './usePersistFn';
 export { default as useSize } from './useSize';
